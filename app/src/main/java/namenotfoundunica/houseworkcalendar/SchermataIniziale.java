@@ -45,12 +45,13 @@ public class SchermataIniziale extends AppCompatActivity
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
-        final TextView t = (TextView) findViewById(R.id.ciao);
+        final TextView t = (TextView) findViewById(R.id.elementoLista);
         CalendarView c= findViewById(R.id.calendarView);
         c.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
         {
             public void onSelectedDayChange(CalendarView c, int year, int month, int dayOfMonth)
             {
+                //qua andrò a leggere tutti gli eventid della giornata selezionata
                 t.setText(""+ year+" "+month+" "+dayOfMonth);
             }
 
