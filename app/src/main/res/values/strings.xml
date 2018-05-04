@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Housework Calendar</string>
     <string name="action_settings">Settings</string>
+    <string name="nav_calendario">Calendario</string>
+    <string name="nav_sondaggio">Sondaggio</string>
+    <string name="nav_pagamenti">Pagamenti</string>
+    <string name="nav_gestione_gruppo">Gestione Gruppo</string>
 </resources>
