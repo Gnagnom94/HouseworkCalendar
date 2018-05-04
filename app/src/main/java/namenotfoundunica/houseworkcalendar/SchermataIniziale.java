@@ -11,13 +11,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class SchermataIniziale extends AppCompatActivity {
+import java.util.Calendar;
+
+public class SchermataIniziale extends AppCompatActivity
+{
 
     private DrawerLayout mDrawerLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,6 +43,19 @@ public class SchermataIniziale extends AppCompatActivity {
         });
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
+        final TextView t = (TextView) findViewById(R.id.ciao);
+        CalendarView c= findViewById(R.id.calendarView);
+        c.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
+        {
+            public void onSelectedDayChange(CalendarView c, int year, int month, int dayOfMonth)
+            {
+                t.setText(""+ year+" "+month+" "+dayOfMonth);
+            }
+
+        });
+
     }
 
     @Override
@@ -59,4 +79,5 @@ public class SchermataIniziale extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
