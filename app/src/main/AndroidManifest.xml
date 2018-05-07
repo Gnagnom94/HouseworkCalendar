@@ -19,18 +19,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".GestioneGruppo"
             android:label="@string/title_activity_gestione_gruppo"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings">
-
-        </activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".Pagamenti"
+            android:label="@string/title_activity_pagamenti"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Sondaggi"
+            android:label="@string/title_activity_sondaggi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AggiuntaEvento"
+            android:label="@string/title_activity_aggiunta_evento"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

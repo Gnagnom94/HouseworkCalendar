@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -39,9 +38,10 @@ public class SchermataIniziale extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View view)
+            {
+                Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
+                startActivity(openPage);
             }
         });
 
@@ -53,25 +53,36 @@ public class SchermataIniziale extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(
                     new NavigationView.OnNavigationItemSelectedListener() {
                         @Override
-                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        public boolean onNavigationItemSelected(MenuItem menuItem)
+                        {
+                            Intent openPage;
                             switch (menuItem.getItemId())
                             {
                                 case R.id.nav_calendario:
+                                    //rimani in questa pagina
+                                    return true;
 
-                                    break;
                                 case R.id.nav_gestione_gruppo:
-                                    // definisco l'intenzione
-                                    Intent openPageGruppo = new Intent(SchermataIniziale.this, GestioneGruppo.class);
+                                    openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
                                     // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPageGruppo);
-                                    break;
+                                    startActivity(openPage);
+                                    return true;
+
                                 case R.id.nav_pagamenti:
+                                    openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
 
                                 case R.id.nav_sondaggio:
+                                    openPage = new Intent(SchermataIniziale.this, Sondaggi.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
 
                             }
 
-                            mDrawerLayout.closeDrawers();
+                            mDrawerLayout.closeDrawers();//chiudo la nav
                             return true;
                         }
                     });

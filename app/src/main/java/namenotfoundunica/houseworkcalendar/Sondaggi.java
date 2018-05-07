@@ -10,26 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-public class GestioneGruppo extends AppCompatActivity
-{
+public class Sondaggi extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestione_gruppo);
+        setContentView(R.layout.activity_sondaggi);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
+
     private void setupActionBar()
     {
         ActionBar actionBar = getSupportActionBar();
@@ -44,11 +36,11 @@ public class GestioneGruppo extends AppCompatActivity
         int id = item.getItemId();
         if (id == android.R.id.home)
         {
-            Intent openPageHome = new Intent(GestioneGruppo.this, SchermataIniziale.class);
+            Intent openPageHome = new Intent(Sondaggi.this, SchermataIniziale.class);
             startActivity(openPageHome);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-}
 
+}
