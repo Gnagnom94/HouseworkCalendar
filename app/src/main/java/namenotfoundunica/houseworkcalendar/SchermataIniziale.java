@@ -1,7 +1,9 @@
 package namenotfoundunica.houseworkcalendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,10 +14,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CalendarView;
-import android.widget.EditText;
+
 import android.widget.TextView;
 
-import java.util.Calendar;
+
 
 public class SchermataIniziale extends AppCompatActivity
 {
@@ -27,11 +29,12 @@ public class SchermataIniziale extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +45,37 @@ public class SchermataIniziale extends AppCompatActivity
             }
         });
 
+        //descrizione navigation Drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null)
+        {
+            navigationView.setNavigationItemSelectedListener(
+                    new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+                            switch (menuItem.getItemId())
+                            {
+                                case R.id.nav_calendario:
+
+                                    break;
+                                case R.id.nav_gestione_gruppo:
+                                    // definisco l'intenzione
+                                    Intent openPageGruppo = new Intent(SchermataIniziale.this, GestioneGruppo.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPageGruppo);
+                                    break;
+                                case R.id.nav_pagamenti:
+
+                                case R.id.nav_sondaggio:
+
+                            }
+
+                            mDrawerLayout.closeDrawers();
+                            return true;
+                        }
+                    });
+        }
 
         //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
         final TextView t = (TextView) findViewById(R.id.elementoLista);
@@ -63,22 +96,32 @@ public class SchermataIniziale extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_schermata_iniziale, menu);
+
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId())
         {
+
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-        }
+
+            case R.id.action_settings:
+                Intent openPageSetting = new Intent(SchermataIniziale.this,SettingsActivity.class);
+                // passo all'attivazione dell'activity Pagina.java
+                startActivity(openPageSetting);
+}
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }
