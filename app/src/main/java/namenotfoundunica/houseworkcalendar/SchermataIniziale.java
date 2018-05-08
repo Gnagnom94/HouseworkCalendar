@@ -59,7 +59,7 @@ public class SchermataIniziale extends AppCompatActivity
                             switch (menuItem.getItemId())
                             {
                                 case R.id.nav_calendario:
-                                    //rimani in questa pagina
+                                    mDrawerLayout.closeDrawers();//chiudo la nav
                                     return true;
 
                                 case R.id.nav_gestione_gruppo:
