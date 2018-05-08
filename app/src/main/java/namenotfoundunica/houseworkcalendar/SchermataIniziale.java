@@ -109,7 +109,9 @@ public class SchermataIniziale extends AppCompatActivity
         cal2.set(2018,5,8,18,30);
 
         Settimana settimana = new Settimana();
-        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "abcdfg"), "Veranda", ""));
+        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
+        settimana.add(new Evento("Piatti", cal, cal2, true, new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
+        settimana.add(new Evento("Pavimento Bagno", cal, cal2, true, new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
     }
 
     @Override
