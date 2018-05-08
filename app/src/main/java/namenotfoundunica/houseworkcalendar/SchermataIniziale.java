@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 
 import android.widget.TextView;
 
+import java.util.Calendar;
 
 
 public class SchermataIniziale extends AppCompatActivity
@@ -101,6 +102,14 @@ public class SchermataIniziale extends AppCompatActivity
 
         });
 
+
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal.set(2018,5,8,18,30);
+        cal2.set(2018,5,8,18,30);
+
+        Settimana settimana = new Settimana();
+        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "abcdfg"), "Veranda", ""));
     }
 
     @Override
