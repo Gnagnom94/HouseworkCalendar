@@ -8,4 +8,31 @@
     tools:context=".AggiuntaEvento"
     tools:showIn="@layout/activity_aggiunta_evento">
 
+    <EditText
+        android:id="@+id/new_work"
+        android:layout_width="349dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/nuovo_incarico"
+        app:layout_constraintBottom_toTopOf="@+id/editText5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="336dp"
+        android:ems="10"
+        android:inputType="date"
+        android:onClick="showDataPicker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_work" />
+
 </android.support.constraint.ConstraintLayout>

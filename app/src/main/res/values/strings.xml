@@ -82,4 +82,7 @@
     <string name="title_activity_pagamenti">Pagamenti</string>
     <string name="title_activity_sondaggi">Sondaggi</string>
     <string name="title_activity_aggiunta_evento">AggiuntaEvento</string>
+
+
+    <string name="nuovo_incarico">Nuovo incarico</string>
 </resources>
