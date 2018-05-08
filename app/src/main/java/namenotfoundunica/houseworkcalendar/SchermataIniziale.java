@@ -2,6 +2,7 @@ package namenotfoundunica.houseworkcalendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,8 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -27,6 +31,18 @@ public class SchermataIniziale extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal.set(2018,5,8,18,30);
+        cal2.set(2018,5,8,18,30);
+
+        final Settimana settimana = new Settimana();
+        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
+        settimana.add(new Evento("Piatti", cal, cal2, true, new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
+        settimana.add(new Evento("Pavimento Bagno", cal, cal2, true, new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -43,6 +59,30 @@ public class SchermataIniziale extends AppCompatActivity
             {
                 Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
                 startActivity(openPage);
+            }
+        });
+
+        final LinearLayout linearLayout = findViewById(R.id.ll);
+        CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                linearLayout.removeAllViews();
+                int i = 0;
+                for (Evento evento:settimana) {
+                    /*if(evento.getInizio().get(Calendar.YEAR) == year &&
+                            evento.getInizio().get(Calendar.MONTH) == month &&
+                            evento.getInizio().get(Calendar.DAY_OF_MONTH) == dayOfMonth) {*/
+                        Button btn = new Button(linearLayout.getContext());
+                        btn.setText("" + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
+                        //btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 50, 50));
+                        btn.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT));
+                        btn.setId(i++);
+                        linearLayout.addView(btn);
+//                    }
+                }
             }
         });
 
@@ -89,29 +129,21 @@ public class SchermataIniziale extends AppCompatActivity
                     });
         }
 
-        //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
-        final TextView t = (TextView) findViewById(R.id.elementoLista);
-        CalendarView c= findViewById(R.id.calendarView);
-        c.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
-        {
-            public void onSelectedDayChange(CalendarView c, int year, int month, int dayOfMonth)
-            {
-                //qua andrò a leggere tutti gli eventid della giornata selezionata
-                t.setText(""+ year+" "+month+" "+dayOfMonth);
-            }
+//        //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
+//        final TextView t = (TextView) findViewById(R.id.elementoLista);
+//        CalendarView c= findViewById(R.id.calendarView);
+//        c.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
+//        {
+//            public void onSelectedDayChange(CalendarView c, int year, int month, int dayOfMonth)
+//            {
+//                //qua andrò a leggere tutti gli eventid della giornata selezionata
+//                t.setText(""+ year+" "+month+" "+dayOfMonth);
+//            }
+//
+//        });
 
-        });
 
 
-        Calendar cal = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        cal.set(2018,5,8,18,30);
-        cal2.set(2018,5,8,18,30);
-
-        Settimana settimana = new Settimana();
-        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
-        settimana.add(new Evento("Piatti", cal, cal2, true, new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
-        settimana.add(new Evento("Pavimento Bagno", cal, cal2, true, new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
     }
 
     @Override
