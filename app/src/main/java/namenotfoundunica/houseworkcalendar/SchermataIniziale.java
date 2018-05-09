@@ -38,9 +38,18 @@ public class SchermataIniziale extends AppCompatActivity
         cal2.set(2018,5,8,18,30);
 
         final Settimana settimana = new Settimana();
-        settimana.add(new Evento("Lavatrice", cal, cal2, true, new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
-        settimana.add(new Evento("Piatti", cal, cal2, true, new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
-        settimana.add(new Evento("Pavimento Bagno", cal, cal2, true, new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
+        settimana.add(new Evento("Lavatrice",
+                new Data(2018,5,10,18, 30),
+                new Data(2018,5,10,20, 30), true,
+                new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
+        settimana.add(new Evento("Piatti",
+                new Data(2018,5,10,18, 30),
+                new Data(2018,5,10,20, 30), true,
+                new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
+        settimana.add(new Evento("Pavimento Bagno",
+                new Data(2018,5,10,18, 30),
+                new Data(2018,5,10,20, 30), true,
+                new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
 
 
         super.onCreate(savedInstanceState);
@@ -67,12 +76,20 @@ public class SchermataIniziale extends AppCompatActivity
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                month++;
                 linearLayout.removeAllViews();
                 int i = 0;
                 for (Evento evento:settimana) {
-                    /*if(evento.getInizio().get(Calendar.YEAR) == year &&
-                            evento.getInizio().get(Calendar.MONTH) == month &&
-                            evento.getInizio().get(Calendar.DAY_OF_MONTH) == dayOfMonth) {*/
+                    if(
+                        (evento.getInizio().getYear() <= year &&
+                        evento.getInizio().getMonth()<= month &&
+                        evento.getInizio().getDay() <= dayOfMonth)
+                            &&
+                        (evento.getFine().getYear() >= year &&
+                        evento.getFine().getMonth() >= month &&
+                        evento.getFine().getDay() >= dayOfMonth)
+                        )
+                    {
                         Button btn = new Button(linearLayout.getContext());
                         btn.setText("" + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
                         //btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 50, 50));
@@ -81,7 +98,7 @@ public class SchermataIniziale extends AppCompatActivity
                                 LinearLayout.LayoutParams.WRAP_CONTENT));
                         btn.setId(i++);
                         linearLayout.addView(btn);
-//                    }
+                    }
                 }
             }
         });
