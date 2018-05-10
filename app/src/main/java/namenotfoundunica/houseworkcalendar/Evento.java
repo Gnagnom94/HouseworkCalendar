@@ -5,14 +5,14 @@ import java.util.Date;
 
 public class Evento {
     private String nome;
-    private Data inizio;
-    private Data fine;
+    private Calendar inizio;
+    private Calendar fine;
     private Boolean flagRipetizione;
     private Utente utente;
     private String categoria;
     private String note;
 
-    Evento(String nome, Data inizio, Data fine, Boolean flagRipetizione, Utente utente, String categoria, String note)
+    Evento(String nome, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note)
     {
         this.nome = nome;
         this.inizio = inizio;
@@ -31,19 +31,19 @@ public class Evento {
         this.nome = nome;
     }
 
-    public Data getInizio() {
+    public Calendar getInizio() {
         return inizio;
     }
 
-    public void setInizio(Data inizio) {
+    public void setInizio(Calendar inizio) {
         this.inizio = inizio;
     }
 
-    public Data getFine() {
+    public Calendar getFine() {
         return fine;
     }
 
-    public void setFine(Data fine) {
+    public void setFine(Calendar fine) {
         this.fine = fine;
     }
 
