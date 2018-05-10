@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import namenotfoundunica.houseworkcalendar.AggiuntaEvento;
 
@@ -29,11 +30,8 @@ public class DatePickerFragment extends DialogFragment
     {
         // Do something with the date chosen by the user
         AggiuntaEvento c = (AggiuntaEvento) getActivity();
-        c.inputAnno=year;
-        c.inputMese=month;
-        c.inputGiorno=day;
-        c.dataButton.setText(Integer.toString(day)+"/"+Integer.toString(month)+"/"+Integer.toString(year));
-
+        c.dataInizio=new GregorianCalendar(year,month,day,0,0);
+        c.dataFine=new GregorianCalendar(year,month,day,0,0);
+        c.dataEventoText.setText(Integer.toString(day)+"/"+Integer.toString(month)+"/"+Integer.toString(year));
     }
-
 }

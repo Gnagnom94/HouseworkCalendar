@@ -12,10 +12,12 @@ import java.util.Calendar;
 import namenotfoundunica.houseworkcalendar.AggiuntaEvento;
 
 public class TimePickerFragment extends DialogFragment
-        implements TimePickerDialog.OnTimeSetListener {
+        implements TimePickerDialog.OnTimeSetListener
+{
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -29,11 +31,22 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
     {
         // Do something with the time chosen by the user
-        AggiuntaEvento c=(AggiuntaEvento) getActivity();
-       // c.nuovaData.set(Calendar.MINUTE,hourOfDay);
-        //c.nuovaData.set(Calendar.HOUR,minute);
-        c.inputOra=hourOfDay;
-        c.inputMin=minute;
-        c.timeButton.setText(Integer.toString(hourOfDay)+":"+Integer.toString(minute));
+        AggiuntaEvento c = (AggiuntaEvento) getActivity();
+
+        if(c.flagTime==true)
+        {
+            c.dataInizio.set(Calendar.MINUTE,minute);
+            c.dataInizio.set(Calendar.HOUR,hourOfDay);
+            c.dataFine.set(Calendar.MINUTE,minute);
+            c.dataFine.set(Calendar.HOUR,hourOfDay);
+            c.timeInizioEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            c.timeFineEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+        }
+        else
+        {
+            c.dataFine.set(Calendar.MINUTE, minute);
+            c.dataFine.set(Calendar.HOUR, hourOfDay);
+            c.timeFineEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+        }
     }
 }
