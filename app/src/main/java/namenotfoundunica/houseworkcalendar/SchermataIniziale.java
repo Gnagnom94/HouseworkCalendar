@@ -3,6 +3,8 @@ package namenotfoundunica.houseworkcalendar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -82,6 +84,7 @@ public class SchermataIniziale extends AppCompatActivity
                         evento.getFine().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
                         )
                     {
+
                         Button btn = new Button(linearLayout.getContext());
                         String minuti;
                         //if per rendere sempre di due cifre i minuti altrimenti se i minuti sono inferiori a 10 sono di una cifra
@@ -100,6 +103,21 @@ public class SchermataIniziale extends AppCompatActivity
                                 LinearLayout.LayoutParams.WRAP_CONTENT));
                         btn.setId(i++);
                         linearLayout.addView(btn);
+
+                        //Inizializzazione NUOVO layout
+                        ConstraintLayout constraintLayout = new ConstraintLayout(linearLayout.getContext());
+                        TextView textNomeEvento = new TextView(linearLayout.getContext());
+                        TextView textOraEvento = new TextView(linearLayout.getContext());
+                        Guideline guideline = new Guideline(constraintLayout.getContext());
+                        constraintLayout.setLayoutParams(new ConstraintLayout.LayoutParams(
+                                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT));
+                        //da settare id al constraintLayout
+                        textNomeEvento.setLayoutParams(new ConstraintLayout.LayoutParams(
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT));
+                        //textNomeEvento.layout();
+
                     }
                 }
             }
