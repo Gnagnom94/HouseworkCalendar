@@ -33,23 +33,16 @@ public class SchermataIniziale extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         final Settimana settimana = new Settimana();
-        settimana.add(new Evento("Lavatrice 10",
-                new GregorianCalendar(2018,5,11,10, 00),
-                new GregorianCalendar(2018,5,11,11, 00), true,
-                new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
-        settimana.add(new Evento("Pavimento Bagno 11.30",
-                new GregorianCalendar(2018,5,11,11, 30),
-                new GregorianCalendar(2018,5,11,12, 30), true,
-                new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
-        settimana.add(new Evento("Piatti 11",
-                new GregorianCalendar(2018,5,11,11, 00),
-                new GregorianCalendar(2018,5,11,12, 00), true,
-                new Utente("Marco", "Pittau", "marcopittau@live.it", "pittau"), "Cucina", ""));
-
-        settimana.add(new Evento("Pavimento Bagno 13",
-                new GregorianCalendar(2018,5,11,13, 00),
-                new GregorianCalendar(2018,5,11,14, 00), true,
-                new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo"), "Cucina", ""));
+        for(int i = 0; i <= 12; i++) {
+            for (int k = 1; k <= 30; k++) {
+                for (int j = 9; j < 20; j++) {
+                    settimana.add(new Evento("Lavatrice " + (k),
+                            new GregorianCalendar(2018, i, k, j, 00),
+                            new GregorianCalendar(2018, i, k, j + 1, 00), true,
+                            new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
+                }
+            }
+        }
         settimana.sort();
 
         super.onCreate(savedInstanceState);
@@ -59,7 +52,6 @@ public class SchermataIniziale extends AppCompatActivity
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +68,10 @@ public class SchermataIniziale extends AppCompatActivity
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                month++;
                 linearLayout.removeAllViews();
                 int i = 0;
                 for (Evento evento:settimana) {
+                    i++;
                     if(
                         (evento.getInizio().get(Calendar.YEAR) <= year &&
                         evento.getInizio().get(Calendar.MONTH)<= month &&
@@ -91,16 +83,17 @@ public class SchermataIniziale extends AppCompatActivity
                         )
                     {
                         Button btn = new Button(linearLayout.getContext());
-                        String tmp;
+                        String minuti;
+                        //if per rendere sempre di due cifre i minuti altrimenti se i minuti sono inferiori a 10 sono di una cifra
                         if(evento.getInizio().get(Calendar.MINUTE) < 10)
                         {
-                            tmp = evento.getInizio().get(Calendar.MINUTE) + "0";
+                            minuti = evento.getInizio().get(Calendar.MINUTE) + "0";
                         }
                         else
                         {
-                            tmp ="" + evento.getInizio().get(Calendar.MINUTE);
+                            minuti ="" + evento.getInizio().get(Calendar.MINUTE);
                         }
-                        btn.setText(evento.getInizio().get(Calendar.HOUR_OF_DAY) + ":" + tmp + " " + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
+                        btn.setText(evento.getInizio().get(Calendar.HOUR_OF_DAY) + ":" + minuti + " " + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
                         //btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 50, 50));
                         btn.setLayoutParams(new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
