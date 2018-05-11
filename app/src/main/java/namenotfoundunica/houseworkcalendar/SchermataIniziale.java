@@ -22,8 +22,11 @@ import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 
 public class SchermataIniziale extends AppCompatActivity
@@ -34,14 +37,25 @@ public class SchermataIniziale extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        final Settimana settimana = new Settimana();
+        Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+        Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
+        Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+        ArrayList<Utente> utenti = new ArrayList<Utente>();
+        utenti.add(matteo);
+        utenti.add(alessandro);
+        utenti.add(pitta);
+
+    Random random = new Random();
+    final Settimana settimana = new Settimana();
         for(int i = 0; i <= 12; i++) {
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
+                    int r = random.nextInt((2 - 0) + 1);
                     settimana.add(new Evento("Lavatrice " + (k),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                            new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni"), "Veranda", ""));
+                                    utenti.get(r), "Veranda", "")
+                            );
                 }
             }
         }
@@ -109,9 +123,11 @@ public class SchermataIniziale extends AppCompatActivity
                         TextView textNomeEvento = new TextView(linearLayout.getContext());
                         TextView textOraEvento = new TextView(linearLayout.getContext());
                         Guideline guideline = new Guideline(constraintLayout.getContext());
+
                         constraintLayout.setLayoutParams(new ConstraintLayout.LayoutParams(
                                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                                 ConstraintLayout.LayoutParams.WRAP_CONTENT));
+
                         //da settare id al constraintLayout
                         textNomeEvento.setLayoutParams(new ConstraintLayout.LayoutParams(
                                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
