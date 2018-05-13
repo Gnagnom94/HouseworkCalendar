@@ -1,6 +1,8 @@
 package namenotfoundunica.houseworkcalendar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -12,6 +14,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.util.EventLog;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,13 +42,13 @@ public class SchermataIniziale extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-        Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-        Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-        ArrayList<Utente> utenti = new ArrayList<Utente>();
-        utenti.add(matteo);
-        utenti.add(alessandro);
-        utenti.add(pitta);
+    Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+    Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
+    Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+    ArrayList<Utente> utenti = new ArrayList<Utente>();
+    utenti.add(matteo);
+    utenti.add(alessandro);
+    utenti.add(pitta);
 
     Random random = new Random();
     final Settimana settimana = new Settimana();
@@ -98,8 +103,7 @@ public class SchermataIniziale extends AppCompatActivity
                         evento.getFine().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
                         )
                     {
-
-                        Button btn = new Button(linearLayout.getContext());
+                        //Inizializzazione NUOVO layout
                         String minuti;
                         //if per rendere sempre di due cifre i minuti altrimenti se i minuti sono inferiori a 10 sono di una cifra
                         if(evento.getInizio().get(Calendar.MINUTE) < 10)
@@ -110,30 +114,78 @@ public class SchermataIniziale extends AppCompatActivity
                         {
                             minuti ="" + evento.getInizio().get(Calendar.MINUTE);
                         }
-                        btn.setText(evento.getInizio().get(Calendar.HOUR_OF_DAY) + ":" + minuti + " " + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
-                        //btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 50, 50));
-                        btn.setLayoutParams(new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT));
-                        btn.setId(i++);
-                        linearLayout.addView(btn);
 
-                        //Inizializzazione NUOVO layout
                         ConstraintLayout constraintLayout = new ConstraintLayout(linearLayout.getContext());
-                        TextView textNomeEvento = new TextView(linearLayout.getContext());
-                        TextView textOraEvento = new TextView(linearLayout.getContext());
-                        Guideline guideline = new Guideline(constraintLayout.getContext());
 
-                        constraintLayout.setLayoutParams(new ConstraintLayout.LayoutParams(
+                        //constraintLayout
+                        ConstraintLayout.LayoutParams constraintLayoutParams = new ConstraintLayout.LayoutParams(
                                 ConstraintLayout.LayoutParams.MATCH_PARENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT));
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                        constraintLayoutParams.orientation = 0;
+                        constraintLayout.setLayoutParams(constraintLayoutParams);
+                        int consId = View.generateViewId();
+                        constraintLayout.setId(consId);
 
-                        //da settare id al constraintLayout
-                        textNomeEvento.setLayoutParams(new ConstraintLayout.LayoutParams(
+                        linearLayout.addView(constraintLayout);
+
+                        //current ConstraintLayout element
+                        constraintLayout = findViewById(consId);
+
+                        //guideline
+                        Guideline guideline = new Guideline(constraintLayout.getContext());
+                        ConstraintLayout.LayoutParams guidelineParams =  new ConstraintLayout.LayoutParams(
                                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT));
-                        //textNomeEvento.layout();
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                        guidelineParams.orientation = 0 ;
+                        guideline.setLayoutParams(guidelineParams);
 
+                        guideline.setId(View.generateViewId());
+                        guideline.setGuidelineBegin(0);
+                        guideline.setGuidelinePercent(0.77f);
+
+                        constraintLayout.addView(guideline);
+
+                        //textNomeEvento
+                        TextView textNomeEvento = new TextView(constraintLayout.getContext());
+                        ConstraintLayout.LayoutParams textNomeEventoParams = new ConstraintLayout.LayoutParams(
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                        textNomeEventoParams.setMargins(0,dpiToPx(8, linearLayout.getContext()),0, dpiToPx(8, linearLayout.getContext()));
+                        textNomeEventoParams.setMarginStart(dpiToPx(8, linearLayout.getContext()));
+                        textNomeEventoParams.setMarginEnd(dpiToPx(8,linearLayout.getContext()));
+                        textNomeEventoParams.bottomToBottom = constraintLayout.getId();
+                        textNomeEventoParams.endToStart = guideline.getId();
+                        textNomeEventoParams.horizontalBias = 0.19f;
+                        textNomeEventoParams.startToStart = constraintLayout.getId();
+                        textNomeEventoParams.topToTop = constraintLayout.getId();
+                        textNomeEvento.setLayoutParams(textNomeEventoParams);
+
+                        textNomeEvento.setId(View.generateViewId());
+                        textNomeEvento.setTextSize(15);
+                        textNomeEvento.setText(evento.getUtente().getNome() + " deve fare: " + evento.getNome());
+
+                        constraintLayout.addView(textNomeEvento);
+
+                        //textOraEvento
+                        TextView textOraEvento = new TextView(constraintLayout.getContext());
+                        ConstraintLayout.LayoutParams textOraEventoParams = new ConstraintLayout.LayoutParams(
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                        textOraEventoParams.setMargins(0,dpiToPx(8, linearLayout.getContext()),0, dpiToPx(8, linearLayout.getContext()));
+                        textOraEventoParams.setMarginStart(dpiToPx(8, linearLayout.getContext()));
+                        textOraEventoParams.setMarginEnd(dpiToPx(8,linearLayout.getContext()));
+                        textOraEventoParams.bottomToBottom = constraintLayout.getId();
+                        textOraEventoParams.endToEnd = constraintLayout.getId();
+                        textOraEventoParams.horizontalBias = 0;
+                        textOraEventoParams.startToStart = guideline.getId();
+                        textOraEventoParams.topToTop = constraintLayout.getId();
+                        textNomeEvento.setLayoutParams(textOraEventoParams);
+
+                        textOraEvento.setId(View.generateViewId());
+                        textOraEvento.setTextSize(15);
+                        textOraEvento.setText(evento.getInizio().get(Calendar.HOUR_OF_DAY) + ":" + minuti + " " + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
+
+                        constraintLayout.addView(textOraEvento);
                     }
                 }
             }
@@ -231,5 +283,9 @@ public class SchermataIniziale extends AppCompatActivity
     }
 
 
-
+    public static int dpiToPx(int dpi, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
 }
