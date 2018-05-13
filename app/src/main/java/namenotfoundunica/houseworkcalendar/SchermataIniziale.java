@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.Guideline;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,20 +12,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.DisplayMetrics;
-import android.util.EventLog;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.BaseAdapter;
 import android.widget.CalendarView;
-
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -38,28 +34,32 @@ public class SchermataIniziale extends AppCompatActivity
 {
 
     private DrawerLayout mDrawerLayout;
+    public ArrayList<Evento> tmp = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-    Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-    Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-    Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-    ArrayList<Utente> utenti = new ArrayList<Utente>();
-    utenti.add(matteo);
-    utenti.add(alessandro);
-    utenti.add(pitta);
+        Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+        Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
+        Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+        ArrayList<Utente> utenti = new ArrayList<Utente>();
+        utenti.add(matteo);
+        utenti.add(alessandro);
+        utenti.add(pitta);
 
-    Random random = new Random();
-    final Settimana settimana = new Settimana();
+        String[] nomiEventi = {"Lavatrice", "Bucato", "Pavimento", "Bagno", "Stoviglie"};
+
+        Random random = new Random();
+        final Settimana settimana = new Settimana();
         for(int i = 0; i <= 12; i++) {
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
-                    int r = random.nextInt((2 - 0) + 1);
-                    settimana.add(new Evento("Lavatrice " + (k),
+                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
+                    int rNomeEvento = random.nextInt(((nomiEventi.length - 1) - 0) + 1);
+                    settimana.add(new Evento(nomiEventi[rNomeEvento] + " " + (k),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                    utenti.get(r), "Veranda", "")
+                                    utenti.get(rUtenti), "Veranda", "")
                             );
                 }
             }
@@ -74,7 +74,7 @@ public class SchermataIniziale extends AppCompatActivity
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -84,18 +84,18 @@ public class SchermataIniziale extends AppCompatActivity
             }
         });
 
-        final LinearLayout linearLayout = findViewById(R.id.ll);
-        CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+        //final LinearLayout linearLayout = findViewById(R.id.ll);
+        CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                linearLayout.removeAllViews();
+                tmp.clear();
                 int i = 0;
                 for (Evento evento:settimana) {
                     i++;
                     if(
                         (evento.getInizio().get(Calendar.YEAR) <= year &&
-                        evento.getInizio().get(Calendar.MONTH)<= month &&
+                        evento.getInizio().get(Calendar.MONTH) <= month &&
                         evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
                             &&
                         (evento.getFine().get(Calendar.YEAR) >= year &&
@@ -104,151 +104,60 @@ public class SchermataIniziale extends AppCompatActivity
                         )
                     {
                         //Inizializzazione NUOVO layout
-                        String minuti;
-                        //if per rendere sempre di due cifre i minuti altrimenti se i minuti sono inferiori a 10 sono di una cifra
-                        if(evento.getInizio().get(Calendar.MINUTE) < 10)
-                        {
-                            minuti = evento.getInizio().get(Calendar.MINUTE) + "0";
-                        }
-                        else
-                        {
-                            minuti ="" + evento.getInizio().get(Calendar.MINUTE);
-                        }
 
-                        ConstraintLayout constraintLayout = new ConstraintLayout(linearLayout.getContext());
-
-                        //constraintLayout
-                        ConstraintLayout.LayoutParams constraintLayoutParams = new ConstraintLayout.LayoutParams(
-                                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                        constraintLayoutParams.orientation = 0;
-                        constraintLayout.setLayoutParams(constraintLayoutParams);
-                        int consId = View.generateViewId();
-                        constraintLayout.setId(consId);
-
-                        linearLayout.addView(constraintLayout);
-
-                        //current ConstraintLayout element
-                        constraintLayout = findViewById(consId);
-
-                        //guideline
-                        Guideline guideline = new Guideline(constraintLayout.getContext());
-                        ConstraintLayout.LayoutParams guidelineParams =  new ConstraintLayout.LayoutParams(
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                        guidelineParams.orientation = 0 ;
-                        guideline.setLayoutParams(guidelineParams);
-
-                        guideline.setId(View.generateViewId());
-                        guideline.setGuidelineBegin(0);
-                        guideline.setGuidelinePercent(0.77f);
-
-                        constraintLayout.addView(guideline);
-
-                        //textNomeEvento
-                        TextView textNomeEvento = new TextView(constraintLayout.getContext());
-                        ConstraintLayout.LayoutParams textNomeEventoParams = new ConstraintLayout.LayoutParams(
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                        textNomeEventoParams.setMargins(0,dpiToPx(8, linearLayout.getContext()),0, dpiToPx(8, linearLayout.getContext()));
-                        textNomeEventoParams.setMarginStart(dpiToPx(8, linearLayout.getContext()));
-                        textNomeEventoParams.setMarginEnd(dpiToPx(8,linearLayout.getContext()));
-                        textNomeEventoParams.bottomToBottom = constraintLayout.getId();
-                        textNomeEventoParams.endToStart = guideline.getId();
-                        textNomeEventoParams.horizontalBias = 0.19f;
-                        textNomeEventoParams.startToStart = constraintLayout.getId();
-                        textNomeEventoParams.topToTop = constraintLayout.getId();
-                        textNomeEvento.setLayoutParams(textNomeEventoParams);
-
-                        textNomeEvento.setId(View.generateViewId());
-                        textNomeEvento.setTextSize(15);
-                        textNomeEvento.setText(evento.getUtente().getNome() + " deve fare: " + evento.getNome());
-
-                        constraintLayout.addView(textNomeEvento);
-
-                        //textOraEvento
-                        TextView textOraEvento = new TextView(constraintLayout.getContext());
-                        ConstraintLayout.LayoutParams textOraEventoParams = new ConstraintLayout.LayoutParams(
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                        textOraEventoParams.setMargins(0,dpiToPx(8, linearLayout.getContext()),0, dpiToPx(8, linearLayout.getContext()));
-                        textOraEventoParams.setMarginStart(dpiToPx(8, linearLayout.getContext()));
-                        textOraEventoParams.setMarginEnd(dpiToPx(8,linearLayout.getContext()));
-                        textOraEventoParams.bottomToBottom = constraintLayout.getId();
-                        textOraEventoParams.endToEnd = constraintLayout.getId();
-                        textOraEventoParams.horizontalBias = 0;
-                        textOraEventoParams.startToStart = guideline.getId();
-                        textOraEventoParams.topToTop = constraintLayout.getId();
-                        textNomeEvento.setLayoutParams(textOraEventoParams);
-
-                        textOraEvento.setId(View.generateViewId());
-                        textOraEvento.setTextSize(15);
-                        textOraEvento.setText(evento.getInizio().get(Calendar.HOUR_OF_DAY) + ":" + minuti + " " + evento.getUtente().getNome() + " deve fare: " + evento.getNome());
-
-                        constraintLayout.addView(textOraEvento);
+                        tmp.add(evento);
                     }
                 }
+                ListView listView = findViewById(R.id.listView);
+
+                CustomAdapter customAdapter = new CustomAdapter();
+                listView.setAdapter(customAdapter);
             }
         });
 
+
         //descrizione navigation Drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null)
         {
             navigationView.setNavigationItemSelectedListener(
-                    new NavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(MenuItem menuItem)
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem)
+                    {
+                        Intent openPage;
+                        switch (menuItem.getItemId())
                         {
-                            Intent openPage;
-                            switch (menuItem.getItemId())
-                            {
-                                case R.id.nav_calendario:
-                                    mDrawerLayout.closeDrawers();//chiudo la nav
-                                    return true;
+                            case R.id.nav_calendario:
+                                mDrawerLayout.closeDrawers();//chiudo la nav
+                                return true;
 
-                                case R.id.nav_gestione_gruppo:
-                                    openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                            case R.id.nav_gestione_gruppo:
+                                openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
+                                // passo all'attivazione dell'activity Pagina.java
+                                startActivity(openPage);
+                                return true;
 
-                                case R.id.nav_pagamenti:
-                                    openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                            case R.id.nav_pagamenti:
+                                openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
+                                // passo all'attivazione dell'activity Pagina.java
+                                startActivity(openPage);
+                                return true;
 
-                                case R.id.nav_sondaggio:
-                                    openPage = new Intent(SchermataIniziale.this, Sondaggi.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                            case R.id.nav_sondaggio:
+                                openPage = new Intent(SchermataIniziale.this, Sondaggi.class);
+                                // passo all'attivazione dell'activity Pagina.java
+                                startActivity(openPage);
+                                return true;
 
-                            }
-
-                            mDrawerLayout.closeDrawers();//chiudo la nav
-                            return true;
                         }
-                    });
+
+                        mDrawerLayout.closeDrawers();//chiudo la nav
+                        return true;
+                    }
+                });
         }
-
-//        //quando seleziono il numero del giorno nel calendario stampa nella textview il giorno, l'anno e il mese di tale giorno
-//        final TextView t = (TextView) findViewById(R.id.elementoLista);
-//        CalendarView c= findViewById(R.id.calendarView);
-//        c.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
-//        {
-//            public void onSelectedDayChange(CalendarView c, int year, int month, int dayOfMonth)
-//            {
-//                //qua andrò a leggere tutti gli eventid della giornata selezionata
-//                t.setText(""+ year+" "+month+" "+dayOfMonth);
-//            }
-//
-//        });
-
-
-
     }
 
     @Override
@@ -287,5 +196,58 @@ public class SchermataIniziale extends AppCompatActivity
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    class CustomAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return tmp.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
+
+            TextView textNomeUtente = convertView.findViewById(R.id.textNomeUtente);
+            TextView textNomeEvento = convertView.findViewById(R.id.textNomeEvento);
+            TextView textOraEvento = convertView.findViewById(R.id.textOraEvento);
+
+            String ore;
+            //if per rendere sempre di due cifre le ore
+            if(tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY) < 10)
+            {
+                ore = "0" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
+            }
+            else
+            {
+                ore = "" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
+            }
+            String minuti;
+            //if per rendere sempre di due cifre i minuti
+            if(tmp.get(position).getInizio().get(Calendar.MINUTE) < 10)
+            {
+                minuti = tmp.get(position).getInizio().get(Calendar.MINUTE) + "0";
+            }
+            else
+            {
+                minuti ="" + tmp.get(position).getInizio().get(Calendar.MINUTE);
+            }
+
+            textNomeUtente.setText(tmp.get(position).getUtente().getNome());
+            textNomeEvento.setText(tmp.get(position).getNome());
+            textOraEvento.setText(ore + ":" + minuti);
+            return convertView;
+        }
     }
 }
