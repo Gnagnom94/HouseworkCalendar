@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Settimana extends ArrayList<Evento> {
+public class Calendario extends ArrayList<Evento> {
 
     public void sort() {
         Collections.sort(this, new Comparator<Evento>() {

@@ -22,8 +22,6 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -50,21 +48,21 @@ public class SchermataIniziale extends AppCompatActivity
         String[] nomiEventi = {"Lavatrice", "Bucato", "Pavimento", "Bagno", "Stoviglie"};
 
         Random random = new Random();
-        final Settimana settimana = new Settimana();
+        final Calendario calendario = new Calendario();
         for(int i = 0; i <= 12; i++) {
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
                     int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
                     int rNomeEvento = random.nextInt(((nomiEventi.length - 1) - 0) + 1);
-                    settimana.add(new Evento(nomiEventi[rNomeEvento] + " " + (k),
+                    calendario.add(new Evento(nomiEventi[rNomeEvento] + " " + (k),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                    utenti.get(rUtenti), "Veranda", "")
+                                    utenti.get(rUtenti), "", "")
                             );
                 }
             }
         }
-        settimana.sort();
+        calendario.sort();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
@@ -91,7 +89,7 @@ public class SchermataIniziale extends AppCompatActivity
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 tmp.clear();
                 int i = 0;
-                for (Evento evento:settimana) {
+                for (Evento evento: calendario) {
                     i++;
                     if(
                         (evento.getInizio().get(Calendar.YEAR) <= year &&
