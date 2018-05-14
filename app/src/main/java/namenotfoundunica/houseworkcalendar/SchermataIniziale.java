@@ -3,6 +3,9 @@ package namenotfoundunica.houseworkcalendar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -230,6 +234,7 @@ public class SchermataIniziale extends AppCompatActivity
             TextView textNomeEvento = convertView.findViewById(R.id.textNomeEvento);
             TextView textOraInizio = convertView.findViewById(R.id.textOraInizio);
             TextView textOraFine = convertView.findViewById(R.id.textOraFine);
+            Button buttonColor = convertView.findViewById(R.id.buttonColor);
 
             String oreInizio;
             //if per rendere sempre di due cifre le ore
@@ -276,7 +281,17 @@ public class SchermataIniziale extends AppCompatActivity
             textNomeEvento.setText(tmp.get(position).getColorNameBinder().getNomeEvento());
             textOraInizio.setText(oreInizio + ":" + minutiInizio);
             textOraFine.setText(oreFine + ":" + minutiFine);
+            buttonColor.setBackground(GetTintedDrawable(R.drawable.roundedbutton, tmp.get(position).getColorNameBinder().getColoreEventoToInt()));
             return convertView;
+        }
+
+        public Drawable GetTintedDrawable(int res, int color)
+        {
+            Drawable drawable =  getDrawable(res);
+
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+            return drawable;
         }
     }
 }

@@ -1,5 +1,7 @@
 package namenotfoundunica.houseworkcalendar;
 
+import android.graphics.Color;
+
 public class ColorNameBinder {
 
     private String nomeEvento;
@@ -25,5 +27,9 @@ public class ColorNameBinder {
 
     public void setColoreEvento(String coloreEvento) {
         this.coloreEvento = coloreEvento;
+    }
+
+    public int getColoreEventoToInt(){
+        return Color.parseColor(coloreEvento);
     }
 }
