@@ -45,8 +45,13 @@ public class SchermataIniziale extends AppCompatActivity
         utenti.add(alessandro);
         utenti.add(pitta);
 
-        String[] nomiEventi = {"Lavatrice", "Bucato", "Pavimento", "Bagno", "Stoviglie"};
-        String[] coloriEventi = {"#FF0000", "#0025FF", "#FFE500", "#0FFF00", "#00FFF8"};
+        ArrayList<NomeColore> nomeColore = new ArrayList<>();
+        nomeColore.add(new NomeColore("Lavatrice", "#FF0000"));
+        nomeColore.add(new NomeColore("Bucato", "#0025FF"));
+        nomeColore.add(new NomeColore("Pavimento", "#FFE500"));
+        nomeColore.add(new NomeColore("Bagno", "#0FFF00"));
+        nomeColore.add(new NomeColore("Stoviglie", "#00FFF8"));
+
 
         Random random = new Random();
         final Calendario calendario = new Calendario();
@@ -54,12 +59,12 @@ public class SchermataIniziale extends AppCompatActivity
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
                     int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                    int rNomeEvento = random.nextInt(((nomiEventi.length - 1) - 0) + 1);
-                    int rColoreEvento = random.nextInt(((coloriEventi.length - 1) - 0) + 1);
-                    calendario.add(new Evento(nomiEventi[rNomeEvento] + " " + (k),
+                    int rNomeColoreEvento = random.nextInt(((nomeColore.size() - 1) - 0) + 1);
+
+                    calendario.add(new Evento(nomeColore.get(rNomeColoreEvento),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                    utenti.get(rUtenti), "", "", coloriEventi[rColoreEvento])
+                                    utenti.get(rUtenti), "", "")
                             );
                 }
             }
@@ -266,7 +271,7 @@ public class SchermataIniziale extends AppCompatActivity
             }
 
             textNomeUtente.setText(tmp.get(position).getUtente().getNome());
-            textNomeEvento.setText(tmp.get(position).getNome());
+            textNomeEvento.setText(tmp.get(position).getNomeColore().getNomeEvento());
             textOraInizio.setText(oreInizio + ":" + minutiInizio);
             textOraFine.setText(oreFine + ":" + minutiFine);
             return convertView;
