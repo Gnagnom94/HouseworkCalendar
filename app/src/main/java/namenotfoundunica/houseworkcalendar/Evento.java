@@ -3,7 +3,7 @@ package namenotfoundunica.houseworkcalendar;
 import java.util.Calendar;
 
 public class Evento {
-    private NomeColore nomeColore;
+    private ColorNameBinder colorNameBinder;
     private Calendar inizio;
     private Calendar fine;
     private Boolean flagRipetizione;
@@ -11,8 +11,8 @@ public class Evento {
     private String categoria;
     private String note;
 
-    public Evento(NomeColore nomeColore, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note) {
-        this.nomeColore = nomeColore;
+    public Evento(ColorNameBinder colorNameBinder, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note) {
+        this.colorNameBinder = colorNameBinder;
         this.inizio = inizio;
         this.fine = fine;
         this.flagRipetizione = flagRipetizione;
@@ -21,12 +21,12 @@ public class Evento {
         this.note = note;
     }
 
-    public NomeColore getNomeColore() {
-        return nomeColore;
+    public ColorNameBinder getColorNameBinder() {
+        return colorNameBinder;
     }
 
-    public void setNomeColore(NomeColore nomeColore) {
-        this.nomeColore = nomeColore;
+    public void setColorNameBinder(ColorNameBinder colorNameBinder) {
+        this.colorNameBinder = colorNameBinder;
     }
 
     public Calendar getInizio() {

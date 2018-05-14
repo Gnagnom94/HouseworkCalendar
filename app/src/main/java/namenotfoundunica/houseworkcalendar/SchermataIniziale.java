@@ -34,23 +34,25 @@ public class SchermataIniziale extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
 
+    public ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
+
+    public ArrayList<Utente> utenti = new ArrayList<Utente>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
         Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
         Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-        ArrayList<Utente> utenti = new ArrayList<Utente>();
         utenti.add(matteo);
         utenti.add(alessandro);
         utenti.add(pitta);
 
-        ArrayList<NomeColore> nomeColore = new ArrayList<>();
-        nomeColore.add(new NomeColore("Lavatrice", "#FF0000"));
-        nomeColore.add(new NomeColore("Bucato", "#0025FF"));
-        nomeColore.add(new NomeColore("Pavimento", "#FFE500"));
-        nomeColore.add(new NomeColore("Bagno", "#0FFF00"));
-        nomeColore.add(new NomeColore("Stoviglie", "#00FFF8"));
+        colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
+        colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
+        colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
+        colorNameBinder.add(new ColorNameBinder("Bagno", "#0FFF00"));
+        colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
 
 
         Random random = new Random();
@@ -59,9 +61,9 @@ public class SchermataIniziale extends AppCompatActivity
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
                     int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((nomeColore.size() - 1) - 0) + 1);
+                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
-                    calendario.add(new Evento(nomeColore.get(rNomeColoreEvento),
+                    calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
                                     utenti.get(rUtenti), "", "")
@@ -271,7 +273,7 @@ public class SchermataIniziale extends AppCompatActivity
             }
 
             textNomeUtente.setText(tmp.get(position).getUtente().getNome());
-            textNomeEvento.setText(tmp.get(position).getNomeColore().getNomeEvento());
+            textNomeEvento.setText(tmp.get(position).getColorNameBinder().getNomeEvento());
             textOraInizio.setText(oreInizio + ":" + minutiInizio);
             textOraFine.setText(oreFine + ":" + minutiFine);
             return convertView;

@@ -1,11 +1,11 @@
 package namenotfoundunica.houseworkcalendar;
 
-public class NomeColore {
+public class ColorNameBinder {
 
     private String nomeEvento;
     private String coloreEvento;
 
-    public NomeColore(String nomeEvento, String coloreEvento) {
+    public ColorNameBinder(String nomeEvento, String coloreEvento) {
         this.setNomeEvento(nomeEvento);
         this.setColoreEvento(coloreEvento);
     }
