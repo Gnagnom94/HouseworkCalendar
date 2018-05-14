@@ -1,7 +1,6 @@
 package namenotfoundunica.houseworkcalendar;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class Evento {
     private String nome;
@@ -11,17 +10,19 @@ public class Evento {
     private Utente utente;
     private String categoria;
     private String note;
+    private String color;
 
-    Evento(String nome, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note)
-    {
-        this.nome = nome;
-        this.inizio = inizio;
-        this.fine = fine;
-        this.flagRipetizione = flagRipetizione;
-        this.utente = utente;
-        this.categoria = categoria;
-        this.note = note;
+    public Evento(String nome, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note, String color) {
+        this.setNome(nome);
+        this.setInizio(inizio);
+        this.setFine(fine);
+        this.setFlagRipetizione(flagRipetizione);
+        this.setUtente(utente);
+        this.setCategoria(categoria);
+        this.setNote(note);
+        this.setColor(color);
     }
+
 
     public String getNome() {
         return nome;
@@ -77,5 +78,13 @@ public class Evento {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

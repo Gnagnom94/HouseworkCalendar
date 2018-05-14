@@ -46,6 +46,7 @@ public class SchermataIniziale extends AppCompatActivity
         utenti.add(pitta);
 
         String[] nomiEventi = {"Lavatrice", "Bucato", "Pavimento", "Bagno", "Stoviglie"};
+        String[] coloriEventi = {"#FF0000", "#0025FF", "#FFE500", "#0FFF00", "#00FFF8"};
 
         Random random = new Random();
         final Calendario calendario = new Calendario();
@@ -54,10 +55,11 @@ public class SchermataIniziale extends AppCompatActivity
                 for (int j = 9; j < 20; j++) {
                     int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
                     int rNomeEvento = random.nextInt(((nomiEventi.length - 1) - 0) + 1);
+                    int rColoreEvento = random.nextInt(((coloriEventi.length - 1) - 0) + 1);
                     calendario.add(new Evento(nomiEventi[rNomeEvento] + " " + (k),
                             new GregorianCalendar(2018, i, k, j, 00),
                             new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                    utenti.get(rUtenti), "", "")
+                                    utenti.get(rUtenti), "", "", coloriEventi[rColoreEvento])
                             );
                 }
             }
@@ -219,32 +221,54 @@ public class SchermataIniziale extends AppCompatActivity
 
             TextView textNomeUtente = convertView.findViewById(R.id.textNomeUtente);
             TextView textNomeEvento = convertView.findViewById(R.id.textNomeEvento);
-            TextView textOraEvento = convertView.findViewById(R.id.textOraEvento);
+            TextView textOraInizio = convertView.findViewById(R.id.textOraInizio);
+            TextView textOraFine = convertView.findViewById(R.id.textOraFine);
 
-            String ore;
+            String oreInizio;
             //if per rendere sempre di due cifre le ore
             if(tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY) < 10)
             {
-                ore = "0" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
+                oreInizio = "0" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
             }
             else
             {
-                ore = "" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
+                oreInizio = "" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
             }
-            String minuti;
+            String minutiInizio;
             //if per rendere sempre di due cifre i minuti
             if(tmp.get(position).getInizio().get(Calendar.MINUTE) < 10)
             {
-                minuti = tmp.get(position).getInizio().get(Calendar.MINUTE) + "0";
+                minutiInizio = tmp.get(position).getInizio().get(Calendar.MINUTE) + "0";
             }
             else
             {
-                minuti ="" + tmp.get(position).getInizio().get(Calendar.MINUTE);
+                minutiInizio ="" + tmp.get(position).getInizio().get(Calendar.MINUTE);
+            }
+            String oreFine;
+            //if per rendere sempre di due cifre le ore
+            if(tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY) < 10)
+            {
+                oreFine = "0" + tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY);
+            }
+            else
+            {
+                oreFine = "" + tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY);
+            }
+            String minutiFine;
+            //if per rendere sempre di due cifre i minuti
+            if(tmp.get(position).getFine().get(Calendar.MINUTE) < 10)
+            {
+                minutiFine = tmp.get(position).getFine().get(Calendar.MINUTE) + "0";
+            }
+            else
+            {
+                minutiFine ="" + tmp.get(position).getFine().get(Calendar.MINUTE);
             }
 
             textNomeUtente.setText(tmp.get(position).getUtente().getNome());
             textNomeEvento.setText(tmp.get(position).getNome());
-            textOraEvento.setText(ore + ":" + minuti);
+            textOraInizio.setText(oreInizio + ":" + minutiInizio);
+            textOraFine.setText(oreFine + ":" + minutiFine);
             return convertView;
         }
     }
