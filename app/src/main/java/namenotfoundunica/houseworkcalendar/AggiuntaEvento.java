@@ -3,6 +3,7 @@ package namenotfoundunica.houseworkcalendar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -242,7 +243,8 @@ public class AggiuntaEvento extends AppCompatActivity
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-//                startActivity(new Intent("SchermataIniziale.class"));
+                Intent myIntent = new Intent(getBaseContext(),   SchermataIniziale.class);
+                   startActivity(myIntent);
 
             }
         });
@@ -281,6 +283,7 @@ public class AggiuntaEvento extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors)
                             {
                                 colorPickerButton.setBackgroundColor(selectedColor);
+                                colorNameScelto.setColoreEventoFromInt(selectedColor);
                             }
                         })
 
