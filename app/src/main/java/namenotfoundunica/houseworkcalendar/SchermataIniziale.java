@@ -40,8 +40,8 @@ public class SchermataIniziale extends AppCompatActivity
 
     public ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
-    public ArrayList<Utente> utenti = new ArrayList<Utente>();
-
+    public static ArrayList<Utente> utenti = new ArrayList<Utente>();
+    public Calendario calendario = new Calendario();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -60,7 +60,7 @@ public class SchermataIniziale extends AppCompatActivity
 
 
         Random random = new Random();
-        final Calendario calendario = new Calendario();
+
         for(int i = 0; i <= 12; i++) {
             for (int k = 1; k <= 30; k++) {
                 for (int j = 9; j < 20; j++) {
