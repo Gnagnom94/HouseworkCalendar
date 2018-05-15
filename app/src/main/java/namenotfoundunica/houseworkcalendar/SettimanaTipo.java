@@ -43,8 +43,8 @@ public class SettimanaTipo extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent openPage = new Intent(SettimanaTipo.this, AggiuntaEvento.class);
+                startActivity(openPage);
             }
         });
 

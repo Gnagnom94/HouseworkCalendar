@@ -32,4 +32,6 @@ public class ColorNameBinder {
     public int getColoreEventoToInt(){
         return Color.parseColor(coloreEvento);
     }
+
+    public void setColoreEventoFromInt(int color){this.coloreEvento = "#" + Integer.toHexString(color);}
 }
