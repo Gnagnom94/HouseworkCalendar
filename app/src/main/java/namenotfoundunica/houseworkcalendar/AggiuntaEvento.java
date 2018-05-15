@@ -10,12 +10,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,6 +33,7 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -43,9 +49,10 @@ public class AggiuntaEvento extends AppCompatActivity
     public TextView timeInizioEvento;
     public TextView timeFineEvento;
 
+    private ColorNameBinder colorNameScelto;
     private Button bottoneConferma;
-    private Button colorPickerButton;
-    private TextInputLayout nomeAttivita;
+    private ImageButton colorPickerButton;
+    private AutoCompleteTextView nomeAttivita;
     private Switch ripetizione;
     private Spinner utenteSpinner;
     private Spinner categoriaSpinner;
@@ -61,9 +68,11 @@ public class AggiuntaEvento extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-        //inizializzo le variabili calendar con la data di oggi
-        dataInizio=new GregorianCalendar(1800,10,3);
-        dataFine = new GregorianCalendar(1800,10,3);
+        //inizializzo le variabili
+        dataInizio=Calendar.getInstance();
+        dataFine = Calendar.getInstance();
+        utenteSceltoSpinner=SchermataIniziale.utenti.get(0);//seleziono il primo elemento dell'array
+
 
         bottoneConferma=findViewById(R.id.ConfermaButton);
         dataEventoText = findViewById(R.id.TextData1);
@@ -79,6 +88,7 @@ public class AggiuntaEvento extends AppCompatActivity
         AggiuntaEventi();
         popolaSpinnerUtenti();
         popolaSpinnerCategoria();
+        popolaAutocompleteNome();
 
 
     }
@@ -91,15 +101,31 @@ public class AggiuntaEvento extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+    private void popolaAutocompleteNome()
+    {
+        ArrayList<String> listaNomi= new  ArrayList<String>();
+        for(ColorNameBinder u:SchermataIniziale.colorNameBinder)
+        {
+            listaNomi.add(u.getNomeEvento());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,listaNomi);
+        nomeAttivita.setAdapter(adapter);
+    }
     private void popolaSpinnerUtenti()
     {
         Spinner spinner = (Spinner) findViewById(R.id.spinnerUtente);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<Utente> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,SchermataIniziale.utenti);
+        ArrayList<String> listaUtenti= new  ArrayList<String>();
+        for(Utente u:SchermataIniziale.utenti)
+        {
+            listaUtenti.add(u.getNome());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,listaUtenti);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
     }
     private void popolaSpinnerCategoria()
     {
@@ -127,6 +153,32 @@ public class AggiuntaEvento extends AppCompatActivity
 
     public void AggiuntaEventi()
     {
+        nomeAttivita.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String str=nomeAttivita.getText().toString();
+                for(ColorNameBinder i:SchermataIniziale.colorNameBinder)
+                {
+                    if(str.compareToIgnoreCase(i.getNomeEvento())==0)
+                    {
+                        colorNameScelto=i;
+                        colorPickerButton.setBackgroundColor(i.getColoreEventoToInt());
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
 
         dataEventoText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,15 +212,9 @@ public class AggiuntaEvento extends AppCompatActivity
 
         utenteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
-            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
-                String sceltaSpinnerUtente = (String) adapter.getItemAtPosition(pos);
-                for(Utente utente:SchermataIniziale.utenti)
-                {
-                    if(utente.getNome()==sceltaSpinnerUtente)
-                    {
-                       utenteSceltoSpinner=utente;
-                    }
-                }
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id)
+            {
+                utenteSceltoSpinner=SchermataIniziale.utenti.get(pos);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -188,14 +234,15 @@ public class AggiuntaEvento extends AppCompatActivity
             public void onClick(View v)
             {
 
-              //  Evento nuovoEvento = new Evento(nomeAttivita.getEditText().getText().toString(), dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),);
-              //  SchermataIniziale.calendario.add(nuovoEvento);
+                Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString());
+                SchermataIniziale.calendario.add(nuovoEvento);
                 Context context = getApplicationContext();
                 CharSequence text = "Attività aggiunta";
+                SchermataIniziale.calendario.sort();
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                startActivity(new Intent("SchermataIniziale.class"));
+//                startActivity(new Intent("SchermataIniziale.class"));
 
             }
         });
@@ -233,20 +280,7 @@ public class AggiuntaEvento extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors)
                             {
-
-                                if (allColors != null) {
-                                    StringBuilder sb = null;
-
-                                    for (Integer color : allColors) {
-                                        if (color == null)
-                                            continue;
-                                        if (sb == null)
-                                            sb = new StringBuilder("Color List:");
-                                        sb.append("\r\n#" + Integer.toHexString(color).toUpperCase());
-                                    }
-
-
-                                }
+                                colorPickerButton.setBackgroundColor(selectedColor);
                             }
                         })
 

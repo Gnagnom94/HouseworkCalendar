@@ -38,10 +38,10 @@ public class SchermataIniziale extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
 
-    public ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
+    public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
-    public Calendario calendario = new Calendario();
+    public static Calendario calendario = new Calendario();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

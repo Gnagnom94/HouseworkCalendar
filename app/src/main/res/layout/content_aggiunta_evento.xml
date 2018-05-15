@@ -18,43 +18,29 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.018">
+        app:layout_constraintVertical_bias="0.011">
 
-        <android.support.design.widget.TextInputLayout
+        <AutoCompleteTextView
             android:id="@+id/textNomeInput"
-            android:layout_width="302dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="313dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="Inserisci tipo attività:"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ColorPicker"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/InputNomeAttivita"
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:hint="Descrizione evento:" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
+        <ImageButton
             android:id="@+id/ColorPicker"
-            android:layout_width="51dp"
-            android:layout_height="53dp"
-            android:layout_marginBottom="8dp"
-
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:drawableLeft="@drawable/ic_color_lens_black_24dp"
-            android:elevation="0dp"
-            android:gravity="center"
+            android:layout_width="62dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_color_lens_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toEndOf="@+id/textNomeInput"
             app:layout_constraintTop_toTopOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -88,8 +74,8 @@
             android:layout_width="177dp"
             android:layout_height="33dp"
             android:layout_marginEnd="4dp"
-            android:text="gg/mm/aa"
             android:gravity="center"
+            android:text="gg/mm/aa"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -130,8 +116,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="4dp"
-            android:text="00:00"
             android:gravity="center"
+            android:text="00:00"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/TextTime1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -172,8 +158,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="4dp"
-            android:text="00:00"
             android:gravity="center"
+            android:text="00:00"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -210,8 +196,8 @@
             android:layout_width="121dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:text="Ricorrente"
             android:paddingLeft="5dp"
+            android:text="Ricorrente"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
