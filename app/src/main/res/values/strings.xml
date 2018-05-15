@@ -84,11 +84,6 @@
     <string name="title_activity_aggiunta_evento">AggiuntaEvento</string>
 
     <!--Elenco stringhe spinner delle attivià-->
-    <string-array name="Utenti">
-        <item>Marco</item>
-        <item>Alessandro</item>
-        <item>Matteo</item>
-    </string-array>
 
     <string-array name="Categorie">
         <item>Bagno</item>
