@@ -143,10 +143,21 @@ public class AggiuntaEvento extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
+        Intent openPageHome;
         if (id == android.R.id.home)
         {
-            Intent openPageHome = new Intent(this, SchermataIniziale.class);
-            startActivity(openPageHome);
+            String callingActivity = getIntent().getStringExtra("Chiamante");
+
+            switch (callingActivity) {
+                case "SchermataIniziale":
+                    openPageHome = new Intent(this, SchermataIniziale.class);
+                    startActivity(openPageHome);
+                    break;
+                case "SettimanaTipo":
+                    openPageHome = new Intent(this, SettimanaTipo.class);
+                    startActivity(openPageHome);
+                    break;
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -243,9 +254,20 @@ public class AggiuntaEvento extends AppCompatActivity
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                Intent myIntent = new Intent(getBaseContext(),   SchermataIniziale.class);
-                   startActivity(myIntent);
 
+                Intent openPageHome;
+                String callingActivity = getIntent().getStringExtra("Chiamante");
+
+                switch (callingActivity) {
+                    case "SchermataIniziale":
+                        openPageHome = new Intent(getBaseContext(), SchermataIniziale.class);
+                        startActivity(openPageHome);
+                        break;
+                    case "SettimanaTipo":
+                        openPageHome = new Intent(getBaseContext(), SettimanaTipo.class);
+                        startActivity(openPageHome);
+                        break;
+                }
             }
         });
 

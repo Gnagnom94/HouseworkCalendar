@@ -91,6 +91,7 @@ public class SchermataIniziale extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
+                openPage.putExtra("Chiamante", "SchermataIniziale");
                 startActivity(openPage);
             }
         });

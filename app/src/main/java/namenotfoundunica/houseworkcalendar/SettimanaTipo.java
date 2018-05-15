@@ -44,6 +44,7 @@ public class SettimanaTipo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent openPage = new Intent(SettimanaTipo.this, AggiuntaEvento.class);
+                openPage.putExtra("Chiamante", "SettimanaTipo");
                 startActivity(openPage);
             }
         });
