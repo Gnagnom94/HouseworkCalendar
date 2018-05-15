@@ -103,7 +103,7 @@ public class SchermataIniziale extends AppCompatActivity
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 tmp.clear();
                 int i = 0;
-                for (Evento evento: calendario) {
+                for (Evento evento: calendario){
                     i++;
                     if(
                         (evento.getInizio().get(Calendar.YEAR) <= year &&
