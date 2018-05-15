@@ -161,6 +161,10 @@ public class SchermataIniziale extends AppCompatActivity
                                 // passo all'attivazione dell'activity Pagina.java
                                 startActivity(openPage);
                                 return true;
+                            case R.id.nav_settimana_tipo:
+                                openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
+                                startActivity(openPage);
+                                return true;
 
                         }
 
