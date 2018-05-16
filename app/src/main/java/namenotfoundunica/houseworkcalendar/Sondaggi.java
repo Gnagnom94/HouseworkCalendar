@@ -34,14 +34,14 @@ public class Sondaggi extends AppCompatActivity {
         lstSondaggio.add(new Sondaggio("titolo2","unanimità","descrizione2","wait"));
         lstSondaggio.add(new Sondaggio("titolo3","maggioranza","descrizione2","wait"));
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        CustomAdapter customAdapter = new CustomAdapter();
-        listView.setAdapter(customAdapter);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        CustomAdapter customAdapter = new CustomAdapter();
+        listView.setAdapter(customAdapter);
 
     }
 
