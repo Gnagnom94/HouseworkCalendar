@@ -35,17 +35,29 @@ public class TimePickerFragment extends DialogFragment
 
         if(c.flagTime==true)
         {
-            c.dataInizio.set(Calendar.MINUTE,minute);
-            c.dataInizio.set(Calendar.HOUR,hourOfDay);
+
             c.dataFine.set(Calendar.MINUTE,minute);
             c.dataFine.set(Calendar.HOUR,hourOfDay);
             c.timeInizioEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
             c.timeFineEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            if(c.dataFine.compareTo(c.dataInizio)<=0)
+            {
+                c.dataFine.set(Calendar.MINUTE,minute);
+                c.dataFine.set(Calendar.HOUR,hourOfDay);
+                c.timeFineEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            }
         }
         else
         {
+
             c.dataFine.set(Calendar.MINUTE, minute);
             c.dataFine.set(Calendar.HOUR, hourOfDay);
+            if(c.dataFine.compareTo(c.dataInizio)>0)
+            {
+                c.dataInizio.set(Calendar.MINUTE,minute);
+                c.dataInizio.set(Calendar.HOUR,hourOfDay);
+                c.timeInizioEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            }
             c.timeFineEvento.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
         }
     }

@@ -5,16 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +33,6 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import Fragments.DatePickerFragment;
 import Fragments.TimePickerFragment;
@@ -70,8 +66,10 @@ public class AggiuntaEvento extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
         //inizializzo le variabili
+
         dataInizio=Calendar.getInstance();
         dataFine = Calendar.getInstance();
+
         utenteSceltoSpinner=SchermataIniziale.utenti.get(0);//seleziono il primo elemento dell'array
 
 
@@ -86,6 +84,8 @@ public class AggiuntaEvento extends AppCompatActivity
         utenteSpinner=findViewById(R.id.spinnerUtente);
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
+
+
         AggiuntaEventi();
         popolaSpinnerUtenti();
         popolaSpinnerCategoria();
@@ -245,36 +245,57 @@ public class AggiuntaEvento extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                //controllo che sia stato inserito un nome
+                if(!(nomeAttivita.getText().toString().compareTo("")<=0))
+                {
+                    if(ripetizione.getSplitTrack())
+                    {
+                        //se la ripetizione è settata aggiungo il nuovo tipo di attività nell'array colorNameBinder
+                        boolean trovato=false;
+                        //cerca all'interno dell'array se non è presente
+                        for(ColorNameBinder i:SchermataIniziale.colorNameBinder)
+                            if(colorNameScelto==i)
+                                trovato=true;
 
-                Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString());
-                SchermataIniziale.calendario.add(nuovoEvento);
-                Context context = getApplicationContext();
-                CharSequence text = "Attività aggiunta";
-                SchermataIniziale.calendario.sort();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                        if(trovato!=true)
+                            SchermataIniziale.colorNameBinder.add(colorNameScelto);
+                    }
+                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString());
+                    SchermataIniziale.calendario.add(nuovoEvento);
 
-                Intent openPageHome;
-                String callingActivity = getIntent().getStringExtra("Chiamante");
 
-                switch (callingActivity) {
-                    case "SchermataIniziale":
-                        openPageHome = new Intent(getBaseContext(), SchermataIniziale.class);
-                        startActivity(openPageHome);
-                        break;
-                    case "SettimanaTipo":
-                        openPageHome = new Intent(getBaseContext(), SettimanaTipo.class);
-                        startActivity(openPageHome);
-                        break;
+                    SchermataIniziale.calendario.sort();
+
+                    makeToast("Attività creata");
+
+                    Intent openPageHome;
+                    String callingActivity = getIntent().getStringExtra("Chiamante");
+
+                    switch (callingActivity) {
+                        case "SchermataIniziale":
+                            openPageHome = new Intent(getBaseContext(), SchermataIniziale.class);
+                            startActivity(openPageHome);
+                            break;
+                        case "SettimanaTipo":
+                            openPageHome = new Intent(getBaseContext(), SettimanaTipo.class);
+                            startActivity(openPageHome);
+                            break;
+                    }
                 }
+                else
+                {
+                    makeToast("Inserisci un tipo di attività");
+                    nomeAttivita.setHintTextColor(Color.RED);
+                }
+
             }
         });
 
         colorPickerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 final Context context = AggiuntaEvento.this;
 
                 ColorPickerDialogBuilder
@@ -286,7 +307,8 @@ public class AggiuntaEvento extends AppCompatActivity
                         .setOnColorChangedListener(new OnColorChangedListener()
                         {
                             @Override
-                            public void onColorChanged(int selectedColor) {
+                            public void onColorChanged(int selectedColor)
+                            {
                                 // Handle on color change
                                 Log.d("ColorPicker", "onColorChanged: 0x" + Integer.toHexString(selectedColor));
                             }
@@ -320,6 +342,16 @@ public class AggiuntaEvento extends AppCompatActivity
                         .show();
             }
         });
+
+    }
+
+    public void makeToast(String message)
+    {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast;
+        toast = Toast.makeText(context, message, duration);
+        toast.show();
     }
 
 }
