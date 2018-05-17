@@ -85,7 +85,19 @@ public class AggiuntaEvento extends AppCompatActivity
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
 
-
+        dataEventoText.setText(Integer.toString(dataInizio.get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.YEAR)));
+        String ore;
+        if(dataInizio.get(Calendar.HOUR_OF_DAY) < 10)
+            ore = "0" + dataInizio.get(Calendar.HOUR_OF_DAY);
+        else
+            ore =Integer.toString(dataInizio.get(Calendar.HOUR_OF_DAY));
+        String minuti;
+        if(dataInizio.get(Calendar.MINUTE) < 10)
+            minuti= "0" + dataInizio.get(Calendar.HOUR_OF_DAY);
+        else
+            minuti=Integer.toString(dataInizio.get(Calendar.HOUR_OF_DAY));
+        timeInizioEvento.setText(ore+":"+minuti);
+        timeFineEvento.setText(ore+":"+minuti);
         AggiuntaEventi();
         popolaSpinnerUtenti();
         popolaSpinnerCategoria();
