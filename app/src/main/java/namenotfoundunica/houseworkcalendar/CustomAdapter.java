@@ -97,7 +97,7 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         textNomeUtente.setText(giorno.get(position).getUtente().getNome());
-        textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento());
+        textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento() + " * " + giorno.get(position).getInizio().get(Calendar.DAY_OF_MONTH));
         textOraInizio.setText(oreInizio + ":" + minutiInizio);
         textOraFine.setText(oreFine + ":" + minutiFine);
         buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, giorno.get(position).getColorNameBinder().getColoreEventoToInt()));
