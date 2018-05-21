@@ -7,15 +7,17 @@ public class Sondaggio
     private String tipo_sondaggio;  //Tipologia del sondaggio (maggioranza, unanimità)
     private String descrizione;     //Breve descrizione del sondaggio
     private String stato;           //Stati possibili del sondaggio (in attesa dei voti, completato con successo, completato senza successo)
+    private int id;                 //Id relativo al sondaggio
 
     //Aggiungere un array di classe Risposte per definire le possibili risposte allo specifico sondaggio
 
-    public Sondaggio(String titolo, String tipo_sondaggio, String descrizione, String stato)
+    public Sondaggio(String titolo, String tipo_sondaggio, String descrizione, String stato, int id)
     {
         this.titolo = titolo;
         this.tipo_sondaggio = tipo_sondaggio;
         this.descrizione = descrizione;
         this.stato = stato;
+        this.id = id;
     }
 
     public String getTitolo() {
@@ -48,5 +50,13 @@ public class Sondaggio
 
     public void setStato(String stato) {
         this.stato = stato;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

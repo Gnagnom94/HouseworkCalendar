@@ -1,6 +1,8 @@
 package namenotfoundunica.houseworkcalendar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,10 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,18 +35,26 @@ public class Sondaggi extends AppCompatActivity {
 
 
         lstSondaggio = new ArrayList<>();
-        lstSondaggio.add(new Sondaggio("titolo1","maggioranza","descrizione1","wait"));
-        lstSondaggio.add(new Sondaggio("titolo2","unanimità","descrizione2","wait"));
-        lstSondaggio.add(new Sondaggio("titolo3","maggioranza","descrizione2","wait"));
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        CustomAdapter customAdapter = new CustomAdapter();
-        listView.setAdapter(customAdapter);
+        lstSondaggio.add(new Sondaggio("titolo1","maggioranza","descrizione1","wait",1));
+        lstSondaggio.add(new Sondaggio("titolo2","unanimità","descrizione2","wait",2));
+        lstSondaggio.add(new Sondaggio("titolo3","maggioranza","descrizione3","wait",3));
+        lstSondaggio.add(new Sondaggio("titolo4","maggioranza","descrizione4","wait",4));
+        lstSondaggio.add(new Sondaggio("titolo5","maggioranza","descrizione5","wait",5));
+        lstSondaggio.add(new Sondaggio("titolo6","maggioranza","descrizione6","wait",6));
+        lstSondaggio.add(new Sondaggio("titolo7","maggioranza","descrizione7","wait",7));
+        lstSondaggio.add(new Sondaggio("titolo8","maggioranza","descrizione8","wait",8));
+        lstSondaggio.add(new Sondaggio("titolo9","maggioranza","descrizione9","wait",9));
+        lstSondaggio.add(new Sondaggio("titolo10","maggioranza","descrizione10","wait",10));
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        CustomAdapter customAdapter = new CustomAdapter();
+        listView.setAdapter(customAdapter);
+
 
     }
 
@@ -68,9 +81,24 @@ public class Sondaggi extends AppCompatActivity {
             convertView = getLayoutInflater().inflate(R.layout.custom_survey_layout,null);
 
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
-
+            final Button button = (Button) convertView.findViewById(R.id.vota_sondaggio);
             Sondaggio sondaggio = lstSondaggio.get(position);
+            button.setId(sondaggio.getId());
             textView_name.setText(sondaggio.getTitolo());
+            //Toast.makeText(Sondaggi.this,""+textView_name.getText(),Toast.LENGTH_SHORT).show();
+
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    Toast.makeText(Sondaggi.this,""+button.getId(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+
             return convertView;
         }
     }
