@@ -42,41 +42,46 @@ public class SchermataIniziale extends AppCompatActivity
 
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
     public static Calendario calendario = new Calendario();
+
+    private static boolean flagCreation = false;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-        Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-        Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-        utenti.add(matteo);
-        utenti.add(alessandro);
-        utenti.add(pitta);
+        if(!flagCreation) {
+            calendario.clear();
+            Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+            Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
+            Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+            utenti.add(matteo);
+            utenti.add(alessandro);
+            utenti.add(pitta);
 
-        colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
-        colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
-        colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
-        colorNameBinder.add(new ColorNameBinder("Bagno", "#0FFF00"));
-        colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
+            colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
+            colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
+            colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
+            colorNameBinder.add(new ColorNameBinder("Bagno", "#0FFF00"));
+            colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
 
 
-        Random random = new Random();
+            Random random = new Random();
 
-        for(int i = 0; i <= 12; i++) {
-            for (int k = 1; k <= 30; k++) {
-                for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+            for (int i = 0; i <= 12; i++) {
+                for (int k = 1; k <= 30; k++) {
+                    for (int j = 9; j < 20; j++) {
+                        int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
+                        int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
-                    calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                            new GregorianCalendar(2018, i, k, j, 00),
-                            new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                    utenti.get(rUtenti), "", "")
-                            );
+                        calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                                new GregorianCalendar(2018, i, k, j, 00),
+                                new GregorianCalendar(2018, i, k, j + 1, 00), true,
+                                utenti.get(rUtenti), "", "")
+                        );
+                    }
                 }
             }
+            calendario.sort();
+            flagCreation = true;
         }
-        calendario.sort();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -175,6 +180,18 @@ public class SchermataIniziale extends AppCompatActivity
                 });
         }
     }
+
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("settimana", calendario);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        calendario = (Calendario) savedInstanceState.getSerializable("settimana");
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

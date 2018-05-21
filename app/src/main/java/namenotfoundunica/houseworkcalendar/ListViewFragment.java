@@ -44,11 +44,4 @@ public class ListViewFragment extends Fragment {
 
         return rootView;
     }
-
-
-
-    @Override
-    public String toString(){
-        return "ListViewFragment";
-    }
 }

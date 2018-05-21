@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,55 +33,58 @@ public class SettimanaTipo extends AppCompatActivity{
     public static ArrayList<Utente> utenti = new ArrayList<>();
     public static ArrayList<ColorNameBinder> colorNameBinders = new ArrayList<>();
 
+    private static boolean flagCreation = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(!flagCreation) {
+            settimana.clear();
+            Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+            Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
+            Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+            utenti.add(matteo);
+            utenti.add(alessandro);
+            utenti.add(pitta);
 
-        settimana.clear();
-        Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-        Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-        Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-        utenti.add(matteo);
-        utenti.add(alessandro);
-        utenti.add(pitta);
-
-        colorNameBinders.add(new ColorNameBinder("Lavatrice", "#FF0000"));
-        colorNameBinders.add(new ColorNameBinder("Bucato", "#0025FF"));
-        colorNameBinders.add(new ColorNameBinder("Pavimento", "#FFE500"));
-        colorNameBinders.add(new ColorNameBinder("Bagno", "#0FFF00"));
-        colorNameBinders.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
+            colorNameBinders.add(new ColorNameBinder("Lavatrice", "#FF0000"));
+            colorNameBinders.add(new ColorNameBinder("Bucato", "#0025FF"));
+            colorNameBinders.add(new ColorNameBinder("Pavimento", "#FFE500"));
+            colorNameBinders.add(new ColorNameBinder("Bagno", "#0FFF00"));
+            colorNameBinders.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
 
 
-        Random random = new Random();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        int todayMonth = calendar.get(Calendar.MONTH);
-        int todayYear = calendar.get(Calendar.YEAR);
+            Random random = new Random();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setFirstDayOfWeek(Calendar.MONDAY);
+            int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            int todayMonth = calendar.get(Calendar.MONTH);
+            int todayYear = calendar.get(Calendar.YEAR);
 
-//        Log.d("todayOfMonth", "" + todayOfMonth);
-//        Log.d("todayOfWeek", "" + todayOfWeek);
+        //        Log.d("todayOfMonth", "" + todayOfMonth);
+        //        Log.d("todayOfWeek", "" + todayOfWeek);
 
-        int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
-        int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
+            int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
+            int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
 
-//        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-//        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
+        //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
+        //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
 
-        for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
-            for (int j = 9; j < 20; j++) {
-                int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
+            for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
+                for (int j = 9; j < 20; j++) {
+                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
+                    int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
 
-                settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
-                        new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                        new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                        utenti.get(rUtenti), "", "")
-                );
+                    settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
+                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
+                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                            utenti.get(rUtenti), "", "")
+                    );
+                }
             }
-        }
 
-        settimana.sort();
+            settimana.sort();
+            flagCreation = true;
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settimana_tipo);
@@ -141,6 +145,18 @@ public class SettimanaTipo extends AppCompatActivity{
         mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));*/
         /*FINE VECCHIA PARTE*/
     }
+
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("settimana", settimana);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        settimana = (Calendario) savedInstanceState.getSerializable("settimana");
+    }*/
 
     private void addPages()
     {
