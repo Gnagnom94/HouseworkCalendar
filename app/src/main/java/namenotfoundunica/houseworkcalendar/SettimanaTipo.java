@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabSelectedListener,ViewPager.OnPageChangeListener {
+public class SettimanaTipo extends AppCompatActivity{
 
     public TabLayout tabLayout;
     public ViewPager mPager;
@@ -105,6 +105,26 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(mPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            /*Override del comportamento del tap sulla tab (non è necessario ma lo lasciamo nel caso servisse modificare ulteriormente il risultato).
+            Bastererbbe chiamare semplicemente tabLayout.setupWithViewPager(mPager) per creare il collegamento tra tab e pager */
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pageNumebr = tab.getPosition();
+                //Log.d("pageNumber", ""+ pageNumebr);
+                mPager.setCurrentItem(pageNumebr);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         //tabLayout.setOnTabSelectedListener(this);
         /*FINE NUOVA PARTE*/
 
@@ -157,40 +177,6 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //collegamento tra TabLayout e ViewPager (mPager tabLayout)
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        //setta il pager sulla tab corrente
-        int pageNumebr = tab.getPosition();
-        mPager.setCurrentItem(pageNumebr);
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
 
     //da sistemare non si capisce ancora cosa voglia
     public static ArrayList<Evento> getDataPage(int pageNumber) {

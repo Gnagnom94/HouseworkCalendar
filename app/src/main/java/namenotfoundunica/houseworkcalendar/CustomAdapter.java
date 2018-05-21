@@ -15,7 +15,7 @@ import java.util.Calendar;
 public class CustomAdapter extends BaseAdapter {
 
     Context c;
-    public static ArrayList<Evento> giorno;
+    public ArrayList<Evento> giorno;
     LayoutInflater inflater;
 
     public CustomAdapter(Context c, ArrayList<Evento> giorno) {
