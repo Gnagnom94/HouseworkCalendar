@@ -50,7 +50,7 @@ public class Sondaggi extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return lstSondaggio.size();
+            return lstSondaggio.size()-1;
         }
 
         @Override
@@ -68,9 +68,20 @@ public class Sondaggi extends AppCompatActivity {
             convertView = getLayoutInflater().inflate(R.layout.custom_survey_layout,null);
 
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
-
             Sondaggio sondaggio = lstSondaggio.get(position);
             textView_name.setText(sondaggio.getTitolo());
+            Button button = (Button) convertView.findViewById(R.id.vota_sondaggio);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+
+
+                }
+            });
+
+
             return convertView;
         }
     }
