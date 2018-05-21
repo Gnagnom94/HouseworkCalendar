@@ -52,12 +52,22 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
 
         Random random = new Random();
         Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         int todayMonth = calendar.get(Calendar.MONTH);
         int todayYear = calendar.get(Calendar.YEAR);
 
-        for (int k = (todayOfMonth - (todayOfWeek - 1)); k <= ((todayOfMonth - (todayOfWeek - 1)) + 7); k++) {
+//        Log.d("todayOfMonth", "" + todayOfMonth);
+//        Log.d("todayOfWeek", "" + todayOfWeek);
+
+        int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
+        int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
+
+//        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
+//        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
+
+        for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
             for (int j = 9; j < 20; j++) {
                 int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
@@ -95,7 +105,7 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(mPager);
-        tabLayout.setOnTabSelectedListener(this);
+        //tabLayout.setOnTabSelectedListener(this);
         /*FINE NUOVA PARTE*/
 
 
@@ -148,9 +158,12 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
         return super.onOptionsItemSelected(item);
     }
 
+    //collegamento tra TabLayout e ViewPager (mPager tabLayout)
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        mPager.setCurrentItem(tab.getPosition());
+        //setta il pager sulla tab corrente
+        int pageNumebr = tab.getPosition();
+        mPager.setCurrentItem(pageNumebr);
     }
 
     @Override
@@ -183,10 +196,12 @@ public class SettimanaTipo extends AppCompatActivity implements TabLayout.OnTabS
     public static ArrayList<Evento> getDataPage(int pageNumber) {
         ArrayList<Evento> tmp = new ArrayList<>();
         for (Evento evento:settimana) {
-            //evento.getInizio().setFirstDayOfWeek(Calendar.MONDAY);
-            Log.d("getDataPage", "" + (evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2));
-            Log.d("getDataPagePageNumber", "" + pageNumber);
+            evento.getInizio().setFirstDayOfWeek(Calendar.MONDAY);
+//            Log.d("getDataPage", "" + (evento.getInizio().get(Calendar.DAY_OF_WEEK)));
+//            Log.d("getDataPagePageNumber", "" + pageNumber);
             if((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)){
+                tmp.add(evento);
+            }else if(evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6){
                 tmp.add(evento);
             }
         }
