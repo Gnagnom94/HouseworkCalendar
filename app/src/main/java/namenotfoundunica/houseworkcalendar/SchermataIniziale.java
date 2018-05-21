@@ -47,6 +47,9 @@ public class SchermataIniziale extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schermata_iniziale);
+
         if(!flagCreation) {
             calendario.clear();
             Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
@@ -81,9 +84,34 @@ public class SchermataIniziale extends AppCompatActivity
             }
             calendario.sort();
             flagCreation = true;
+
+            //inizializzazione listView appena creata l'activity
+            Calendar calendar = Calendar.getInstance();
+            tmp.clear();
+            int i = 0;
+            for (Evento evento: calendario){
+                i++;
+                if(
+                        (evento.getInizio().get(Calendar.YEAR) <= calendar.get(Calendar.YEAR) &&
+                                evento.getInizio().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH)&&
+                                evento.getInizio().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH))
+                                &&
+                                (evento.getFine().get(Calendar.YEAR) >= calendar.get(Calendar.YEAR) &&
+                                        evento.getFine().get(Calendar.MONTH) >= calendar.get(Calendar.MONTH) &&
+                                        evento.getFine().get(Calendar.DAY_OF_MONTH) >= calendar.get(Calendar.DAY_OF_MONTH))
+                        )
+                {
+                    //Inizializzazione NUOVO layout
+
+                    tmp.add(evento);
+                }
+            }
+            ListView listView = findViewById(R.id.listView);
+
+            CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
+            listView.setAdapter(customAdapter);
         }
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schermata_iniziale);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -127,10 +155,11 @@ public class SchermataIniziale extends AppCompatActivity
                 }
                 ListView listView = findViewById(R.id.listView);
 
-                CustomAdapter customAdapter = new CustomAdapter();
+                CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
                 listView.setAdapter(customAdapter);
             }
         });
+
 
 
         //descrizione navigation Drawer
@@ -231,7 +260,8 @@ public class SchermataIniziale extends AppCompatActivity
         return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    class CustomAdapter extends BaseAdapter{
+    {
+    /*class CustomAdapter extends BaseAdapter{
 
         @Override
         public int getCount() {
@@ -315,5 +345,6 @@ public class SchermataIniziale extends AppCompatActivity
 
             return drawable;
         }
+    }*/
     }
 }
