@@ -37,16 +37,9 @@ public class Sondaggi extends AppCompatActivity {
         if (!flagCreation)
         {
             lstSondaggio = new ArrayList<>();
-            lstSondaggio.add(new Sondaggio("titolo1", "maggioranza", "descrizione1", "wait", 1));
-            lstSondaggio.add(new Sondaggio("titolo2", "unanimità", "descrizione2", "wait", 2));
-            lstSondaggio.add(new Sondaggio("titolo3", "maggioranza", "descrizione3", "wait", 3));
-            lstSondaggio.add(new Sondaggio("titolo4", "maggioranza", "descrizione4", "wait", 4));
-            lstSondaggio.add(new Sondaggio("titolo5", "maggioranza", "descrizione5", "wait", 5));
-            lstSondaggio.add(new Sondaggio("titolo6", "maggioranza", "descrizione6", "wait", 6));
-            lstSondaggio.add(new Sondaggio("titolo7", "maggioranza", "descrizione7", "wait", 7));
-            lstSondaggio.add(new Sondaggio("titolo8", "maggioranza", "descrizione8", "wait", 8));
-            lstSondaggio.add(new Sondaggio("titolo9", "maggioranza", "descrizione9", "wait", 9));
-            lstSondaggio.add(new Sondaggio("titolo10", "maggioranza", "descrizione10", "wait", 10));
+            lstSondaggio.add(new Sondaggio("titolo1" , "descrizione1", "wait", 1));
+            lstSondaggio.add(new Sondaggio("titolo2" , "descrizione2", "wait", 2));
+            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 3));
             flagCreation = true;
         }
 
