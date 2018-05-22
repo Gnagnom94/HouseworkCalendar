@@ -37,7 +37,8 @@
             android:label="@string/title_activity_aggiunta_evento" />
         <activity
             android:name=".SettimanaTipo"
-            android:label="@string/title_activity_settimana_tipo"/>
+            android:label="@string/title_activity_settimana_tipo" />
+        <activity android:name=".AggiuntaSondaggio"></activity>
     </application>
 
 </manifest>
