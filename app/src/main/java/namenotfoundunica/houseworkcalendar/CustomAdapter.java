@@ -14,6 +14,10 @@ import java.util.Calendar;
 
 public class CustomAdapter extends BaseAdapter {
 
+    private int buttonColorInt;
+    private int buttonForegroundColorCompliment;
+
+
     Context c;
     public ArrayList<Evento> giorno;
     LayoutInflater inflater;
@@ -100,7 +104,17 @@ public class CustomAdapter extends BaseAdapter {
         textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento() + " * " + giorno.get(position).getInizio().get(Calendar.DAY_OF_MONTH));
         textOraInizio.setText(oreInizio + ":" + minutiInizio);
         textOraFine.setText(oreFine + ":" + minutiFine);
-        buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, giorno.get(position).getColorNameBinder().getColoreEventoToInt()));
+
+        buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
+        buttonForegroundColorCompliment = ColorUtils.getComplimentColor(buttonColorInt);
+
+        if(giorno.get(position).isCompletedFlag()){
+            buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
+            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp,  buttonForegroundColorCompliment));
+        } else {
+            buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
+            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

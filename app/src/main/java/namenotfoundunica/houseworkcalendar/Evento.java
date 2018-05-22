@@ -10,6 +10,7 @@ public class Evento {
     private Utente utente;
     private String categoria;
     private String note;
+    private boolean completedFlag;
 
     public Evento(ColorNameBinder colorNameBinder, Calendar inizio, Calendar fine, Boolean flagRipetizione, Utente utente, String categoria, String note) {
         this.colorNameBinder = colorNameBinder;
@@ -19,6 +20,7 @@ public class Evento {
         this.utente = utente;
         this.categoria = categoria;
         this.note = note;
+        this.completedFlag = false;
     }
 
     public ColorNameBinder getColorNameBinder() {
@@ -75,5 +77,12 @@ public class Evento {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isCompletedFlag() {
+        return completedFlag;
+    }
+    public void setCompletedFlag(boolean completedFlag) {
+        this.completedFlag = completedFlag;
     }
 }
