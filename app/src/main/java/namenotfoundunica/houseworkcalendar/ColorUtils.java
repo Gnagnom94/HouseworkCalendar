@@ -58,4 +58,17 @@ public class ColorUtils {
 
         return String.valueOf( hexReference.charAt((rgbVal-rgbVal%16)/16) + "" + hexReference.charAt(rgbVal%16) );
     }
+
+    /**
+     * Converts the given int color into a black o white color according Contrast Rules
+     * @param colorIntValue int RGB color
+     * @return int RGB of contrasted color (white or black)
+     */
+    public static int getContrastColor(int colorIntValue) {
+        int red = Color.red(colorIntValue);
+        int green = Color.green(colorIntValue);
+        int blue = Color.blue(colorIntValue);
+        double lum = (((0.299 * red) + ((0.587 * green) + (0.114 * blue))));
+        return lum > 186 ? 0xFF000000 : 0xFFFFFFFF;
+    }
 }

@@ -106,7 +106,7 @@ public class CustomAdapter extends BaseAdapter {
         textOraFine.setText(oreFine + ":" + minutiFine);
 
         buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
-        buttonForegroundColorCompliment = ColorUtils.getComplimentColor(buttonColorInt);
+        buttonForegroundColorCompliment = ColorUtils.getContrastColor(buttonColorInt);
 
         if(giorno.get(position).isCompletedFlag()){
             buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
