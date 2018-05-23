@@ -1,6 +1,7 @@
 package namenotfoundunica.houseworkcalendar;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,14 +109,30 @@ public class CustomAdapter extends BaseAdapter {
         buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
         buttonForegroundColorCompliment = ColorUtils.getContrastColor(buttonColorInt);
 
-        if(giorno.get(position).isCompletedFlag()){
-            buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
-            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp,  buttonForegroundColorCompliment));
-        } else {
-            buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
-            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
-        }
+        buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
 
+        Calendar calendar = Calendar.getInstance();
+
+        if((giorno.get(position).getFine().get(Calendar.YEAR) <=  calendar.get(Calendar.YEAR)&&
+                giorno.get(position).getFine().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH) &&
+                giorno.get(position).getFine().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH) ))
+        {
+            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
+            Log.d("primoif", "1 " + buttonForegroundColorCompliment);
+        }
+        else
+        {
+            if (giorno.get(position).isCompletedFlag())
+            {
+                buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
+                Log.d("secondoif", "2 " + buttonForegroundColorCompliment);
+            }
+            else
+            {
+                buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
+                Log.d("terzoif", "3 " + buttonColorInt);
+            }
+        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

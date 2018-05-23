@@ -69,6 +69,6 @@ public class ColorUtils {
         int green = Color.green(colorIntValue);
         int blue = Color.blue(colorIntValue);
         double lum = (((0.299 * red) + ((0.587 * green) + (0.114 * blue))));
-        return lum > 186 ? 0xFF000000 : 0xFFFFFFFF;
+        return lum > 150 /*186*/ ? 0xFF000000 : 0xFFFFFFFF;
     }
 }
