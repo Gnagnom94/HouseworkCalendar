@@ -3,9 +3,6 @@ package namenotfoundunica.houseworkcalendar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -19,12 +16,8 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -192,7 +185,7 @@ public class SchermataIniziale extends AppCompatActivity
                                 return true;
 
                             case R.id.nav_sondaggio:
-                                openPage = new Intent(SchermataIniziale.this, Sondaggi.class);
+                                openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
                                 // passo all'attivazione dell'activity Pagina.java
                                 startActivity(openPage);
                                 return true;

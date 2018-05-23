@@ -1,51 +1,41 @@
 package namenotfoundunica.houseworkcalendar;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sondaggi extends AppCompatActivity {
+public class GestioneSondaggi extends AppCompatActivity
+{
 
-
-    List<Sondaggio> lstSondaggio;
+    public static List<Sondaggio> lstSondaggio;
+    private static boolean flagCreation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sondaggi);
 
-
-        lstSondaggio = new ArrayList<>();
-        lstSondaggio.add(new Sondaggio("titolo1","maggioranza","descrizione1","wait",1));
-        lstSondaggio.add(new Sondaggio("titolo2","unanimità","descrizione2","wait",2));
-        lstSondaggio.add(new Sondaggio("titolo3","maggioranza","descrizione3","wait",3));
-        lstSondaggio.add(new Sondaggio("titolo4","maggioranza","descrizione4","wait",4));
-        lstSondaggio.add(new Sondaggio("titolo5","maggioranza","descrizione5","wait",5));
-        lstSondaggio.add(new Sondaggio("titolo6","maggioranza","descrizione6","wait",6));
-        lstSondaggio.add(new Sondaggio("titolo7","maggioranza","descrizione7","wait",7));
-        lstSondaggio.add(new Sondaggio("titolo8","maggioranza","descrizione8","wait",8));
-        lstSondaggio.add(new Sondaggio("titolo9","maggioranza","descrizione9","wait",9));
-        lstSondaggio.add(new Sondaggio("titolo10","maggioranza","descrizione10","wait",10));
-
+        if (!flagCreation)
+        {
+            lstSondaggio = new ArrayList<>();
+            lstSondaggio.add(new Sondaggio("titolo1" , "descrizione1", "wait", 1));
+            lstSondaggio.add(new Sondaggio("titolo2" , "descrizione2", "wait", 2));
+            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 3));
+            flagCreation = true;
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,6 +44,18 @@ public class Sondaggi extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
+
+        FloatingActionButton fab = findViewById(R.id.fab_sondaggi);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(GestioneSondaggi.this, AggiuntaSondaggio.class);
+                startActivity(intent);
+
+            }
+        });
 
 
     }
@@ -85,20 +87,18 @@ public class Sondaggi extends AppCompatActivity {
             Sondaggio sondaggio = lstSondaggio.get(position);
             button.setId(sondaggio.getId());
             textView_name.setText(sondaggio.getTitolo());
-            //Toast.makeText(Sondaggi.this,""+textView_name.getText(),Toast.LENGTH_SHORT).show();
 
 
-            button.setOnClickListener(new View.OnClickListener() {
+            button.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(Sondaggi.this,""+button.getId(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(GestioneSondaggi.this, VisualizzaSondaggio.class);
+                    intent.putExtra("indice",button.getId());
+                    startActivity(intent);
                 }
             });
-
-
-
-
             return convertView;
         }
     }
@@ -106,7 +106,8 @@ public class Sondaggi extends AppCompatActivity {
     private void setupActionBar()
     {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)
+        {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -117,7 +118,7 @@ public class Sondaggi extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home)
         {
-            Intent openPageHome = new Intent(Sondaggi.this, SchermataIniziale.class);
+            Intent openPageHome = new Intent(GestioneSondaggi.this, SchermataIniziale.class);
             startActivity(openPageHome);
             return true;
         }
