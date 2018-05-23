@@ -13,7 +13,8 @@ import android.widget.TextView;
 public class AggiuntaSondaggio extends AppCompatActivity
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiunta_sondaggio);
 
@@ -25,15 +26,17 @@ public class AggiuntaSondaggio extends AppCompatActivity
         final TextView descrizione_sondaggio = (TextView) findViewById(R.id.descrizione_sondaggio);
         Button send_survey = (Button) findViewById(R.id.send_survey);
 
-        send_survey.setOnClickListener(new View.OnClickListener() {
+        send_survey.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
                 Sondaggio survey = new Sondaggio(titolo_sondaggio.getText().toString(),
                                                 descrizione_sondaggio.getText().toString(),
-                                                "wait",Sondaggi.lstSondaggio.size()+1);
-                Sondaggi.lstSondaggio.add(survey);
-                Intent backToSurvey = new Intent(AggiuntaSondaggio.this, Sondaggi.class);
+                                                "wait", GestioneSondaggi.lstSondaggio.size()+1);
+
+                GestioneSondaggi.lstSondaggio.add(survey);
+                Intent backToSurvey = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
                 startActivity(backToSurvey);
 
             }
@@ -54,7 +57,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-            Intent openPageHome = new Intent(AggiuntaSondaggio.this, Sondaggi.class);
+            Intent openPageHome = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
             startActivity(openPageHome);
 
 

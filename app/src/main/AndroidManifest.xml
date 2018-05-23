@@ -30,7 +30,7 @@
             android:name=".Pagamenti"
             android:label="@string/title_activity_pagamenti" />
         <activity
-            android:name=".Sondaggi"
+            android:name=".GestioneSondaggi"
             android:label="@string/title_activity_sondaggi" />
         <activity
             android:name=".AggiuntaEvento"
@@ -38,7 +38,8 @@
         <activity
             android:name=".SettimanaTipo"
             android:label="@string/title_activity_settimana_tipo" />
-        <activity android:name=".AggiuntaSondaggio"></activity>
+        <activity android:name=".AggiuntaSondaggio" />
+        <activity android:name=".VisualizzaSondaggio"></activity>
     </application>
 
 </manifest>
