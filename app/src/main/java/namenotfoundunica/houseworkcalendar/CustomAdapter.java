@@ -146,6 +146,8 @@ public class CustomAdapter extends BaseAdapter {
                 }else{
                     SchermataIniziale.calendario.get(SchermataIniziale.calendario.indexOf(giorno.get(position))).setCompletedFlag(true);
                 }
+                //Notifica alla listview che i dati sono stati modificati e quindi ordina alla stessa di aggiornarsi.
+                notifyDataSetChanged();
             }
         });
 
