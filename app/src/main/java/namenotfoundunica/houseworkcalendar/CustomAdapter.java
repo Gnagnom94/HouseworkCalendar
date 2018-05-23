@@ -113,9 +113,9 @@ public class CustomAdapter extends BaseAdapter {
 
         Calendar calendar = Calendar.getInstance();
 
-        if((giorno.get(position).getFine().get(Calendar.YEAR) <=  calendar.get(Calendar.YEAR)&&
+        if(giorno.get(position).getFine().get(Calendar.YEAR) <=  calendar.get(Calendar.YEAR)&&
                 giorno.get(position).getFine().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH) &&
-                giorno.get(position).getFine().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH) ))
+                giorno.get(position).getFine().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH))
         {
             buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
             Log.d("primoif", "1 " + buttonForegroundColorCompliment);
