@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(inflater==null)
         {
             inflater= (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,7 +59,7 @@ public class CustomAdapter extends BaseAdapter {
         final TextView textNomeEvento = convertView.findViewById(R.id.textNomeEvento);
         TextView textOraInizio = convertView.findViewById(R.id.textOraInizio);
         TextView textOraFine = convertView.findViewById(R.id.textOraFine);
-        Button buttonColor = convertView.findViewById(R.id.buttonColor);
+        ImageView imageView = convertView.findViewById(R.id.imageView);
 
         String oreInizio;
         //if per rendere sempre di due cifre le ore
@@ -109,7 +110,7 @@ public class CustomAdapter extends BaseAdapter {
         buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
         buttonForegroundColorCompliment = ColorUtils.getContrastColor(buttonColorInt);
 
-        buttonColor.setBackground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.roundedbutton, buttonColorInt));
+        imageView.setBackground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.roundedbutton, buttonColorInt));
 
         Calendar calendar = Calendar.getInstance();
 
@@ -117,22 +118,37 @@ public class CustomAdapter extends BaseAdapter {
                 giorno.get(position).getFine().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH) &&
                 giorno.get(position).getFine().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH))
         {
-            buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
+            imageView.setColorFilter(buttonForegroundColorCompliment);
+//            imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
             Log.d("primoif", "1 " + buttonForegroundColorCompliment);
         }
         else
         {
             if (giorno.get(position).isCompletedFlag())
             {
-                buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
+                imageView.setColorFilter(buttonForegroundColorCompliment);
+//                imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
                 Log.d("secondoif", "2 " + buttonForegroundColorCompliment);
             }
             else
             {
-                buttonColor.setForeground(CustomDrawable.getTintedDrawable(buttonColor.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
+                imageView.setColorFilter(buttonColorInt);
+//                imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
                 Log.d("terzoif", "3 " + buttonColorInt);
             }
         }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(giorno.get(position).isCompletedFlag()) {
+                    SchermataIniziale.calendario.get(SchermataIniziale.calendario.indexOf(giorno.get(position))).setCompletedFlag(false);
+                }else{
+                    SchermataIniziale.calendario.get(SchermataIniziale.calendario.indexOf(giorno.get(position))).setCompletedFlag(true);
+                }
+            }
+        });
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
