@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 
@@ -150,6 +152,17 @@ public class SchermataIniziale extends AppCompatActivity
 
                 CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
                 listView.setAdapter(customAdapter);
+
+                listView.setLongClickable(true);
+                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        view.setActivated(true);
+                        view.setSelected(true);
+                        Log.d("OnItemLongClick", "true " + position);
+                        return true;
+                    }
+                });
             }
         });
 
