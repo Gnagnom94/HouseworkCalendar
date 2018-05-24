@@ -72,6 +72,7 @@ public class AggiuntaEvento extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
         //inizializzo le variabili
+        colorNameScelto=new ColorNameBinder("","");
         dataInizio=Calendar.getInstance();
         dataFine = Calendar.getInstance();
         utenteSceltoSpinner=SchermataIniziale.utenti.get(0);//seleziono il primo elemento dell'array
@@ -269,7 +270,7 @@ public class AggiuntaEvento extends AppCompatActivity
             public void onClick(View v)
             {
                 //controllo che sia stato inserito un nome
-                if(!(nomeAttivita.getText().toString().compareTo("")<=0))
+                if((nomeAttivita.getText().toString().compareTo("")!=0)&&(colorNameScelto.getColoreEvento().compareTo("")!=0))
                 {
                     if(ripetizione.getSplitTrack())
                     {
@@ -277,7 +278,7 @@ public class AggiuntaEvento extends AppCompatActivity
                         boolean trovato=false;
                         //cerca all'interno dell'array se non è presente
                         for(ColorNameBinder i:SchermataIniziale.colorNameBinder)
-                            if(colorNameScelto==i)
+                            if(colorNameScelto.equals(i))
                                 trovato=true;
 
                         if(trovato!=true)
@@ -307,7 +308,7 @@ public class AggiuntaEvento extends AppCompatActivity
                 }
                 else
                 {
-                    makeToast("Inserisci un tipo di attività");
+                    makeToast("Inserisci un tipo di attività e scegli un colore");
                     nomeAttivita.setHintTextColor(Color.RED);
                 }
 
