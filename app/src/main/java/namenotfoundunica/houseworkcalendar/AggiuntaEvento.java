@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -45,12 +48,15 @@ public class AggiuntaEvento extends AppCompatActivity
     public TextView dataEventoText;
     public TextView timeInizioEvento;
     public TextView timeFineEvento;
-
+    private Button buttonDataPicker;
+    private Button buttonInizioTimePicker;
+    private Button buttonFineTimePicker;
     private ColorNameBinder colorNameScelto;
     private Button bottoneConferma;
     private ImageButton colorPickerButton;
     private AutoCompleteTextView nomeAttivita;
     private Switch ripetizione;
+    private Switch groupActivityFlag;
     private Spinner utenteSpinner;
     private Spinner categoriaSpinner;
     private Utente utenteSceltoSpinner;
@@ -66,22 +72,25 @@ public class AggiuntaEvento extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
         //inizializzo le variabili
-
         dataInizio=Calendar.getInstance();
         dataFine = Calendar.getInstance();
-
         utenteSceltoSpinner=SchermataIniziale.utenti.get(0);//seleziono il primo elemento dell'array
-
-
+        utenteSpinner=findViewById(R.id.spinnerUtente);
+        utenteSpinner.setEnabled(false);
+        groupActivityFlag=findViewById(R.id.switchGruppo);
         bottoneConferma=findViewById(R.id.ConfermaButton);
         dataEventoText = findViewById(R.id.TextData1);
         timeInizioEvento = findViewById(R.id.TimeInizio);
         timeFineEvento = findViewById(R.id.TimeFine);
         noteAttivita=findViewById(R.id.NoteInput);
 
+        buttonDataPicker=findViewById(R.id.buttonDataPicker);
+        buttonInizioTimePicker=findViewById(R.id.buttonInizioTimePicker);
+        buttonFineTimePicker=findViewById(R.id.buttonFineTimePicker);
+
         colorPickerButton=findViewById(R.id.ColorPicker);
         ripetizione=findViewById(R.id.switch1);
-        utenteSpinner=findViewById(R.id.spinnerUtente);
+
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
 
@@ -204,7 +213,8 @@ public class AggiuntaEvento extends AppCompatActivity
 
 
 
-        dataEventoText.setOnClickListener(new View.OnClickListener() {
+        buttonDataPicker.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -213,7 +223,7 @@ public class AggiuntaEvento extends AppCompatActivity
             }
         });
 
-       timeInizioEvento.setOnClickListener(new View.OnClickListener()
+       buttonInizioTimePicker.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -223,7 +233,7 @@ public class AggiuntaEvento extends AppCompatActivity
                 newFragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
-        timeFineEvento.setOnClickListener(new View.OnClickListener()
+        buttonFineTimePicker.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -252,6 +262,7 @@ public class AggiuntaEvento extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         bottoneConferma.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -272,7 +283,7 @@ public class AggiuntaEvento extends AppCompatActivity
                         if(trovato!=true)
                             SchermataIniziale.colorNameBinder.add(colorNameScelto);
                     }
-                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString());
+                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),groupActivityFlag.getSplitTrack());
                     SchermataIniziale.calendario.add(nuovoEvento);
 
 
@@ -354,7 +365,16 @@ public class AggiuntaEvento extends AppCompatActivity
                         .show();
             }
         });
-
+        groupActivityFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked==true)
+                    utenteSpinner.setEnabled(true);
+                else
+                    utenteSpinner.setEnabled(false);
+            }
+        });
     }
 
     public void makeToast(String message)
@@ -365,5 +385,6 @@ public class AggiuntaEvento extends AppCompatActivity
         toast = Toast.makeText(context, message, duration);
         toast.show();
     }
+
 
 }

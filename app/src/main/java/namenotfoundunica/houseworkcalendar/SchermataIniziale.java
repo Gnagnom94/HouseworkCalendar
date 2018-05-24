@@ -30,7 +30,7 @@ public class SchermataIniziale extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
-
+    public static ArrayList<Utente> UtentiGruppo;
     public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
@@ -52,6 +52,9 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(alessandro);
             utenti.add(pitta);
 
+            UtentiGruppo=new ArrayList<>(utenti);
+
+
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
             colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
             colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
@@ -70,7 +73,7 @@ public class SchermataIniziale extends AppCompatActivity
                         calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                                 new GregorianCalendar(2018, i, k, j, 00),
                                 new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                utenti.get(rUtenti), "", "")
+                                utenti.get(rUtenti), "", "",true)
                         );
                     }
                 }

@@ -77,7 +77,7 @@ public class SettimanaTipo extends AppCompatActivity{
                     settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
                             new GregorianCalendar(todayYear, todayMonth, k, j, 00),
                             new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            utenti.get(rUtenti), "", "")
+                            utenti.get(rUtenti), "", "",true)
                     );
                 }
             }

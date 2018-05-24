@@ -29,6 +29,7 @@ public class CustomAdapter extends BaseAdapter {
         this.giorno = giorno;
     }
 
+
     @Override
     public int getCount() {
         return giorno.size();
