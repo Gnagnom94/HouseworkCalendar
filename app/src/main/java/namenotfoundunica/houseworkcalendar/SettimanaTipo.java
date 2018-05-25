@@ -35,23 +35,11 @@ public class SettimanaTipo extends AppCompatActivity{
 
     private static boolean flagCreation = false;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if(!flagCreation) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        if(!flagCreation)
+        {
             settimana.clear();
-            Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-            Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-            Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-            utenti.add(matteo);
-            utenti.add(alessandro);
-            utenti.add(pitta);
-
-            colorNameBinders.add(new ColorNameBinder("Lavatrice", "#FF0000"));
-            colorNameBinders.add(new ColorNameBinder("Bucato", "#0025FF"));
-            colorNameBinders.add(new ColorNameBinder("Pavimento", "#FFE500"));
-            colorNameBinders.add(new ColorNameBinder("Bagno", "#0FFF00"));
-            colorNameBinders.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
-
-
             Random random = new Random();
             Calendar calendar = Calendar.getInstance();
             calendar.setFirstDayOfWeek(Calendar.MONDAY);
@@ -71,13 +59,13 @@ public class SettimanaTipo extends AppCompatActivity{
 
             for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
                 for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
+                    int rUtenti = random.nextInt(((SchermataIniziale.UtentiGruppo.size() - 1) - 0) + 1);
                     int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
 
                     settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
                             new GregorianCalendar(todayYear, todayMonth, k, j, 00),
                             new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            utenti.get(rUtenti), "", "")
+                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
                     );
                 }
             }
