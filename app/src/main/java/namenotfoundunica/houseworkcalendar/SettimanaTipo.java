@@ -141,19 +141,42 @@ public class SettimanaTipo extends AppCompatActivity{
     }
 
     // metodo che dato il numero di pagina, pageNumber:(numero di giorno della settimana 0-Lunedì/6-Domenica) ritorna un ArrayList<Evento> che contiene solo eventi di quel dato giorno della settimana.
-    public static ArrayList<Evento> getDataPage(int pageNumber) {
+    public static ArrayList<Evento> getDataPage(int pageNumber)
+    {
         ArrayList<Evento> tmp = new ArrayList<>();
-        for (Evento evento:SchermataIniziale.calendario) {
+        Calendar today= Calendar.getInstance();
+        int firstWeekdayInYear=today.get(Calendar.DAY_OF_YEAR);
+
+        switch (today.get(Calendar.DAY_OF_WEEK))
+        {
+            case 1: firstWeekdayInYear-=6;//domenica
+                break;
+            case 2: //lunedì
+                break;
+            case 3: firstWeekdayInYear-=1;//martedì
+                break;
+            case 4: firstWeekdayInYear-=2;//mercoledì
+                break;
+            case 5: firstWeekdayInYear-=3;//giovedì
+                break;
+            case 6: firstWeekdayInYear-=4;//venerdì
+                break;
+            case 7: firstWeekdayInYear-=5;//sabato
+                break;
+        }
+
+        for (Evento evento:SchermataIniziale.calendario)
+        {
             evento.getInizio().setFirstDayOfWeek(Calendar.MONDAY);
-//            Log.d("getDataPage", "" + (evento.getInizio().get(Calendar.DAY_OF_WEEK)));
-//            Log.d("getDataPagePageNumber", "" + pageNumber);
-            if(evento.getFlagRipetizione() && evento.isGroupFlag()) {
-                if ((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)) {
-                    tmp.add(evento);
-                } else if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6) {
-                    tmp.add(evento);
-                }
-            }
+            if(evento.getFlagRipetizione() && evento.isGroupFlag())
+            {
+                if((evento.getInizio().get(Calendar.DAY_OF_YEAR)>=firstWeekdayInYear)&&(evento.getInizio().get(Calendar.DAY_OF_YEAR)<firstWeekdayInYear+7))
+                    if ((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber))
+                        tmp.add(evento);
+                    else
+                        if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6)
+                            tmp.add(evento);
+ }
         }
         return tmp;
     }

@@ -207,8 +207,9 @@ public class AggiuntaEvento extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void afterTextChanged(Editable s)
+            {
+                colorNameScelto.setNomeEvento(s.toString());
             }
         });
 
@@ -272,7 +273,7 @@ public class AggiuntaEvento extends AppCompatActivity
                 //controllo che sia stato inserito un nome
                 if((nomeAttivita.getText().toString().compareTo("")!=0)&&(colorNameScelto.getColoreEvento().compareTo("")!=0))
                 {
-                    if(ripetizione.getSplitTrack())
+                    if(ripetizione.isChecked())
                     {
                         //se la ripetizione è settata aggiungo il nuovo tipo di attività nell'array colorNameBinder
                         boolean trovato=false;
@@ -284,9 +285,8 @@ public class AggiuntaEvento extends AppCompatActivity
                         if(trovato!=true)
                             SchermataIniziale.colorNameBinder.add(colorNameScelto);
                     }
-                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.getSplitTrack(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),groupActivityFlag.getSplitTrack());
+                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.isChecked(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),groupActivityFlag.isChecked());
                     SchermataIniziale.calendario.add(nuovoEvento);
-
 
                     SchermataIniziale.calendario.sort();
 
@@ -298,10 +298,12 @@ public class AggiuntaEvento extends AppCompatActivity
                     switch (callingActivity) {
                         case "SchermataIniziale":
                             openPageHome = new Intent(getBaseContext(), SchermataIniziale.class);
+                            finish();
                             startActivity(openPageHome);
                             break;
                         case "SettimanaTipo":
                             openPageHome = new Intent(getBaseContext(), SettimanaTipo.class);
+                            finish();
                             startActivity(openPageHome);
                             break;
                     }
