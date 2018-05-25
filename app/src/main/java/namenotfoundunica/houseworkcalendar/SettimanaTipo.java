@@ -27,53 +27,10 @@ public class SettimanaTipo extends AppCompatActivity{
 
     public TabLayout tabLayout;
     public ViewPager mPager;
-    public MyPagerAdapter myPagerAdapter;
 
-    public static Calendario settimana = new Calendario();
-    public static ArrayList<Utente> utenti = new ArrayList<>();
-    public static ArrayList<ColorNameBinder> colorNameBinders = new ArrayList<>();
-
-    private static boolean flagCreation = false;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        if(!flagCreation)
-        {
-            settimana.clear();
-            Random random = new Random();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setFirstDayOfWeek(Calendar.MONDAY);
-            int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            int todayMonth = calendar.get(Calendar.MONTH);
-            int todayYear = calendar.get(Calendar.YEAR);
-
-        //        Log.d("todayOfMonth", "" + todayOfMonth);
-        //        Log.d("todayOfWeek", "" + todayOfWeek);
-
-            int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
-            int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
-
-        //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-        //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
-
-            for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
-                for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((SchermataIniziale.UtentiGruppo.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
-
-                    settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
-                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
-                    );
-                }
-            }
-
-            settimana.sort();
-            flagCreation = true;
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settimana_tipo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -120,8 +77,8 @@ public class SettimanaTipo extends AppCompatActivity{
         //tabLayout.setOnTabSelectedListener(this);
         /*FINE NUOVA PARTE*/
 
-
-        /*INIZIO VECCHIA PARTE*/
+        {
+            /*INIZIO VECCHIA PARTE*/
         /*tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -131,7 +88,8 @@ public class SettimanaTipo extends AppCompatActivity{
 //        tabLayout.setTabsFromPagerAdapter(myPagerAdapter);
         tabLayout.setupWithViewPager(mPager);
         mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));*/
-        /*FINE VECCHIA PARTE*/
+            /*FINE VECCHIA PARTE*/
+        }
     }
 
     /*@Override
@@ -182,17 +140,19 @@ public class SettimanaTipo extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    //da sistemare non si capisce ancora cosa voglia
+    // metodo che dato il numero di pagina, pageNumber:(numero di giorno della settimana 0-Lunedì/6-Domenica) ritorna un ArrayList<Evento> che contiene solo eventi di quel dato giorno della settimana.
     public static ArrayList<Evento> getDataPage(int pageNumber) {
         ArrayList<Evento> tmp = new ArrayList<>();
-        for (Evento evento:settimana) {
+        for (Evento evento:SchermataIniziale.calendario) {
             evento.getInizio().setFirstDayOfWeek(Calendar.MONDAY);
 //            Log.d("getDataPage", "" + (evento.getInizio().get(Calendar.DAY_OF_WEEK)));
 //            Log.d("getDataPagePageNumber", "" + pageNumber);
-            if((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)){
-                tmp.add(evento);
-            }else if(evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6){
-                tmp.add(evento);
+            if(evento.getFlagRipetizione() && evento.isGroupFlag()) {
+                if ((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)) {
+                    tmp.add(evento);
+                } else if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6) {
+                    tmp.add(evento);
+                }
             }
         }
         return tmp;
