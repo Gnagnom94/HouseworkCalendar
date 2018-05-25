@@ -151,12 +151,12 @@ public class CustomAdapter extends BaseAdapter {
             }
         });
 
-        /*convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(c,textNomeEvento.getText(),Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
         return convertView;
     }
