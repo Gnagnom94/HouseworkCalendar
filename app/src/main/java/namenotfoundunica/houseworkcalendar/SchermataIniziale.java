@@ -32,11 +32,12 @@ public class SchermataIniziale extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
-
+    public static ArrayList<Utente> UtentiGruppo;
     public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
     public static Calendario calendario = new Calendario();
+    public static Calendario settimana = new Calendario();
 
     private static boolean flagCreation = false;
     @Override
@@ -53,6 +54,9 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(matteo);
             utenti.add(alessandro);
             utenti.add(pitta);
+
+            UtentiGruppo=new ArrayList<>(utenti);
+
 
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
             colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
@@ -72,15 +76,14 @@ public class SchermataIniziale extends AppCompatActivity
                         calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                                 new GregorianCalendar(2018, i, k, j, 00),
                                 new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                utenti.get(rUtenti), "", "")
+                                utenti.get(rUtenti), "", "",false)
                         );
                     }
                 }
             }
-            calendario.sort();
-            flagCreation = true;
+            //calendario.sort();
 
-            //inizializzazione listView appena creata l'activity
+            /*//inizializzazione listView appena creata l'activity
             Calendar calendar = Calendar.getInstance();
             tmp.clear();
             int i = 0;
@@ -104,7 +107,59 @@ public class SchermataIniziale extends AppCompatActivity
             ListView listView = findViewById(R.id.listView);
 
             CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
-            listView.setAdapter(customAdapter);
+            listView.setAdapter(customAdapter);*/
+
+
+
+            settimana.clear();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setFirstDayOfWeek(Calendar.MONDAY);
+            int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            int todayMonth = calendar.get(Calendar.MONTH);
+            int todayYear = calendar.get(Calendar.YEAR);
+
+            //        Log.d("todayOfMonth", "" + todayOfMonth);
+            //        Log.d("todayOfWeek", "" + todayOfWeek);
+
+            int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
+            int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
+
+            //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
+            //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
+
+            for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
+                for (int j = 9; j < 20; j++) {
+                    int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                    settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
+                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
+                    );
+                }
+            }
+
+            for (int k = firstDayOfWeek + 7; k <= lastDayOfWeek + 7; k++) {
+                for (int j = 9; j < 20; j++) {
+                    int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                    settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
+                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
+                    );
+                }
+            }
+
+            //settimana.sort();
+
+            calendario.addAll(settimana);
+            calendario.sort();
+
+            flagCreation = true;
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -266,91 +321,4 @@ public class SchermataIniziale extends AppCompatActivity
         return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    {
-    /*class CustomAdapter extends BaseAdapter{
-
-        @Override
-        public int getCount() {
-            return tmp.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
-
-            TextView textNomeUtente = convertView.findViewById(R.id.textNomeUtente);
-            TextView textNomeEvento = convertView.findViewById(R.id.textNomeEvento);
-            TextView textOraInizio = convertView.findViewById(R.id.textOraInizio);
-            TextView textOraFine = convertView.findViewById(R.id.textOraFine);
-            Button buttonColor = convertView.findViewById(R.id.buttonColor);
-
-            String oreInizio;
-            //if per rendere sempre di due cifre le ore
-            if(tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY) < 10)
-            {
-                oreInizio = "0" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
-            }
-            else
-            {
-                oreInizio = "" + tmp.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
-            }
-            String minutiInizio;
-            //if per rendere sempre di due cifre i minuti
-            if(tmp.get(position).getInizio().get(Calendar.MINUTE) < 10)
-            {
-                minutiInizio = tmp.get(position).getInizio().get(Calendar.MINUTE) + "0";
-            }
-            else
-            {
-                minutiInizio ="" + tmp.get(position).getInizio().get(Calendar.MINUTE);
-            }
-            String oreFine;
-            //if per rendere sempre di due cifre le ore
-            if(tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY) < 10)
-            {
-                oreFine = "0" + tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY);
-            }
-            else
-            {
-                oreFine = "" + tmp.get(position).getFine().get(Calendar.HOUR_OF_DAY);
-            }
-            String minutiFine;
-            //if per rendere sempre di due cifre i minuti
-            if(tmp.get(position).getFine().get(Calendar.MINUTE) < 10)
-            {
-                minutiFine = tmp.get(position).getFine().get(Calendar.MINUTE) + "0";
-            }
-            else
-            {
-                minutiFine ="" + tmp.get(position).getFine().get(Calendar.MINUTE);
-            }
-
-            textNomeUtente.setText(tmp.get(position).getUtente().getNome());
-            textNomeEvento.setText(tmp.get(position).getColorNameBinder().getNomeEvento());
-            textOraInizio.setText(oreInizio + ":" + minutiInizio);
-            textOraFine.setText(oreFine + ":" + minutiFine);
-            buttonColor.setBackground(GetTintedDrawable(R.drawable.roundedbutton, tmp.get(position).getColorNameBinder().getColoreEventoToInt()));
-            return convertView;
-        }
-
-        public Drawable GetTintedDrawable(int res, int color)
-        {
-            Drawable drawable =  getDrawable(res);
-
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-            return drawable;
-        }
-    }*/
-    }
 }

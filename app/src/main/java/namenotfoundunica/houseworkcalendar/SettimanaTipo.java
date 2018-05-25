@@ -27,65 +27,10 @@ public class SettimanaTipo extends AppCompatActivity{
 
     public TabLayout tabLayout;
     public ViewPager mPager;
-    public MyPagerAdapter myPagerAdapter;
 
-    public static Calendario settimana = new Calendario();
-    public static ArrayList<Utente> utenti = new ArrayList<>();
-    public static ArrayList<ColorNameBinder> colorNameBinders = new ArrayList<>();
-
-    private static boolean flagCreation = false;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if(!flagCreation) {
-            settimana.clear();
-            Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-            Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-            Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
-            utenti.add(matteo);
-            utenti.add(alessandro);
-            utenti.add(pitta);
-
-            colorNameBinders.add(new ColorNameBinder("Lavatrice", "#FF0000"));
-            colorNameBinders.add(new ColorNameBinder("Bucato", "#0025FF"));
-            colorNameBinders.add(new ColorNameBinder("Pavimento", "#FFE500"));
-            colorNameBinders.add(new ColorNameBinder("Bagno", "#0FFF00"));
-            colorNameBinders.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
-
-
-            Random random = new Random();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setFirstDayOfWeek(Calendar.MONDAY);
-            int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            int todayMonth = calendar.get(Calendar.MONTH);
-            int todayYear = calendar.get(Calendar.YEAR);
-
-        //        Log.d("todayOfMonth", "" + todayOfMonth);
-        //        Log.d("todayOfWeek", "" + todayOfWeek);
-
-            int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
-            int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
-
-        //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-        //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
-
-            for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
-                for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((colorNameBinders.size() - 1) - 0) + 1);
-
-                    settimana.add(new Evento(colorNameBinders.get(rNomeColoreEvento),
-                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            utenti.get(rUtenti), "", "")
-                    );
-                }
-            }
-
-            settimana.sort();
-            flagCreation = true;
-        }
-
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settimana_tipo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -132,8 +77,8 @@ public class SettimanaTipo extends AppCompatActivity{
         //tabLayout.setOnTabSelectedListener(this);
         /*FINE NUOVA PARTE*/
 
-
-        /*INIZIO VECCHIA PARTE*/
+        {
+            /*INIZIO VECCHIA PARTE*/
         /*tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -143,7 +88,8 @@ public class SettimanaTipo extends AppCompatActivity{
 //        tabLayout.setTabsFromPagerAdapter(myPagerAdapter);
         tabLayout.setupWithViewPager(mPager);
         mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));*/
-        /*FINE VECCHIA PARTE*/
+            /*FINE VECCHIA PARTE*/
+        }
     }
 
     /*@Override
@@ -194,17 +140,19 @@ public class SettimanaTipo extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    //da sistemare non si capisce ancora cosa voglia
+    // metodo che dato il numero di pagina, pageNumber:(numero di giorno della settimana 0-Lunedì/6-Domenica) ritorna un ArrayList<Evento> che contiene solo eventi di quel dato giorno della settimana.
     public static ArrayList<Evento> getDataPage(int pageNumber) {
         ArrayList<Evento> tmp = new ArrayList<>();
-        for (Evento evento:settimana) {
+        for (Evento evento:SchermataIniziale.calendario) {
             evento.getInizio().setFirstDayOfWeek(Calendar.MONDAY);
 //            Log.d("getDataPage", "" + (evento.getInizio().get(Calendar.DAY_OF_WEEK)));
 //            Log.d("getDataPagePageNumber", "" + pageNumber);
-            if((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)){
-                tmp.add(evento);
-            }else if(evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6){
-                tmp.add(evento);
+            if(evento.getFlagRipetizione() && evento.isGroupFlag()) {
+                if ((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber)) {
+                    tmp.add(evento);
+                } else if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6) {
+                    tmp.add(evento);
+                }
             }
         }
         return tmp;
