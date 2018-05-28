@@ -236,6 +236,13 @@ public class SchermataIniziale extends AppCompatActivity
                                 // Close CAB
                                 mode.finish();
                                 return true;
+                            case R.id.selectAll:
+                                for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                    customAdapter.toggleSelection(i);
+                                }
+                                final int checkedCount = listView.getCheckedItemCount();
+                                mode.setTitle(checkedCount + " Selezionato");
+                                return true;
                             default:
                                 return false;
                         }
