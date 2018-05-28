@@ -214,7 +214,7 @@ public class SchermataIniziale extends AppCompatActivity
                         // Capture total checked items
                         final int checkedCount = listView.getCheckedItemCount();
                         // Set the CAB title according to total checked items
-                        mode.setTitle(checkedCount + " Selected");
+                        mode.setTitle(checkedCount + " Selezionato");
                         // Calls toggleSelection method from customAdapter Class
                         customAdapter.toggleSelection(position);
                     }
@@ -224,13 +224,11 @@ public class SchermataIniziale extends AppCompatActivity
                         switch (item.getItemId()) {
                             case R.id.delete:
                                 // Calls getSelectedIds method from customAdapter Class
-                                SparseBooleanArray selected = customAdapter
-                                        .getSelectedIds();
+                                SparseBooleanArray selected = customAdapter.getSelectedIds();
                                 // Captures all selected ids with a loop
                                 for (int i = (selected.size() - 1); i >= 0; i--) {
                                     if (selected.valueAt(i)) {
-                                        Evento selecteditem = customAdapter
-                                                .getItem(selected.keyAt(i));
+                                        Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
                                         // Remove selected items following the ids
                                         customAdapter.remove(selecteditem);
                                     }

@@ -20,7 +20,6 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
     private int buttonColorInt;
     private int buttonForegroundColorCompliment;
 
-
     Context context;
     public ArrayList<Evento> giorno;
     LayoutInflater inflater;
