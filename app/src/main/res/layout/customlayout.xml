@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:foreground="@drawable/custom_layout_state">
+    android:background="@drawable/custom_layout_state">
 
     <ImageView
         android:id="@+id/imageView"
