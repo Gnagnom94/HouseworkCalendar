@@ -39,7 +39,7 @@ public class ListViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.list_view_fragment_layout,container,false);
 
         ListView lv = (ListView) rootView.findViewById(R.id.listView);
-        CustomAdapter adapter=new CustomAdapter(this.getActivity(), getDataPage(pageNumber));
+        CustomAdapter adapter=new CustomAdapter(this.getActivity(), R.layout.customlayout, getDataPage(pageNumber));
         lv.setAdapter(adapter);
 
         return rootView;
