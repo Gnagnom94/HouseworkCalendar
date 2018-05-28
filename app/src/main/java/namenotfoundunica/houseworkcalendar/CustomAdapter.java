@@ -21,7 +21,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
     private int buttonForegroundColorCompliment;
 
     Context context;
-    public ArrayList<Evento> giorno;
+    ArrayList<Evento> giorno;
     LayoutInflater inflater;
     private SparseBooleanArray mSelectedItemsIds;
 
@@ -169,6 +169,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
     @Override
     public void remove(Evento object) {
         giorno.remove(object);
+        SchermataIniziale.calendario.remove(object);
         notifyDataSetChanged();
     }
 
