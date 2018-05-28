@@ -31,9 +31,12 @@ public class GestioneSondaggi extends AppCompatActivity
         if (!flagCreation)
         {
             lstSondaggio = new ArrayList<>();
-            lstSondaggio.add(new Sondaggio("titolo1" , "descrizione1", "wait", 1));
-            lstSondaggio.add(new Sondaggio("titolo2" , "descrizione2", "wait", 2));
-            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 3));
+            List<String> risposte = new ArrayList<String>();
+            risposte.add("si");
+            risposte.add("no");
+            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "wait", 1, risposte));
+            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 2, risposte));
+            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 3, risposte));
             flagCreation = true;
         }
 
@@ -79,9 +82,9 @@ public class GestioneSondaggi extends AppCompatActivity
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             convertView = getLayoutInflater().inflate(R.layout.custom_survey_layout,null);
-
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
             final Button button = (Button) convertView.findViewById(R.id.vota_sondaggio);
             Sondaggio sondaggio = lstSondaggio.get(position);

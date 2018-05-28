@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AggiuntaSondaggio extends AppCompatActivity
 {
     @Override
@@ -25,7 +28,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
         final TextView titolo_sondaggio = (TextView) findViewById(R.id.titolo_sondaggio);
         final TextView descrizione_sondaggio = (TextView) findViewById(R.id.descrizione_sondaggio);
         Button send_survey = (Button) findViewById(R.id.send_survey);
-
+        final List<String> risposte = new ArrayList<String>();
         send_survey.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -33,7 +36,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
             {
                 Sondaggio survey = new Sondaggio(titolo_sondaggio.getText().toString(),
                                                 descrizione_sondaggio.getText().toString(),
-                                                "wait", GestioneSondaggi.lstSondaggio.size()+1);
+                                                "wait", GestioneSondaggi.lstSondaggio.size()+1, risposte);
 
                 GestioneSondaggi.lstSondaggio.add(survey);
                 Intent backToSurvey = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);

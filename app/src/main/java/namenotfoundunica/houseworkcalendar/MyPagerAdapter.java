@@ -15,7 +15,8 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(int position)
+    {
         ListViewFragment listViewFragment = ListViewFragment.newInstance(position);
         return listViewFragment;
     }

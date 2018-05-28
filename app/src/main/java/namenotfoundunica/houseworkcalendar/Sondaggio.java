@@ -9,15 +9,16 @@ public class Sondaggio
     private String descrizione;             //Breve descrizione del sondaggio
     private String stato;                   //Stati possibili del sondaggio (in attesa dei voti, completato con successo, completato senza successo)
     private int id;                         //Id relativo al sondaggio
-    private List<String> risposte;          //Array delle risposte disponibili per il sondaggio
+    public List<String> risposte;          //Array delle risposte disponibili per il sondaggio
 
     //Aggiungere un array di classe Risposte per definire le possibili risposte allo specifico sondaggio
-    public Sondaggio(String titolo, String descrizione, String stato, int id)
+    public Sondaggio(String titolo, String descrizione, String stato, int id, List<String> risposte)
     {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.stato = stato;
         this.id = id;
+        this.risposte = risposte;
     }
 
     public String getTitolo() {
