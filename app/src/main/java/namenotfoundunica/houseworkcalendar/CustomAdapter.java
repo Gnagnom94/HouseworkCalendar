@@ -2,54 +2,44 @@ package namenotfoundunica.houseworkcalendar;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapter extends ArrayAdapter<Evento> {
 
     private int buttonColorInt;
     private int buttonForegroundColorCompliment;
 
-
-    Context c;
-    public ArrayList<Evento> giorno;
+    Context context;
+    ArrayList<Evento> giorno;
     LayoutInflater inflater;
+    private SparseBooleanArray mSelectedItemsIds;
 
-    public CustomAdapter(Context c, ArrayList<Evento> giorno) {
-        this.c = c;
+
+    public CustomAdapter(Context context, int resourceId, ArrayList<Evento> giorno) {
+        super(context, resourceId, giorno);
+        mSelectedItemsIds = new SparseBooleanArray();
+        this.context = context;
         this.giorno = giorno;
+        inflater = LayoutInflater.from(context);
     }
 
-
-    @Override
-    public int getCount() {
-        return giorno.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return giorno.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if(inflater==null)
         {
-            inflater= (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if(convertView==null)
         {
@@ -152,14 +142,66 @@ public class CustomAdapter extends BaseAdapter {
             }
         });
 
-        convertView.setOnClickListener(new View.OnClickListener()
-        {
+        /*convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(c,textNomeEvento.getText() + " Gruppo: " + (giorno.get(position).isGroupFlag() ? "true " : "false  ") + "Ripetizione: " + (giorno.get(position).getFlagRipetizione() ? "true" : "false"),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,textNomeEvento.getText() + " Gruppo: " + (giorno.get(position).isGroupFlag() ? "true " : "false  ") + "Ripetizione: " + (giorno.get(position).getFlagRipetizione() ? "true" : "false"),Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         return convertView;
+    }
+
+
+
+    @Override
+    public int getCount() {
+        return giorno.size();
+    }
+
+    @Override
+    public Evento getItem(int position) {
+        return giorno.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public void remove(Evento object) {
+        giorno.remove(object);
+        SchermataIniziale.calendario.remove(object);
+        notifyDataSetChanged();
+    }
+
+    public List<Evento> getWorldPopulation() {
+        return giorno;
+    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
     }
 }

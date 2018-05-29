@@ -43,11 +43,9 @@ public class SettimanaTipo extends AppCompatActivity{
         setupActionBar();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent openPage = new Intent(SettimanaTipo.this, AggiuntaEvento.class);
                 openPage.putExtra("Chiamante", "SettimanaTipo");
                 startActivity(openPage);
@@ -84,41 +82,45 @@ public class SettimanaTipo extends AppCompatActivity{
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(mPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-        {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             /*Override del comportamento del tap sulla tab (non è necessario ma lo lasciamo nel caso servisse modificare ulteriormente il risultato).
             Bastererbbe chiamare semplicemente tabLayout.setupWithViewPager(mPager) per creare il collegamento tra tab e pager */
             @Override
-            public void onTabSelected(TabLayout.Tab tab)
-            {
+            public void onTabSelected(TabLayout.Tab tab) {
                 int pageNumebr = tab.getPosition();
                 //prendo la data dal primo evente della giornata per sapere il giorno selezionato
+                //Log.d("pageNumber", ""+ pageNumebr);
                 mPager.setCurrentItem(pageNumebr);
                 dataPageSelected(pageNumebr);
 
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
 
-        });
-        /*right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                todayInYear+=7;
             }
         });
-        left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                todayInYear-=7;
-            }
-        });*/
+        //tabLayout.setOnTabSelectedListener(this);
+        /*FINE NUOVA PARTE*/
+
     }
+
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("settimana", settimana);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        settimana = (Calendario) savedInstanceState.getSerializable("settimana");
+    }*/
 
     private void addPages()
     {
@@ -159,8 +161,11 @@ public class SettimanaTipo extends AppCompatActivity{
     // metodo che dato il numero di pagina, pageNumber:(numero di giorno della settimana 0-Lunedì/6-Domenica) ritorna un ArrayList<Evento> che contiene solo eventi di quel dato giorno della settimana.
     public static ArrayList<Evento> getDataPage(int pageNumber)
     {
-        int firstWeekdayInYear=Calendar.getInstance().get(Calendar.DAY_OF_YEAR);;
-        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+        ArrayList<Evento> tmp = new ArrayList<>();
+        Calendar today= Calendar.getInstance();
+        int firstWeekdayInYear=today.get(Calendar.DAY_OF_YEAR);
+
+        switch (today.get(Calendar.DAY_OF_WEEK))
         {
             case 1: firstWeekdayInYear-=6;//domenica
                 break;

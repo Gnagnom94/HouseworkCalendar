@@ -13,9 +13,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 
@@ -38,13 +41,13 @@ public class SchermataIniziale extends AppCompatActivity
     public static Calendario settimana = new Calendario();
 
     private static boolean flagCreation = false;
+    public boolean flagSelectUnselectAll = false;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
 
-        if(!flagCreation) {
+        if (!flagCreation) {
             calendario.clear();
             Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
             Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
@@ -53,7 +56,7 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(alessandro);
             utenti.add(pitta);
 
-            UtentiGruppo=new ArrayList<>(utenti);
+            UtentiGruppo = new ArrayList<>(utenti);
 
 
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
@@ -74,7 +77,7 @@ public class SchermataIniziale extends AppCompatActivity
                         calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                                 new GregorianCalendar(2018, i, k, j, 00),
                                 new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                utenti.get(rUtenti), "", "",false)
+                                utenti.get(rUtenti), "", "", false)
                         );
                     }
                 }
@@ -108,7 +111,6 @@ public class SchermataIniziale extends AppCompatActivity
             listView.setAdapter(customAdapter);*/
 
 
-
             settimana.clear();
             Calendar calendar = Calendar.getInstance();
             calendar.setFirstDayOfWeek(Calendar.MONDAY);
@@ -134,7 +136,7 @@ public class SchermataIniziale extends AppCompatActivity
                     settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                             new GregorianCalendar(todayYear, todayMonth, k, j, 00),
                             new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
+                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
                     );
                 }
             }
@@ -147,7 +149,7 @@ public class SchermataIniziale extends AppCompatActivity
                     settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                             new GregorianCalendar(todayYear, todayMonth, k, j, 00),
                             new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "",true)
+                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
                     );
                 }
             }
@@ -169,106 +171,164 @@ public class SchermataIniziale extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
                 openPage.putExtra("Chiamante", "SchermataIniziale");
                 startActivity(openPage);
             }
         });
 
-        //final LinearLayout linearLayout = findViewById(R.id.ll);
+
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 tmp.clear();
                 int i = 0;
-                for (Evento evento: calendario){
+                for (Evento evento : calendario) {
                     i++;
-                    if(
-                        (evento.getInizio().get(Calendar.YEAR) <= year &&
-                        evento.getInizio().get(Calendar.MONTH) <= month &&
-                        evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
-                            &&
-                        (evento.getFine().get(Calendar.YEAR) >= year &&
-                        evento.getFine().get(Calendar.MONTH) >= month &&
-                        evento.getFine().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
-                        )
-                    {
+                    if (
+                            (evento.getInizio().get(Calendar.YEAR) <= year &&
+                                    evento.getInizio().get(Calendar.MONTH) <= month &&
+                                    evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
+                                    &&
+                                    (evento.getFine().get(Calendar.YEAR) >= year &&
+                                            evento.getFine().get(Calendar.MONTH) >= month &&
+                                            evento.getFine().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
+                            ) {
                         //Inizializzazione NUOVO layout
 
                         tmp.add(evento);
                     }
                 }
-                ListView listView = findViewById(R.id.listView);
+                final ListView listView = findViewById(R.id.listView);
 
-                CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
+                final CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, R.layout.customlayout, tmp);
                 listView.setAdapter(customAdapter);
+                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+                // Capture ListView item click
+                listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+                    @Override
+                    public void onItemCheckedStateChanged(ActionMode mode,
+                                                          int position, long id, boolean checked) {
+                        // Capture total checked items
+                        final int checkedCount = listView.getCheckedItemCount();
+                        // Set the CAB title according to total checked items
+                        mode.setTitle(checkedCount + " Selezionato");
+                        // Calls toggleSelection method from customAdapter Class
+                        customAdapter.toggleSelection(position);
+                    }
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                        // Calls getSelectedIds method from customAdapter Class
+                        SparseBooleanArray selected = customAdapter.getSelectedIds();
+                        switch (item.getItemId()) {
+                            case R.id.delete:
+                                // Captures all selected ids with a loop
+                                for (int i = (selected.size() - 1); i >= 0; i--) {
+                                    if (selected.valueAt(i)) {
+                                        Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
+                                        // Remove selected items following the ids
+                                        customAdapter.remove(selecteditem);
+                                    }
+                                }
+                                // Close CAB
+                                mode.finish();
+                                return true;
+                            case R.id.selectAll:
+
+                                if(!flagSelectUnselectAll) {
+                                    flagSelectUnselectAll = true;
+                                    item.setIcon(R.drawable.ic_close_black_24dp);
+                                    for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                        if (!selected.get(i)) {
+                                            listView.setItemChecked(i, true);
+                                        }
+                                    }
+                                }else{
+                                    flagSelectUnselectAll = false;
+                                    for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                        if (selected.get(i)) {
+                                            listView.setItemChecked(i, false);
+                                        }
+                                    }
+                                }
+                                final int checkedCount = listView.getCheckedItemCount();
+                                mode.setTitle(checkedCount + " Selezionato");
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+
+                    @Override
+                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                        mode.getMenuInflater().inflate(R.menu.contextual_choices, menu);
+                        return true;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                        // TODO Auto-generated method stub
+                        customAdapter.removeSelection();
+                    }
+
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                        // TODO Auto-generated method stub
+                        return false;
+                    }
+                });
             }
         });
-
 
 
         //descrizione navigation Drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if (navigationView != null)
-        {
+        if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem)
-                    {
-                        Intent openPage;
-                        switch (menuItem.getItemId())
-                        {
-                            case R.id.nav_calendario:
-                                mDrawerLayout.closeDrawers();//chiudo la nav
-                                return true;
+                    new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+                            Intent openPage;
+                            switch (menuItem.getItemId()) {
+                                case R.id.nav_calendario:
+                                    mDrawerLayout.closeDrawers();//chiudo la nav
+                                    return true;
 
-                            case R.id.nav_gestione_gruppo:
-                                openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
-                                // passo all'attivazione dell'activity Pagina.java
-                                startActivity(openPage);
-                                return true;
+                                case R.id.nav_gestione_gruppo:
+                                    openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
 
-                            case R.id.nav_pagamenti:
-                                openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
-                                // passo all'attivazione dell'activity Pagina.java
-                                startActivity(openPage);
-                                return true;
+                                case R.id.nav_pagamenti:
+                                    openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
 
-                            case R.id.nav_sondaggio:
-                                openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
-                                // passo all'attivazione dell'activity Pagina.java
-                                startActivity(openPage);
-                                return true;
-                            case R.id.nav_settimana_tipo:
-                                openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
-                                startActivity(openPage);
-                                return true;
+                                case R.id.nav_sondaggio:
+                                    openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
+                                case R.id.nav_settimana_tipo:
+                                    openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
+                                    startActivity(openPage);
+                                    return true;
 
+                            }
+
+                            mDrawerLayout.closeDrawers();//chiudo la nav
+                            return true;
                         }
-
-                        mDrawerLayout.closeDrawers();//chiudo la nav
-                        return true;
-                    }
-                });
+                    });
         }
     }
-
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("settimana", calendario);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        calendario = (Calendario) savedInstanceState.getSerializable("settimana");
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -297,7 +357,7 @@ public class SchermataIniziale extends AppCompatActivity
                 Intent openPageSetting = new Intent(SchermataIniziale.this,SettingsActivity.class);
                 // passo all'attivazione dell'activity Pagina.java
                 startActivity(openPageSetting);
-}
+        }
         return super.onOptionsItemSelected(item);
     }
 
