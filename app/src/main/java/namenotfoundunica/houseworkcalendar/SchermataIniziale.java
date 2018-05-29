@@ -41,7 +41,7 @@ public class SchermataIniziale extends AppCompatActivity
     public static Calendario settimana = new Calendario();
 
     private static boolean flagCreation = false;
-    public boolean flag = false;
+    public boolean flagSelectUnselectAll = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,8 +239,8 @@ public class SchermataIniziale extends AppCompatActivity
                                 return true;
                             case R.id.selectAll:
 
-                                if(!flag) {
-                                    flag = true;
+                                if(!flagSelectUnselectAll) {
+                                    flagSelectUnselectAll = true;
                                     item.setIcon(R.drawable.ic_close_black_24dp);
                                     for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
                                         if (!selected.get(i)) {
@@ -248,7 +248,7 @@ public class SchermataIniziale extends AppCompatActivity
                                         }
                                     }
                                 }else{
-                                    flag = false;
+                                    flagSelectUnselectAll = false;
                                     for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
                                         if (selected.get(i)) {
                                             listView.setItemChecked(i, false);

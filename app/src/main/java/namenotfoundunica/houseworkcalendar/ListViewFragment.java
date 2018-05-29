@@ -13,16 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
-
 import static namenotfoundunica.houseworkcalendar.SettimanaTipo.getDataPage;
 
 public class ListViewFragment extends Fragment {
     public static final String ARG_PAGE = "arg_page";
-    public boolean flag = false;
+    public boolean flagSelectUnselectAll = false;
 
     public ListViewFragment(){
 
@@ -82,8 +77,8 @@ public class ListViewFragment extends Fragment {
                         return true;
                     case R.id.selectAll:
 
-                        if(!flag) {
-                            flag = true;
+                        if(!flagSelectUnselectAll) {
+                            flagSelectUnselectAll = true;
                             item.setIcon(R.drawable.ic_close_black_24dp);
                             for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
                                 if (!selected.get(i)) {
@@ -91,7 +86,7 @@ public class ListViewFragment extends Fragment {
                                 }
                             }
                         }else{
-                            flag = false;
+                            flagSelectUnselectAll = false;
                             for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
                                 if (selected.get(i)) {
                                     listView.setItemChecked(i, false);

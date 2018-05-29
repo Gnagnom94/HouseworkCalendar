@@ -176,7 +176,7 @@ public class SettimanaTipo extends AppCompatActivity{
                     else
                         if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6)
                             tmp.add(evento);
- }
+            }
         }
         return tmp;
     }
