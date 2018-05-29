@@ -152,7 +152,8 @@ public class CustomAdapter extends BaseAdapter {
             }
         });
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 Toast.makeText(c,textNomeEvento.getText() + " Gruppo: " + (giorno.get(position).isGroupFlag() ? "true " : "false  ") + "Ripetizione: " + (giorno.get(position).getFlagRipetizione() ? "true" : "false"),Toast.LENGTH_SHORT).show();
