@@ -31,7 +31,6 @@ public class SettimanaTipo extends AppCompatActivity{
     private TextView textDataGiornoSelezionato;
     private Button right;
     private  Button left;
-    private static ArrayList<Evento> eventiDelGiorno = new ArrayList<>();
     private Calendar dataSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -161,7 +160,7 @@ public class SettimanaTipo extends AppCompatActivity{
     // metodo che dato il numero di pagina, pageNumber:(numero di giorno della settimana 0-Lunedì/6-Domenica) ritorna un ArrayList<Evento> che contiene solo eventi di quel dato giorno della settimana.
     public static ArrayList<Evento> getDataPage(int pageNumber)
     {
-        ArrayList<Evento> tmp = new ArrayList<>();
+        ArrayList<Evento> eventiDelGiorno = new ArrayList<>();
         Calendar today= Calendar.getInstance();
         int firstWeekdayInYear=today.get(Calendar.DAY_OF_YEAR);
 
