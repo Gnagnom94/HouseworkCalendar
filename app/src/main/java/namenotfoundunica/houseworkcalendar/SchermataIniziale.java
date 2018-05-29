@@ -41,6 +41,7 @@ public class SchermataIniziale extends AppCompatActivity
     public static Calendario settimana = new Calendario();
 
     private static boolean flagCreation = false;
+    public boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +178,7 @@ public class SchermataIniziale extends AppCompatActivity
             }
         });
 
-        //final LinearLayout linearLayout = findViewById(R.id.ll);
+
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -221,10 +222,10 @@ public class SchermataIniziale extends AppCompatActivity
 
                     @Override
                     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                        // Calls getSelectedIds method from customAdapter Class
+                        SparseBooleanArray selected = customAdapter.getSelectedIds();
                         switch (item.getItemId()) {
                             case R.id.delete:
-                                // Calls getSelectedIds method from customAdapter Class
-                                SparseBooleanArray selected = customAdapter.getSelectedIds();
                                 // Captures all selected ids with a loop
                                 for (int i = (selected.size() - 1); i >= 0; i--) {
                                     if (selected.valueAt(i)) {
@@ -237,8 +238,22 @@ public class SchermataIniziale extends AppCompatActivity
                                 mode.finish();
                                 return true;
                             case R.id.selectAll:
-                                for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
-                                    customAdapter.toggleSelection(i);
+
+                                if(!flag) {
+                                    flag = true;
+                                    item.setIcon(R.drawable.ic_close_black_24dp);
+                                    for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                        if (!selected.get(i)) {
+                                            listView.setItemChecked(i, true);
+                                        }
+                                    }
+                                }else{
+                                    flag = false;
+                                    for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                        if (selected.get(i)) {
+                                            listView.setItemChecked(i, false);
+                                        }
+                                    }
                                 }
                                 final int checkedCount = listView.getCheckedItemCount();
                                 mode.setTitle(checkedCount + " Selezionato");

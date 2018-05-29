@@ -22,6 +22,7 @@ import static namenotfoundunica.houseworkcalendar.SettimanaTipo.getDataPage;
 
 public class ListViewFragment extends Fragment {
     public static final String ARG_PAGE = "arg_page";
+    public boolean flag = false;
 
     public ListViewFragment(){
 
@@ -43,41 +44,62 @@ public class ListViewFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.list_view_fragment_layout,container,false);
 
-        final ListView lv = (ListView) rootView.findViewById(R.id.listView);
-        final CustomAdapter adapter = new CustomAdapter(this.getActivity(), R.layout.customlayout, getDataPage(pageNumber));
-        lv.setAdapter(adapter);
+        final ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        final CustomAdapter customAdapter = new CustomAdapter(this.getActivity(), R.layout.customlayout, getDataPage(pageNumber));
+        listView.setAdapter(customAdapter);
 
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         // Capture ListView item click
-        lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode,
                                                   int position, long id, boolean checked) {
                 // Capture total checked items
-                final int checkedCount = lv.getCheckedItemCount();
+                final int checkedCount = listView.getCheckedItemCount();
                 // Set the CAB title according to total checked items
                 mode.setTitle(checkedCount + " Selezionato");
                 // Calls toggleSelection method from customAdapter Class
-                adapter.toggleSelection(position);
+                customAdapter.toggleSelection(position);
             }
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                // Calls getSelectedIds method from customAdapter Class
+                SparseBooleanArray selected = customAdapter.getSelectedIds();
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        // Calls getSelectedIds method from customAdapter Class
-                        SparseBooleanArray selected = adapter.getSelectedIds();
                         // Captures all selected ids with a loop
                         for (int i = (selected.size() - 1); i >= 0; i--) {
                             if (selected.valueAt(i)) {
-                                Evento selecteditem = adapter.getItem(selected.keyAt(i));
+                                Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
                                 // Remove selected items following the ids
-                                adapter.remove(selecteditem);
+                                customAdapter.remove(selecteditem);
                             }
                         }
                         // Close CAB
                         mode.finish();
+                        return true;
+                    case R.id.selectAll:
+
+                        if(!flag) {
+                            flag = true;
+                            item.setIcon(R.drawable.ic_close_black_24dp);
+                            for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                if (!selected.get(i)) {
+                                    listView.setItemChecked(i, true);
+                                }
+                            }
+                        }else{
+                            flag = false;
+                            for (int i = (customAdapter.getCount() - 1); i >= 0; i--) {
+                                if (selected.get(i)) {
+                                    listView.setItemChecked(i, false);
+                                }
+                            }
+                        }
+                        final int checkedCount = listView.getCheckedItemCount();
+                        mode.setTitle(checkedCount + " Selezionato");
                         return true;
                     default:
                         return false;
@@ -93,7 +115,7 @@ public class ListViewFragment extends Fragment {
             @Override
             public void onDestroyActionMode(ActionMode mode) {
                 // TODO Auto-generated method stub
-                adapter.removeSelection();
+                customAdapter.removeSelection();
             }
 
             @Override
