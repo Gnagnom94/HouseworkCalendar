@@ -19,6 +19,8 @@ public class ListViewFragment extends Fragment {
     public static final String ARG_PAGE = "arg_page";
     public boolean flagSelectUnselectAll = false;
 
+    public CustomAdapter customAdapter;
+
     public ListViewFragment(){
 
     }
@@ -40,7 +42,7 @@ public class ListViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.list_view_fragment_layout,container,false);
 
         final ListView listView = (ListView) rootView.findViewById(R.id.listView);
-        final CustomAdapter customAdapter = new CustomAdapter(this.getActivity(), R.layout.customlayout, getDataPage(pageNumber));
+        customAdapter = new CustomAdapter(this.getActivity(), R.layout.customlayout, getDataPage(pageNumber));
         listView.setAdapter(customAdapter);
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -122,4 +124,13 @@ public class ListViewFragment extends Fragment {
 
         return rootView;
     }
+
+    public CustomAdapter getCustomAdapter() {
+        return customAdapter;
+    }
+
+    public void setCustomAdapter(CustomAdapter customAdapter) {
+        this.customAdapter = customAdapter;
+    }
+
 }

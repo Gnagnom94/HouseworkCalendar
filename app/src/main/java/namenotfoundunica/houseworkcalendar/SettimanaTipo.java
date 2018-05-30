@@ -31,6 +31,7 @@ public class SettimanaTipo extends AppCompatActivity{
     private TextView textDataGiornoSelezionato;
     private Button right;
     private  Button left;
+    private MyPagerAdapter pagerAdapter;
     private static Calendar dataSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,7 +77,7 @@ public class SettimanaTipo extends AppCompatActivity{
             case 7: dataSelected.roll(Calendar.DAY_OF_MONTH,-5);//sabato
                 break;
         }
-        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+dataSelected.get(Calendar.MONTH)+"/"+dataSelected.get(Calendar.YEAR));
+        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR));
         //TABLAYOUT
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -90,7 +91,6 @@ public class SettimanaTipo extends AppCompatActivity{
                 //prendo la data dal primo evente della giornata per sapere il giorno selezionato
                 mPager.setCurrentItem(pageNumebr);
                 dataPageSelected(pageNumebr);
-
             }
 
             @Override
@@ -110,7 +110,7 @@ public class SettimanaTipo extends AppCompatActivity{
                 dataSelected.roll(Calendar.WEEK_OF_YEAR,1);
                 mPager.setCurrentItem(0);
                 dataPageSelected(0);
-
+                refreshFragments();
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -119,13 +119,27 @@ public class SettimanaTipo extends AppCompatActivity{
                 dataSelected.roll(Calendar.WEEK_OF_YEAR,-1);
                 mPager.setCurrentItem(0);
                 dataPageSelected(0);
+                refreshFragments();
             }
         });
     }
 
+    private void refreshFragments(){
+        pagerAdapter.fragments.clear();
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        pagerAdapter.addFragment(new ListViewFragment());
+        //SET ADAPTER TO VP
+        mPager.setAdapter(pagerAdapter);
+    }
+
     private void addPages()
     {
-        MyPagerAdapter pagerAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
+        pagerAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
         pagerAdapter.addFragment(new ListViewFragment());
         pagerAdapter.addFragment(new ListViewFragment());
         pagerAdapter.addFragment(new ListViewFragment());
@@ -133,7 +147,6 @@ public class SettimanaTipo extends AppCompatActivity{
         pagerAdapter.addFragment(new ListViewFragment());
         pagerAdapter.addFragment(new ListViewFragment());
         pagerAdapter.addFragment(new ListViewFragment());
-
         //SET ADAPTER TO VP
         mPager.setAdapter(pagerAdapter);
     }
@@ -234,7 +247,7 @@ public class SettimanaTipo extends AppCompatActivity{
             dataSelected.roll(Calendar.DAY_OF_MONTH,pageNumber-dayPrew);
         else
             dataSelected.roll(Calendar.DAY_OF_MONTH,-(dayPrew-pageNumber));
-        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+dataSelected.get(Calendar.MONTH)+"/"+dataSelected.get(Calendar.YEAR));
+        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR));
 
     }
 
