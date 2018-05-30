@@ -31,7 +31,7 @@ public class SettimanaTipo extends AppCompatActivity{
     private TextView textDataGiornoSelezionato;
     private Button right;
     private  Button left;
-    private Calendar dataSelected;
+    private static Calendar dataSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -88,7 +88,6 @@ public class SettimanaTipo extends AppCompatActivity{
             public void onTabSelected(TabLayout.Tab tab) {
                 int pageNumebr = tab.getPosition();
                 //prendo la data dal primo evente della giornata per sapere il giorno selezionato
-                //Log.d("pageNumber", ""+ pageNumebr);
                 mPager.setCurrentItem(pageNumebr);
                 dataPageSelected(pageNumebr);
 
@@ -104,22 +103,25 @@ public class SettimanaTipo extends AppCompatActivity{
 
             }
         });
-        //tabLayout.setOnTabSelectedListener(this);
-        /*FINE NUOVA PARTE*/
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                dataSelected.roll(Calendar.WEEK_OF_YEAR,1);
+                mPager.setCurrentItem(0);
+                dataPageSelected(0);
 
+            }
+        });
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataSelected.roll(Calendar.WEEK_OF_YEAR,-1);
+                mPager.setCurrentItem(0);
+                dataPageSelected(0);
+            }
+        });
     }
-
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("settimana", settimana);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        settimana = (Calendario) savedInstanceState.getSerializable("settimana");
-    }*/
 
     private void addPages()
     {
@@ -161,10 +163,9 @@ public class SettimanaTipo extends AppCompatActivity{
     public static ArrayList<Evento> getDataPage(int pageNumber)
     {
         ArrayList<Evento> eventiDelGiorno = new ArrayList<>();
-        Calendar today= Calendar.getInstance();
-        int firstWeekdayInYear=today.get(Calendar.DAY_OF_YEAR);
+        int firstWeekdayInYear=dataSelected.get(Calendar.DAY_OF_YEAR);
 
-        switch (today.get(Calendar.DAY_OF_WEEK))
+        switch (dataSelected.get(Calendar.DAY_OF_WEEK))
         {
             case 1: firstWeekdayInYear-=6;//domenica
                 break;
@@ -211,8 +212,8 @@ public class SettimanaTipo extends AppCompatActivity{
                    textDataGiornoSelezionato.setText(Integer.toString(evento.getInizio().get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.YEAR)));
         }
         */
-        int dayPrew=0;
-        switch (dataSelected.get(Calendar.DAY_OF_WEEK))
+        int dayPrew=dataSelected.get(Calendar.DAY_OF_WEEK);
+        switch (dayPrew)
         {
             case 1: dayPrew=6;//domenica
                 break;
