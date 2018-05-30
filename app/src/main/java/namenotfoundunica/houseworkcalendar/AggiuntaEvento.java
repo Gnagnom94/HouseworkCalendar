@@ -42,26 +42,34 @@ import Fragments.TimePickerFragment;
 
 public class AggiuntaEvento extends AppCompatActivity
 {
-    public Calendar dataInizio;
-    public Calendar dataFine;
-    public boolean flagTime;
-    public TextView dataEventoText;
-    public TextView timeInizioEvento;
-    public TextView timeFineEvento;
+    private AutoCompleteTextView nomeAttivita;
+    private ImageButton colorPickerButton;
+    private ColorNameBinder colorNameScelto;
+
     private Button buttonDataPicker;
     private Button buttonInizioTimePicker;
     private Button buttonFineTimePicker;
-    private ColorNameBinder colorNameScelto;
-    private Button bottoneConferma;
-    private ImageButton colorPickerButton;
-    private AutoCompleteTextView nomeAttivita;
-    private Switch ripetizione;
-    private Switch groupActivityFlag;
-    private Spinner utenteSpinner;
+
+    public TextView dataEventoText; // uso dataInizio per avere la data dell'evento
+    public TextView timeInizioEvento;
+    public TextView timeFineEvento;
+    public Calendar dataInizio;
+    public Calendar dataFine;
+
     private Spinner categoriaSpinner;
-    private Utente utenteSceltoSpinner;
     private String sceltaSpinnerCategoria;
+
+    private Switch ripetizione;
+
+    private Spinner utenteSpinner;
+    private Utente utenteSceltoSpinner;
+    private Switch groupActivityFlag;
+
     private TextView noteAttivita;
+
+    private Button bottoneConferma;
+
+    public boolean flagTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,7 +81,7 @@ public class AggiuntaEvento extends AppCompatActivity
         setupActionBar();
         //inizializzo le variabili
         colorNameScelto=new ColorNameBinder("","");
-        dataInizio=Calendar.getInstance();
+        dataInizio = Calendar.getInstance();
         dataFine = Calendar.getInstance();
         utenteSceltoSpinner=SchermataIniziale.utenti.get(0);//seleziono il primo elemento dell'array
         utenteSpinner=findViewById(R.id.spinnerUtente);
@@ -97,15 +105,16 @@ public class AggiuntaEvento extends AppCompatActivity
 
         dataEventoText.setText(Integer.toString(dataInizio.get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.YEAR)));
         String ore;
+        Log.d("datainizio", ""+ dataInizio.get(Calendar.HOUR_OF_DAY) + ":" + dataInizio.get(Calendar.MINUTE));
         if(dataInizio.get(Calendar.HOUR_OF_DAY) < 10)
             ore = "0" + dataInizio.get(Calendar.HOUR_OF_DAY);
         else
-            ore =Integer.toString(dataInizio.get(Calendar.HOUR_OF_DAY));
+            ore = "" + dataInizio.get(Calendar.HOUR_OF_DAY);
         String minuti;
         if(dataInizio.get(Calendar.MINUTE) < 10)
-            minuti= "0" + dataInizio.get(Calendar.HOUR_OF_DAY);
+            minuti = "0" + dataInizio.get(Calendar.MINUTE);
         else
-            minuti=Integer.toString(dataInizio.get(Calendar.HOUR_OF_DAY));
+            minuti = "" + dataInizio.get(Calendar.MINUTE);
         timeInizioEvento.setText(ore+":"+minuti);
         timeFineEvento.setText(ore+":"+minuti);
         AggiuntaEventi();

@@ -35,36 +35,35 @@ public class TimePickerFragment extends DialogFragment
         String ora;
         String min;
         if(hourOfDay<=9)
-            ora="0"+Integer.toString(hourOfDay);
+            ora = "0" + hourOfDay;
         else
-            ora=Integer.toString(hourOfDay);
+            ora = "" + hourOfDay;
         if(minute<=9)
-            min="0"+Integer.toString(minute);
+            min = "0" + minute;
         else
-            min=Integer.toString(minute);
-        if(c.flagTime==true)
-        {
+            min = "" + minute;
 
+        if(c.flagTime)
+        {
             c.dataFine.set(Calendar.MINUTE,minute);
-            c.dataFine.set(Calendar.HOUR,hourOfDay);
+            c.dataFine.set(Calendar.HOUR_OF_DAY,hourOfDay);
             c.timeInizioEvento.setText(ora+ ":" +min);
             c.timeFineEvento.setText(ora+ ":" +min);
             if(c.dataFine.compareTo(c.dataInizio)<=0)
             {
                 c.dataFine.set(Calendar.MINUTE,minute);
-                c.dataFine.set(Calendar.HOUR,hourOfDay);
+                c.dataFine.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 c.timeFineEvento.setText(ora+ ":" +min);
             }
         }
         else
         {
-
             c.dataFine.set(Calendar.MINUTE, minute);
-            c.dataFine.set(Calendar.HOUR, hourOfDay);
-            if(c.dataFine.compareTo(c.dataInizio)>0)
+            c.dataFine.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            if(c.dataFine.compareTo(c.dataInizio)<0)
             {
                 c.dataInizio.set(Calendar.MINUTE,minute);
-                c.dataInizio.set(Calendar.HOUR,hourOfDay);
+                c.dataInizio.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 c.timeInizioEvento.setText(ora+ ":" +min);
             }
             c.timeFineEvento.setText(ora+ ":" +min);
