@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.Group;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +32,8 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -55,6 +55,8 @@ public class AggiuntaEvento extends AppCompatActivity
     public TextView timeFineEvento;
     public Calendar dataInizio;
     public Calendar dataFine;
+    DateFormat dfTime = new SimpleDateFormat("HH:mm");
+    DateFormat dfData = new SimpleDateFormat("dd/MM/yyyy");
 
     private Spinner categoriaSpinner;
     private String sceltaSpinnerCategoria;
@@ -103,20 +105,11 @@ public class AggiuntaEvento extends AppCompatActivity
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
 
-        dataEventoText.setText(Integer.toString(dataInizio.get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.MONTH))+"/"+Integer.toString(dataInizio.get(Calendar.YEAR)));
-        String ore;
-        Log.d("datainizio", ""+ dataInizio.get(Calendar.HOUR_OF_DAY) + ":" + dataInizio.get(Calendar.MINUTE));
-        if(dataInizio.get(Calendar.HOUR_OF_DAY) < 10)
-            ore = "0" + dataInizio.get(Calendar.HOUR_OF_DAY);
-        else
-            ore = "" + dataInizio.get(Calendar.HOUR_OF_DAY);
-        String minuti;
-        if(dataInizio.get(Calendar.MINUTE) < 10)
-            minuti = "0" + dataInizio.get(Calendar.MINUTE);
-        else
-            minuti = "" + dataInizio.get(Calendar.MINUTE);
-        timeInizioEvento.setText(ore+":"+minuti);
-        timeFineEvento.setText(ore+":"+minuti);
+        dataEventoText.setText(dfData.format(dataInizio.getTime()));
+        //Log.d("datainizio", ""+ dataInizio.get(Calendar.HOUR_OF_DAY) + ":" + dataInizio.get(Calendar.MINUTE));
+
+        timeInizioEvento.setText(dfTime.format(dataInizio.getTime()));
+        timeFineEvento.setText(dfTime.format(dataInizio.getTime()));
         AggiuntaEventi();
         popolaSpinnerUtenti();
         popolaSpinnerCategoria();

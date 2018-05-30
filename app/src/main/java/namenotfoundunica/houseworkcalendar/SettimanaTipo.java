@@ -4,25 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
 
 public class SettimanaTipo extends AppCompatActivity{
 
@@ -33,6 +27,9 @@ public class SettimanaTipo extends AppCompatActivity{
     private  Button left;
     private MyPagerAdapter pagerAdapter;
     private static Calendar dataSelected;                                                           //Dichiarazione dataSelected
+
+    DateFormat dfData = new SimpleDateFormat("dd/MM/yyyy");
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,7 +74,7 @@ public class SettimanaTipo extends AppCompatActivity{
             case 7: dataSelected.roll(Calendar.DAY_OF_MONTH,-5);//sabato
                 break;
         }
-        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR)); //Aggiorno il testo nella TextView
+        textDataGiornoSelezionato.setText(dfData.format(dataSelected.getTime())); //Aggiorno il testo nella TextView
         //TABLAYOUT
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -237,8 +234,8 @@ public class SettimanaTipo extends AppCompatActivity{
             dataSelected.roll(Calendar.DAY_OF_YEAR,pageNumber-dayPrew);
         else
             dataSelected.roll(Calendar.DAY_OF_YEAR,-(dayPrew-pageNumber));
-        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR));
-        Log.d("dataSelectedInYear",""+ dataSelected.get(Calendar.DAY_OF_YEAR));
+        textDataGiornoSelezionato.setText(dfData.format(dataSelected.getTime()));
+        //Log.d("dataSelectedInYear",""+ dataSelected.get(Calendar.DAY_OF_YEAR));
     }
 
 }

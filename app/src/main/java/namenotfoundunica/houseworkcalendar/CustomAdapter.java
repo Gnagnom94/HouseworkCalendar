@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +27,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
     LayoutInflater inflater;
     private SparseBooleanArray mSelectedItemsIds;
 
+    DateFormat dfTime = new SimpleDateFormat("HH:mm");
 
     public CustomAdapter(Context context, int resourceId, ArrayList<Evento> giorno) {
         super(context, resourceId, giorno);
@@ -52,51 +55,11 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
         TextView textOraFine = convertView.findViewById(R.id.textOraFine);
         ImageView imageView = convertView.findViewById(R.id.imageView);
 
-        String oreInizio;
-        //if per rendere sempre di due cifre le ore
-        if(giorno.get(position).getInizio().get(Calendar.HOUR_OF_DAY) < 10)
-        {
-            oreInizio = "0" + giorno.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
-        }
-        else
-        {
-            oreInizio = "" + giorno.get(position).getInizio().get(Calendar.HOUR_OF_DAY);
-        }
-        String minutiInizio;
-        //if per rendere sempre di due cifre i minuti
-        if(giorno.get(position).getInizio().get(Calendar.MINUTE) < 10)
-        {
-            minutiInizio = "0" + giorno.get(position).getInizio().get(Calendar.MINUTE);
-        }
-        else
-        {
-            minutiInizio = "" + giorno.get(position).getInizio().get(Calendar.MINUTE);
-        }
-        String oreFine;
-        //if per rendere sempre di due cifre le ore
-        if(giorno.get(position).getFine().get(Calendar.HOUR_OF_DAY) < 10)
-        {
-            oreFine = "0" + giorno.get(position).getFine().get(Calendar.HOUR_OF_DAY);
-        }
-        else
-        {
-            oreFine = "" + giorno.get(position).getFine().get(Calendar.HOUR_OF_DAY);
-        }
-        String minutiFine;
-        //if per rendere sempre di due cifre i minuti
-        if(giorno.get(position).getFine().get(Calendar.MINUTE) < 10)
-        {
-            minutiFine = "0" + giorno.get(position).getFine().get(Calendar.MINUTE);
-        }
-        else
-        {
-            minutiFine = "" + giorno.get(position).getFine().get(Calendar.MINUTE);
-        }
 
         textNomeUtente.setText(giorno.get(position).getUtente().getNome());
         textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento() + " * " + giorno.get(position).getInizio().get(Calendar.DAY_OF_MONTH));
-        textOraInizio.setText(oreInizio + ":" + minutiInizio);
-        textOraFine.setText(oreFine + ":" + minutiFine);
+        textOraInizio.setText(dfTime.format(giorno.get(position).getInizio().getTime()));
+        textOraFine.setText(dfTime.format(giorno.get(position).getFine().getTime()));
 
         buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
         buttonForegroundColorCompliment = ColorUtils.getContrastColor(buttonColorInt);
@@ -111,7 +74,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
         {
             imageView.setColorFilter(buttonForegroundColorCompliment);
 //            imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
-            Log.d("primoif", "1 " + buttonForegroundColorCompliment);
+            //Log.d("primoif", "1 " + buttonForegroundColorCompliment);
         }
         else
         {
@@ -119,13 +82,13 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
             {
                 imageView.setColorFilter(buttonForegroundColorCompliment);
 //                imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
-                Log.d("secondoif", "2 " + buttonForegroundColorCompliment);
+                //Log.d("secondoif", "2 " + buttonForegroundColorCompliment);
             }
             else
             {
                 imageView.setColorFilter(buttonColorInt);
 //                imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonColorInt));
-                Log.d("terzoif", "3 " + buttonColorInt);
+                //Log.d("terzoif", "3 " + buttonColorInt);
             }
         }
 
