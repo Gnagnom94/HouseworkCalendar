@@ -234,11 +234,11 @@ public class SettimanaTipo extends AppCompatActivity{
                 break;
         }
         if(pageNumber>dayPrew)
-            dataSelected.roll(Calendar.DAY_OF_MONTH,pageNumber-dayPrew);
+            dataSelected.roll(Calendar.DAY_OF_YEAR,pageNumber-dayPrew);
         else
-            dataSelected.roll(Calendar.DAY_OF_MONTH,-(dayPrew-pageNumber));
+            dataSelected.roll(Calendar.DAY_OF_YEAR,-(dayPrew-pageNumber));
         textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR));
-
+        Log.d("dataSelectedInYear",""+ dataSelected.get(Calendar.DAY_OF_YEAR));
     }
 
 }
