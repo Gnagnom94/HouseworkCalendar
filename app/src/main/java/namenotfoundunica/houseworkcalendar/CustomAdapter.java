@@ -66,11 +66,11 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
         //if per rendere sempre di due cifre i minuti
         if(giorno.get(position).getInizio().get(Calendar.MINUTE) < 10)
         {
-            minutiInizio = giorno.get(position).getInizio().get(Calendar.MINUTE) + "0";
+            minutiInizio = "0" + giorno.get(position).getInizio().get(Calendar.MINUTE);
         }
         else
         {
-            minutiInizio ="" + giorno.get(position).getInizio().get(Calendar.MINUTE);
+            minutiInizio = "" + giorno.get(position).getInizio().get(Calendar.MINUTE);
         }
         String oreFine;
         //if per rendere sempre di due cifre le ore
@@ -86,11 +86,11 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
         //if per rendere sempre di due cifre i minuti
         if(giorno.get(position).getFine().get(Calendar.MINUTE) < 10)
         {
-            minutiFine = giorno.get(position).getFine().get(Calendar.MINUTE) + "0";
+            minutiFine = "0" + giorno.get(position).getFine().get(Calendar.MINUTE);
         }
         else
         {
-            minutiFine ="" + giorno.get(position).getFine().get(Calendar.MINUTE);
+            minutiFine = "" + giorno.get(position).getFine().get(Calendar.MINUTE);
         }
 
         textNomeUtente.setText(giorno.get(position).getUtente().getNome());

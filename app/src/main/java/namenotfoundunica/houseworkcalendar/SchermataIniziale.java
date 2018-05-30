@@ -82,6 +82,7 @@ public class SchermataIniziale extends AppCompatActivity
                     }
                 }
             }
+
             //calendario.sort();
 
             /*//inizializzazione listView appena creata l'activity
