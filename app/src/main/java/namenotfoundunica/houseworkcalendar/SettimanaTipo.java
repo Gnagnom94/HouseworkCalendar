@@ -32,7 +32,7 @@ public class SettimanaTipo extends AppCompatActivity{
     private Button right;
     private  Button left;
     private MyPagerAdapter pagerAdapter;
-    private static Calendar dataSelected;
+    private static Calendar dataSelected;                                                           //Dichiarazione dataSelected
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -52,7 +52,7 @@ public class SettimanaTipo extends AppCompatActivity{
             }
         });
 
-        dataSelected=Calendar.getInstance();
+        dataSelected = Calendar.getInstance();                                                      //Imposto dataSelected al giorno corrente
         right=findViewById(R.id.buttonRight);
         left=findViewById(R.id.buttonLeft);
         /*INIZIO NUOVA PARTE*/
@@ -60,7 +60,7 @@ public class SettimanaTipo extends AppCompatActivity{
         this.addPages();
         textDataGiornoSelezionato=findViewById(R.id.showDataDaySelected);
 
-        switch (dataSelected.get(Calendar.DAY_OF_WEEK))
+        switch (dataSelected.get(Calendar.DAY_OF_WEEK))                                             //Porto dataSelected al Lunedì della settimana corrente
         {
             case 1: dataSelected.roll(Calendar.DAY_OF_MONTH,-6);//domenica
                 break;
@@ -77,7 +77,7 @@ public class SettimanaTipo extends AppCompatActivity{
             case 7: dataSelected.roll(Calendar.DAY_OF_MONTH,-5);//sabato
                 break;
         }
-        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR));
+        textDataGiornoSelezionato.setText(dataSelected.get(Calendar.DAY_OF_MONTH)+"/"+(dataSelected.get(Calendar.MONTH)+1)+"/"+dataSelected.get(Calendar.YEAR)); //Aggiorno il testo nella TextView
         //TABLAYOUT
         tabLayout= (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -107,10 +107,10 @@ public class SettimanaTipo extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                dataSelected.roll(Calendar.WEEK_OF_YEAR,1);
-                mPager.setCurrentItem(0);
-                dataPageSelected(0);
-                refreshFragments();
+                dataSelected.roll(Calendar.WEEK_OF_YEAR,1);                                 //se premi la freccia destra porta la data di dataSelected ad una settimana avanti
+                mPager.setCurrentItem(0);                                                           //Imposto il Pager al primo giorno della settimana (Lunedì)
+                dataPageSelected(0);                                                    //Aggiorno il giorno selezionato al Lunedì della settimana successiva (Cambiata una riga Prima)
+                refreshFragments();                                                                 //Aggiorno la variabile fragments del pagerAdapter per generare le nuove pagine della settimana di destinazione
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -176,9 +176,9 @@ public class SettimanaTipo extends AppCompatActivity{
     public static ArrayList<Evento> getDataPage(int pageNumber)
     {
         ArrayList<Evento> eventiDelGiorno = new ArrayList<>();
-        int firstWeekdayInYear=dataSelected.get(Calendar.DAY_OF_YEAR);
+        int firstWeekdayInYear=dataSelected.get(Calendar.DAY_OF_YEAR);                              //Imposto in firstWeekdayInYear il giorno dell'anno della data selezionatata in dataSelected
 
-        switch (dataSelected.get(Calendar.DAY_OF_WEEK))
+        switch (dataSelected.get(Calendar.DAY_OF_WEEK))                                             //Scorro firstWeekdayInYear per adeguarlo al giorno selezionato della settimana selezionata in dataSelected
         {
             case 1: firstWeekdayInYear-=6;//domenica
                 break;
@@ -214,17 +214,7 @@ public class SettimanaTipo extends AppCompatActivity{
 
     //cerco il primo evento per ogni pagina in modo da restitture la data del giorno selezionato
     public void dataPageSelected(int pageNumber)
-    {/*
-
-        for (Evento evento:eventiDelGiorno)
-        {
-            if ((evento.getInizio().get(Calendar.DAY_OF_WEEK) - 2) == (pageNumber))
-                textDataGiornoSelezionato.setText(Integer.toString(evento.getInizio().get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.YEAR)));
-            else
-               if (evento.getInizio().get(Calendar.DAY_OF_WEEK) == 1 && pageNumber == 6)
-                   textDataGiornoSelezionato.setText(Integer.toString(evento.getInizio().get(Calendar.DAY_OF_MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.MONTH))+"/"+Integer.toString(evento.getInizio().get(Calendar.YEAR)));
-        }
-        */
+    {
         int dayPrew=dataSelected.get(Calendar.DAY_OF_WEEK);
         switch (dayPrew)
         {
