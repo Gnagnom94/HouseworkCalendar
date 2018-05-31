@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item
-            android:id="@+id/nav_calendario"
-            android:title="@string/nav_calendario" />
-        <item
-            android:id="@+id/nav_sondaggio"
-            android:title="@string/nav_sondaggio" />
-        <item
-            android:id="@+id/nav_pagamenti"
-            android:title="@string/nav_pagamenti" />
-        <item
-            android:id="@+id/nav_gestione_gruppo"
-            android:title="@string/nav_gestione_gruppo" />
-        <item
-            android:id="@+id/nav_settimana_tipo"
-            android:title="Settimana Tipo" />
+        <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/nav_calendario"
+                    android:title="@string/nav_calendario"
+                    android:icon="@drawable/ic_date_range_black_24dp"/>
+                <item
+                    android:id="@+id/nav_sondaggio"
+                    android:title="@string/nav_sondaggio" />
+                <item
+                    android:id="@+id/nav_pagamenti"
+                    android:title="@string/nav_pagamenti" />
+                <item
+                    android:id="@+id/nav_gestione_gruppo"
+                    android:title="@string/nav_gestione_gruppo" />
+                <item
+                    android:id="@+id/nav_settimana_tipo"
+                    android:title="Settimana Tipo" />
+        </group>
+
+        <item android:title="Altro">
+                <menu>
+                        <item
+                            android:id="@+id/nav_about_us"
+                            android:title="Contattaci" />
+                        <item
+                            android:id="@+id/nav_privacy_policy"
+                            android:title="Privacy" />
+                </menu>
+        </item>
 </menu>
