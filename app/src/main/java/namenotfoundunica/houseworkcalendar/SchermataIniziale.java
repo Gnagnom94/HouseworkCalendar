@@ -23,8 +23,11 @@ import android.widget.AbsListView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
@@ -98,18 +101,19 @@ public class SchermataIniziale extends AppCompatActivity
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendarSelected = new GregorianCalendar(year, month, dayOfMonth);
                 tmp.clear();
                 int i = 0;
                 for (Evento evento : calendario) {
                     i++;
                     if (
-                            (evento.getInizio().get(Calendar.YEAR) <= year &&
-                                    evento.getInizio().get(Calendar.MONTH) <= month &&
-                                    evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
+                            (evento.getInizio().get(Calendar.YEAR) >= year &&
+                                    evento.getInizio().get(Calendar.MONTH) >= month &&
+                                    evento.getInizio().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
                                     &&
-                                    (evento.getFine().get(Calendar.YEAR) >= year &&
-                                            evento.getFine().get(Calendar.MONTH) >= month &&
-                                            evento.getFine().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
+                                    (evento.getInizio().get(Calendar.YEAR) <= year &&
+                                            evento.getInizio().get(Calendar.MONTH) <= month &&
+                                            evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
                             ) {
                         //Inizializzazione NUOVO layout
 
