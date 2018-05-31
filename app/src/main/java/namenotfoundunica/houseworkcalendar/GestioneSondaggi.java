@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,7 +49,7 @@ public class GestioneSondaggi extends AppCompatActivity
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab_sondaggi);
+        final FloatingActionButton fab = findViewById(R.id.fab_sondaggi);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -56,6 +57,21 @@ public class GestioneSondaggi extends AppCompatActivity
             {
                 Intent intent = new Intent(GestioneSondaggi.this, AggiuntaSondaggio.class);
                 startActivity(intent);
+
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {
+                    fab.hide();
+                }else {
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
             }
         });
