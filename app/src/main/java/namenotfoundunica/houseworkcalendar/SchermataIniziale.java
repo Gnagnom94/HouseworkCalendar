@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -42,16 +43,17 @@ public class SchermataIniziale extends AppCompatActivity
 
     private static boolean flagCreation = false;
     public boolean flagSelectUnselectAll = false;
+    Random random = new Random();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
 
         if (!flagCreation) {
-            calendario.clear();
             Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
-            Utente alessandro = new Utente("Alessandro", "Caddeo", "Alessandro.Caddeo@outlook.com", "caddeo");
-            Utente pitta = new Utente("Marco", "Pittau", "Marco.pittau@outlook.com", "piattau");
+            Utente alessandro = new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo");
+            Utente pitta = new Utente("Marco", "Pittau", "marco.pittau@outlook.com", "piattau");
             utenti.add(matteo);
             utenti.add(alessandro);
             utenti.add(pitta);
@@ -66,99 +68,11 @@ public class SchermataIniziale extends AppCompatActivity
             colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
 
 
-            Random random = new Random();
+            generazioneAnno();
 
-            for (int i = 0; i <= 12; i++) {
-                for (int k = 1; k <= 30; k++) {
-                    for (int j = 9; j < 20; j++) {
-                        int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
-                        int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+            generazioneSettimanaTipo();
 
-                        calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                                new GregorianCalendar(2018, i, k, j, 00),
-                                new GregorianCalendar(2018, i, k, j + 1, 00), true,
-                                utenti.get(rUtenti), "", "", false)
-                        );
-                    }
-                }
-            }
-
-            //calendario.sort();
-
-            /*//inizializzazione listView appena creata l'activity
-            Calendar calendar = Calendar.getInstance();
-            tmp.clear();
-            int i = 0;
-            for (Evento evento: calendario){
-                i++;
-                if(
-                        (evento.getInizio().get(Calendar.YEAR) <= calendar.get(Calendar.YEAR) &&
-                                evento.getInizio().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH)&&
-                                evento.getInizio().get(Calendar.DAY_OF_MONTH) <= calendar.get(Calendar.DAY_OF_MONTH))
-                                &&
-                                (evento.getFine().get(Calendar.YEAR) >= calendar.get(Calendar.YEAR) &&
-                                        evento.getFine().get(Calendar.MONTH) >= calendar.get(Calendar.MONTH) &&
-                                        evento.getFine().get(Calendar.DAY_OF_MONTH) >= calendar.get(Calendar.DAY_OF_MONTH))
-                        )
-                {
-                    //Inizializzazione NUOVO layout
-
-                    tmp.add(evento);
-                }
-            }
-            ListView listView = findViewById(R.id.listView);
-
-            CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, tmp);
-            listView.setAdapter(customAdapter);*/
-
-
-            settimana.clear();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setFirstDayOfWeek(Calendar.MONDAY);
-            int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            int todayMonth = calendar.get(Calendar.MONTH);
-            int todayYear = calendar.get(Calendar.YEAR);
-
-            //        Log.d("todayOfMonth", "" + todayOfMonth);
-            //        Log.d("todayOfWeek", "" + todayOfWeek);
-
-            int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
-            int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
-
-            //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-            //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
-
-            for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
-                for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
-
-                    settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
-                    );
-                }
-            }
-
-            for (int k = firstDayOfWeek + 7; k <= lastDayOfWeek + 7; k++) {
-                for (int j = 9; j < 20; j++) {
-                    int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
-                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
-
-                    settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                            new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                            new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                            SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
-                    );
-                }
-            }
-
-            //settimana.sort();
-
-            calendario.addAll(settimana);
-            calendario.sort();
+            fusioneCalendarioSettimanaTipo();
 
             flagCreation = true;
         }
@@ -169,7 +83,7 @@ public class SchermataIniziale extends AppCompatActivity
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -282,6 +196,21 @@ public class SchermataIniziale extends AppCompatActivity
                         return false;
                     }
                 });
+                listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+                        if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {
+                            fab.hide();
+                        }else {
+                            fab.show();
+                        }
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                    }
+                });
             }
         });
 
@@ -331,6 +260,78 @@ public class SchermataIniziale extends AppCompatActivity
         }
     }
 
+    //Generazione casuale di eventi in un anno
+    private void generazioneAnno() {
+        for (int i = 0; i <= 12; i++) {
+            for (int k = 1; k <= 30; k++) {
+                for (int j = 9; j < 20; j++) {
+                    int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
+                    int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                    calendario.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                            new GregorianCalendar(2018, i, k, j, 00),
+                            new GregorianCalendar(2018, i, k, j + 1, 00), true,
+                            utenti.get(rUtenti), "", "", false)
+                    );
+                }
+            }
+        }
+        calendario.sort();
+    }
+
+    //generazione di due settimane tipo consecutive partendo dalla settimana corrente
+    private void generazioneSettimanaTipo(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int todayMonth = calendar.get(Calendar.MONTH);
+        int todayYear = calendar.get(Calendar.YEAR);
+
+        //        Log.d("todayOfMonth", "" + todayOfMonth);
+        //        Log.d("todayOfWeek", "" + todayOfWeek);
+
+        int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
+        int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
+
+        //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
+        //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
+
+        for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
+            for (int j = 9; j < 20; j++) {
+                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                        new GregorianCalendar(todayYear, todayMonth, k, j, 00),
+                        new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                );
+            }
+        }
+
+        for (int k = firstDayOfWeek + 7; k <= lastDayOfWeek + 7; k++) {
+            for (int j = 9; j < 20; j++) {
+                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                        new GregorianCalendar(todayYear, todayMonth, k, j, 00),
+                        new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                );
+            }
+        }
+        settimana.sort();
+    }
+
+    //fusione delle due variabili calendario e settimana
+    private void fusioneCalendarioSettimanaTipo() {
+        calendario.addAll(settimana);
+        calendario.sort();
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -349,7 +350,6 @@ public class SchermataIniziale extends AppCompatActivity
 
         switch (item.getItemId())
         {
-
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;

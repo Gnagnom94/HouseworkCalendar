@@ -2,6 +2,7 @@ package namenotfoundunica.houseworkcalendar;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -119,6 +120,23 @@ public class ListViewFragment extends Fragment {
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                 // TODO Auto-generated method stub
                 return false;
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {
+                    fab.hide();
+                }else {
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
 
