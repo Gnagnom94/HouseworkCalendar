@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -40,12 +39,14 @@ public class SchermataIniziale extends AppCompatActivity
     public static ArrayList<Utente> UtentiGruppo;
     public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
+
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
     public static Calendario calendario = new Calendario();
     public static Calendario settimana = new Calendario();
 
     private static boolean flagCreation = false;
     public boolean flagSelectUnselectAll = false;
+    public static Utente utenteLoggato=null;
     Random random = new Random();
 
     @Override
@@ -229,6 +230,13 @@ public class SchermataIniziale extends AppCompatActivity
                         public boolean onNavigationItemSelected(MenuItem menuItem) {
                             Intent openPage;
                             switch (menuItem.getItemId()) {
+
+                                case R.id.nav_Login:
+                                    openPage = new Intent(SchermataIniziale.this, Login.class);
+                                    // passo all'attivazione dell'activity Pagina.java
+                                    startActivity(openPage);
+                                    return true;
+
                                 case R.id.nav_calendario:
                                     mDrawerLayout.closeDrawers();//chiudo la nav
                                     return true;
@@ -240,7 +248,7 @@ public class SchermataIniziale extends AppCompatActivity
                                     return true;
 
                                 case R.id.nav_pagamenti:
-                                    openPage = new Intent(SchermataIniziale.this, Pagamenti.class);
+                                    openPage = new Intent(SchermataIniziale.this, GestionePagamenti.class);
                                     // passo all'attivazione dell'activity Pagina.java
                                     startActivity(openPage);
                                     return true;

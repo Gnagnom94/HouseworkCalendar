@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Pagamenti"
-    tools:showIn="@layout/activity_pagamenti">
+    tools:context=".GestionePagamenti"
+    tools:showIn="@layout/activity_gestione_pagamenti">
 
+    <ListView
+        android:id="@+id/listViewPagamenti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
