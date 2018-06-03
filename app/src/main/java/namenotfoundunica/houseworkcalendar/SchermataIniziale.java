@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -294,46 +295,72 @@ public class SchermataIniziale extends AppCompatActivity
     //generazione di due settimane tipo consecutive partendo dalla settimana corrente
     private void generazioneSettimanaTipo(){
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         int todayMonth = calendar.get(Calendar.MONTH);
         int todayYear = calendar.get(Calendar.YEAR);
 
-        //        Log.d("todayOfMonth", "" + todayOfMonth);
-        //        Log.d("todayOfWeek", "" + todayOfWeek);
+        Log.d("todayOfMonth", "" + todayOfMonth);
+        Log.d("todayOfWeek", "" + todayOfWeek);
 
         int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
         int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
 
-        //        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-        //        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
+        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
+        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
 
-        for (int k = firstDayOfWeek; k <= lastDayOfWeek; k++) {
-            for (int j = 9; j < 20; j++) {
+        switch (calendar.get(Calendar.DAY_OF_WEEK))
+        {
+            case 1:
+                calendar.roll(Calendar.DAY_OF_YEAR, -6);//domenica
+                break;
+            case 2: //lunedì
+                break;
+            case 3:
+                calendar.roll(Calendar.DAY_OF_YEAR, -1);//martedì
+                break;
+            case 4:
+                calendar.roll(Calendar.DAY_OF_YEAR, -2);//mercoledì
+                break;
+            case 5:
+                calendar.roll(Calendar.DAY_OF_YEAR, -3);//giovedì
+                break;
+            case 6:
+                calendar.roll(Calendar.DAY_OF_YEAR, -4);//venerdì
+                break;
+            case 7:
+                calendar.roll(Calendar.DAY_OF_YEAR, -5);//sabato
+                break;
+        }
+
+        Calendar tmpCal;
+        Calendar tmpCal2;
+        for (int k = 1; k <= 7; k++) {
+            tmpCal = (Calendar) calendar.clone();
+            tmpCal2 = (Calendar) tmpCal.clone();
+            tmpCal2.roll(Calendar.HOUR_OF_DAY, 1);
+
+            for (int j = 0; j < 10; j++) {
                 int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                        new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                        new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
+                        tmpCal,
+                        tmpCal2,
+                        true,
                         SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
                 );
+
+                tmpCal.roll(Calendar.HOUR_OF_DAY, 1);
+                tmpCal2.roll(Calendar.HOUR_OF_DAY, 1);
             }
+            calendar.roll(Calendar.DAY_OF_YEAR, 1);
         }
 
-        for (int k = firstDayOfWeek + 7; k <= lastDayOfWeek + 7; k++) {
-            for (int j = 9; j < 20; j++) {
-                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
-                int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
-
-                settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                        new GregorianCalendar(todayYear, todayMonth, k, j, 00),
-                        new GregorianCalendar(todayYear, todayMonth, k, j + 1, 00), true,
-                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
-                );
-            }
-        }
         settimana.sort();
     }
 
