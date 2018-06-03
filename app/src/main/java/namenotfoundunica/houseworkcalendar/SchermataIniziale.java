@@ -322,28 +322,37 @@ public class SchermataIniziale extends AppCompatActivity
                 break;
         }
 
-
         for (int k = 1; k <= 7; k++) {
-            Calendar tmpCal1 = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 9, 0);
-            Calendar tmpCal2 = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 10, 0);
-
             for (int j = 0; j < 10; j++) {
                 int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                        tmpCal1,
-                        tmpCal2,
+                        new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j, calendar.get(Calendar.MINUTE)),
+                        new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j + 1, calendar.get(Calendar.MINUTE)),
                         true,
                         SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
                 );
 
-                tmpCal1.roll(Calendar.HOUR_OF_DAY, 1);
-                tmpCal2.roll(Calendar.HOUR_OF_DAY, 1);
+            }
+
+            calendar.roll(Calendar.DAY_OF_YEAR, 1);
+        }
+        for (int k = 1; k <= 7; k++) {
+            for (int j = 0; j < 10; j++) {
+                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
+
+                settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
+                        new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j, calendar.get(Calendar.MINUTE)),
+                        new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j + 1, calendar.get(Calendar.MINUTE)),
+                        true,
+                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                );
+
             }
             calendar.roll(Calendar.DAY_OF_YEAR, 1);
         }
-
         settimana.sort();
     }
 

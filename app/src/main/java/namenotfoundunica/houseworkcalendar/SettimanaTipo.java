@@ -59,19 +59,19 @@ public class SettimanaTipo extends AppCompatActivity{
 
         switch (dataSelected.get(Calendar.DAY_OF_WEEK))                                             //Porto dataSelected al Lunedì della settimana corrente
         {
-            case 1: dataSelected.roll(Calendar.DAY_OF_MONTH,-6);//domenica
+            case 1: dataSelected.roll(Calendar.DAY_OF_YEAR,-6);//domenica
                 break;
             case 2: //lunedì
                 break;
-            case 3: dataSelected.roll(Calendar.DAY_OF_MONTH,-1);//martedì
+            case 3: dataSelected.roll(Calendar.DAY_OF_YEAR,-1);//martedì
                 break;
-            case 4: dataSelected.roll(Calendar.DAY_OF_MONTH,-2);//mercoledì
+            case 4: dataSelected.roll(Calendar.DAY_OF_YEAR,-2);//mercoledì
                 break;
-            case 5: dataSelected.roll(Calendar.DAY_OF_MONTH,-3);//giovedì
+            case 5: dataSelected.roll(Calendar.DAY_OF_YEAR,-3);//giovedì
                 break;
-            case 6: dataSelected.roll(Calendar.DAY_OF_MONTH,-4);//venerdì
+            case 6: dataSelected.roll(Calendar.DAY_OF_YEAR,-4);//venerdì
                 break;
-            case 7: dataSelected.roll(Calendar.DAY_OF_MONTH,-5);//sabato
+            case 7: dataSelected.roll(Calendar.DAY_OF_YEAR,-5);//sabato
                 break;
         }
         textDataGiornoSelezionato.setText(dfData.format(dataSelected.getTime())); //Aggiorno il testo nella TextView
