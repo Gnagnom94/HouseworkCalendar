@@ -298,21 +298,6 @@ public class SchermataIniziale extends AppCompatActivity
         calendar.set(Calendar.HOUR_OF_DAY, 9);
         calendar.set(Calendar.MINUTE, 0);
 
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        int todayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int todayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        int todayMonth = calendar.get(Calendar.MONTH);
-        int todayYear = calendar.get(Calendar.YEAR);
-
-        Log.d("todayOfMonth", "" + todayOfMonth);
-        Log.d("todayOfWeek", "" + todayOfWeek);
-
-        int firstDayOfWeek = (todayOfMonth - (todayOfWeek - 2));
-        int lastDayOfWeek = ((todayOfMonth - (todayOfWeek - 2)) + 6);
-
-        Log.d("firstDayOfWeek", "" + firstDayOfWeek);
-        Log.d("lastDayOfWeek", "" + lastDayOfWeek);
-
         switch (calendar.get(Calendar.DAY_OF_WEEK))
         {
             case 1:
@@ -337,25 +322,23 @@ public class SchermataIniziale extends AppCompatActivity
                 break;
         }
 
-        Calendar tmpCal;
-        Calendar tmpCal2;
+
         for (int k = 1; k <= 7; k++) {
-            tmpCal = (Calendar) calendar.clone();
-            tmpCal2 = (Calendar) tmpCal.clone();
-            tmpCal2.roll(Calendar.HOUR_OF_DAY, 1);
+            Calendar tmpCal1 = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 9, 0);
+            Calendar tmpCal2 = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 10, 0);
 
             for (int j = 0; j < 10; j++) {
                 int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
-                        tmpCal,
+                        tmpCal1,
                         tmpCal2,
                         true,
                         SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
                 );
 
-                tmpCal.roll(Calendar.HOUR_OF_DAY, 1);
+                tmpCal1.roll(Calendar.HOUR_OF_DAY, 1);
                 tmpCal2.roll(Calendar.HOUR_OF_DAY, 1);
             }
             calendar.roll(Calendar.DAY_OF_YEAR, 1);
