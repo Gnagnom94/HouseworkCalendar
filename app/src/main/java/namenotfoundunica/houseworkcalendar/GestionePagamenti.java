@@ -1,22 +1,30 @@
 package namenotfoundunica.houseworkcalendar;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,17 +49,37 @@ public class GestionePagamenti extends AppCompatActivity {
         }
 
         ListView listView = (ListView) findViewById(R.id.listViewPagamenti);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                showInfoPagamento(position);
+            }
+        });
         GestionePagamenti.CustomAdapter customAdapter = new GestionePagamenti.CustomAdapter();
         listView.setAdapter(customAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab_Pagamento);
+        final FloatingActionButton fab = findViewById(R.id.fab_Pagamento);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                //Intent intent = new Intent(GestionePagamenti.this, AggiuntaSondaggio.class);
-                //startActivity(intent);
+                aggiungiPagamento();
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {
+                    fab.hide();
+                }else {
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
             }
         });
@@ -104,10 +132,22 @@ public class GestionePagamenti extends AppCompatActivity {
                 {
                     int pro=progressBar.getProgress()+(100/pagamento.getNumeroPaganti());
                     progressBar.setProgress(pro,true);
-
+                    int i=0;
+                    for(Utente utente:pagamento.utentiGruppo)
+                    {
+                        if(utente.equals(SchermataIniziale.utenteLoggato))
+                        {
+                            pagamento.statoUtenti[i]=true;
+                        }
+                        i++;
+                    }
                     if(progressBar.getProgress()>=progressBar.getMax())//se la barra ha raggiunto il massimo
+                    {
                         button.setImageResource(R.drawable.ic_done_black_24dp);
-                   // button.setEnabled(false);
+                        button.setVisibility(View.VISIBLE);
+                    }
+                    else
+                        button.setVisibility(View.INVISIBLE);
                 }
             });
             return convertView;
@@ -132,5 +172,79 @@ public class GestionePagamenti extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void aggiungiPagamento()
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LinearLayout layout       = new LinearLayout(this);
+        TextView tvMessage        = new TextView(this);
+        final EditText etInput    = new EditText(this);
+        final EditText prInput  =new EditText(this);
+
+        tvMessage.setText("Inserisci tipo e cifra totale del pagamento");
+        etInput.setSingleLine();
+        etInput.setHint("Tipo:");
+        prInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        prInput.setHint("Prezzo totale:");
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(tvMessage);
+        layout.addView(etInput);
+        layout.addView(prInput);
+        layout.setPadding(50, 50, 100, 0);
+
+        builder.setView(layout);
+
+        DialogInterface.OnClickListener onPositiveClickListener = new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                 String tmpTipo= etInput.getText().toString();
+                 float tmpPrezzo=Float.valueOf(prInput.getText().toString());
+                pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo,pagamenti.size(),SchermataIniziale.UtentiGruppo));
+            }
+        };
+        builder.setPositiveButton("Aggiungi",onPositiveClickListener);
+        builder.setNegativeButton("Annulla",null);
+        builder.create().show();
+    }
+    private void showInfoPagamento(int posizione)
+    {
+
+        Pagamento pagamento=pagamenti.get(posizione);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LinearLayout layout = new LinearLayout(this);
+        TextView tvMessage = new TextView(this);
+        TextView pagati = new TextView(this);
+        TextView nonPagati = new TextView(this);
+
+        tvMessage.setText(pagamento.getNome());
+        String tmpPagato,tmpNonPagato;
+        tmpPagato="Pagato: ";
+        tmpNonPagato="Mancano ancora: ";
+        int i=0;
+        for(Utente utente:pagamento.utentiGruppo)
+        {
+            if(pagamento.statoUtenti[i]==true)
+                tmpPagato=tmpPagato+utente.getNome()+", ";
+            else
+                tmpNonPagato=tmpNonPagato+utente.getNome()+", ";
+            i++;
+
+        }
+        pagati.setText(tmpPagato);
+        nonPagati.setText(tmpNonPagato);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(tvMessage);
+        layout.addView(pagati);
+        layout.addView(nonPagati);
+        layout.setPadding(50, 50, 100, 0);
+
+        builder.setView(layout);
+
+
+        builder.setNegativeButton("Ok",null);
+        builder.create().show();
     }
 }

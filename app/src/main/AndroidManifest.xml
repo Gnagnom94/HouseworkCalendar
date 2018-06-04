@@ -47,7 +47,7 @@
         <activity android:name=".VisualizzaSondaggio" />
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
     </application>
 
 </manifest>

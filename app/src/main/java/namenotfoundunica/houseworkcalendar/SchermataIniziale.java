@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 
@@ -58,7 +59,7 @@ public class SchermataIniziale extends AppCompatActivity
         if (!flagCreation) {
             Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
             Utente alessandro = new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo");
-            Utente pitta = new Utente("Marco", "Pittau", "marco.pittau@outlook.com", "piattau");
+            Utente pitta = new Utente("Marco", "Pittau", "marco.pittau@outlook.com", "pittau");
             utenti.add(matteo);
             utenti.add(alessandro);
             utenti.add(pitta);
