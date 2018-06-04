@@ -36,13 +36,14 @@ public class Login  extends AppCompatActivity
                 String email=emailTextView.getText().toString();
                 String psw=pswTextView.getText().toString();
                 boolean connesso=false;
-                for(Utente i:SchermataIniziale.utenti)
+                for(Utente utente:SchermataIniziale.utenti)
                 {
-                    if((email.compareToIgnoreCase(i.getEmail())==0)&&(psw.compareTo(i.getPassword())==0))
+                    if((email.compareToIgnoreCase(utente.getEmail())==0)&&(psw.compareTo(utente.getPassword())==0))
                     {
-                        SchermataIniziale.utenteLoggato=i;
+                        SchermataIniziale.utenteLoggato=utente;
                         connesso=true;
-                        makeToast(i.getNome()+" hai eseguito l'accesso");
+                        makeToast(utente.getNome()+" Hai eseguito l'accesso");
+
                         Intent openPageHome = new Intent(Login.this, SchermataIniziale.class);
                         startActivity(openPageHome);
 
