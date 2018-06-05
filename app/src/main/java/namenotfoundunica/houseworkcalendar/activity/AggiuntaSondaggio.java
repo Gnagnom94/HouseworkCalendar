@@ -1,13 +1,20 @@
 package namenotfoundunica.houseworkcalendar.activity;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,7 +30,6 @@ public class AggiuntaSondaggio extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiunta_sondaggio);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
@@ -31,6 +37,8 @@ public class AggiuntaSondaggio extends AppCompatActivity
         final TextView titolo_sondaggio = (TextView) findViewById(R.id.titolo_sondaggio);
         final TextView descrizione_sondaggio = (TextView) findViewById(R.id.descrizione_sondaggio);
         Button send_survey = (Button) findViewById(R.id.send_survey);
+
+
         final List<String> risposte = new ArrayList<String>();
         send_survey.setOnClickListener(new View.OnClickListener()
         {
@@ -51,9 +59,11 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
     }
 
-    private void setupActionBar() {
+    private void setupActionBar()
+    {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)
+        {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
