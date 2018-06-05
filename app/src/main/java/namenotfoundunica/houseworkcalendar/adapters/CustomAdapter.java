@@ -1,7 +1,6 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.activity.SchermataIniziale;
+import namenotfoundunica.houseworkcalendar.other.ColorUtils;
+import namenotfoundunica.houseworkcalendar.other.CustomDrawable;
+import namenotfoundunica.houseworkcalendar.other.Evento;
 
 public class CustomAdapter extends ArrayAdapter<Evento> {
 

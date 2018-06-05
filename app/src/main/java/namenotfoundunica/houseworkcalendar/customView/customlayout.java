@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.customView;
 
 import android.R;
 import android.content.Context;

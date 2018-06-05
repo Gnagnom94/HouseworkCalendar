@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,8 +37,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import Fragments.DatePickerFragment;
-import Fragments.TimePickerFragment;
+import namenotfoundunica.houseworkcalendar.other.ColorNameBinder;
+import namenotfoundunica.houseworkcalendar.other.Evento;
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Utente;
+import namenotfoundunica.houseworkcalendar.fragments.DatePickerFragment;
+import namenotfoundunica.houseworkcalendar.fragments.TimePickerFragment;
 
 public class AggiuntaEvento extends AppCompatActivity
 {

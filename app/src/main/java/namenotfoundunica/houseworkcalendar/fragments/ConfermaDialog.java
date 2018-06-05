@@ -1,4 +1,4 @@
-package Fragments;
+package namenotfoundunica.houseworkcalendar.fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

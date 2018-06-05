@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class Login  extends AppCompatActivity
 {

@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Sondaggio;
 
 public class AggiuntaSondaggio extends AppCompatActivity
 {

@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
@@ -24,9 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import namenotfoundunica.houseworkcalendar.other.Pagamento;
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class GestionePagamenti extends AppCompatActivity {
 

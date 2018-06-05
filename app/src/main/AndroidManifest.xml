@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".SchermataIniziale"
+            android:name=".activity.SchermataIniziale"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -25,28 +25,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GestioneGruppo"
+            android:name=".activity.GestioneGruppo"
             android:label="@string/title_activity_gestione_gruppo" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".GestionePagamenti"
+            android:name=".activity.GestionePagamenti"
             android:label="@string/title_activity_pagamenti" />
         <activity
-            android:name=".GestioneSondaggi"
+            android:name=".activity.GestioneSondaggi"
             android:label="@string/title_activity_sondaggi" />
         <activity
-            android:name=".AggiuntaEvento"
+            android:name=".activity.AggiuntaEvento"
             android:label="@string/title_activity_aggiunta_evento" />
         <activity
-            android:name=".SettimanaTipo"
+            android:name=".activity.SettimanaTipo"
             android:label="@string/title_activity_settimana_tipo" />
-        <activity android:name=".AggiuntaSondaggio" />
-        <activity android:name=".VisualizzaSondaggio" />
+        <activity android:name=".activity.AggiuntaSondaggio" />
+        <activity android:name=".activity.VisualizzaSondaggio" />
         <activity
-            android:name=".Login"
+            android:name=".activity.Login"
             android:label="@string/title_activity_login" />
     </application>
 
