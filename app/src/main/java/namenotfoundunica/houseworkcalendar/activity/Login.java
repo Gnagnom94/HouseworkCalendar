@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -74,5 +75,17 @@ public class Login  extends AppCompatActivity
         Toast toast;
         toast = Toast.makeText(context, message, duration);
         toast.show();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        if (id == android.R.id.home)
+        {
+            Intent openPageHome = new Intent(Login.this, SchermataIniziale.class);
+            startActivity(openPageHome);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
