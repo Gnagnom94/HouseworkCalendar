@@ -287,6 +287,7 @@ public class SchermataIniziale extends AppCompatActivity
                                             toast.show();
                                         }
                                         break;
+                                        
                                     case R.id.nav_settimana_tipo:
                                         openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
                                         startActivity(openPage);

@@ -141,9 +141,13 @@ public class AggiuntaEvento extends AppCompatActivity
         Spinner spinner = (Spinner) findViewById(R.id.spinnerUtente);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayList<String> listaUtenti= new  ArrayList<String>();
+        if(SchermataIniziale.utenteLoggato!=null)
+            listaUtenti.add(SchermataIniziale.utenteLoggato.getNome());
+
         for(Utente u:SchermataIniziale.utenti)
         {
-            listaUtenti.add(u.getNome());
+            if(u!=SchermataIniziale.utenteLoggato)
+                listaUtenti.add(u.getNome());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,listaUtenti);
         // Specify the layout to use when the list of choices appears
@@ -287,6 +291,7 @@ public class AggiuntaEvento extends AppCompatActivity
                         if(trovato!=true)
                             SchermataIniziale.colorNameBinder.add(colorNameScelto);
                     }
+
                     Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.isChecked(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),groupActivityFlag.isChecked());
                     SchermataIniziale.calendario.add(nuovoEvento);
 
