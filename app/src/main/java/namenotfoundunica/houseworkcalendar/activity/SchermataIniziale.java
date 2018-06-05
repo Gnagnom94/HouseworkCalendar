@@ -66,16 +66,15 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(matteo);
             utenti.add(alessandro);
             utenti.add(pitta);
+            utenti.add(new Utente("a", "a", "a", "a"));
 
             UtentiGruppo = new ArrayList<>(utenti);
-
 
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
             colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));
             colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
             colorNameBinder.add(new ColorNameBinder("Bagno", "#0FFF00"));
             colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));
-
 
             generazioneAnno();
 
