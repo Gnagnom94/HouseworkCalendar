@@ -23,6 +23,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -231,39 +232,66 @@ public class SchermataIniziale extends AppCompatActivity
                         @Override
                         public boolean onNavigationItemSelected(MenuItem menuItem) {
                             Intent openPage;
-                            switch (menuItem.getItemId()) {
 
-                                case R.id.nav_Login:
-                                    openPage = new Intent(SchermataIniziale.this, Login.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                                switch (menuItem.getItemId()) {
 
-                                case R.id.nav_calendario:
-                                    mDrawerLayout.closeDrawers();//chiudo la nav
-                                    return true;
+                                    case R.id.nav_Login:
+                                        openPage = new Intent(SchermataIniziale.this, Login.class);
+                                        // passo all'attivazione dell'activity Pagina.java
+                                        startActivity(openPage);
+                                        return true;
 
-                                case R.id.nav_gestione_gruppo:
-                                    openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                                    case R.id.nav_calendario:
+                                        mDrawerLayout.closeDrawers();//chiudo la nav
+                                        return true;
 
-                                case R.id.nav_pagamenti:
-                                    openPage = new Intent(SchermataIniziale.this, GestionePagamenti.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
+                                    case R.id.nav_gestione_gruppo:
+                                        if(utenteLoggato!=null) {
+                                            openPage = new Intent(SchermataIniziale.this, GestioneGruppo.class);
+                                            // passo all'attivazione dell'activity Pagina.java
+                                            startActivity(openPage);
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Prima di accedere a questo devi aver fatto il login", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
+                                        break;
 
-                                case R.id.nav_sondaggio:
-                                    openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
-                                    // passo all'attivazione dell'activity Pagina.java
-                                    startActivity(openPage);
-                                    return true;
-                                case R.id.nav_settimana_tipo:
-                                    openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
-                                    startActivity(openPage);
-                                    return true;
+
+                                    case R.id.nav_pagamenti:
+                                        if(utenteLoggato!=null) {
+                                            openPage = new Intent(SchermataIniziale.this, GestionePagamenti.class);
+                                            // passo all'attivazione dell'activity Pagina.java
+                                            startActivity(openPage);
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Prima di accedere a questo devi aver fatto il login", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
+                                        break;
+
+                                    case R.id.nav_sondaggio:
+                                        if(utenteLoggato!=null) {
+                                            openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
+                                            // passo all'attivazione dell'activity Pagina.java
+                                            startActivity(openPage);
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Prima di accedere a questo devi aver fatto il login", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
+                                        break;
+                                    case R.id.nav_settimana_tipo:
+                                        openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
+                                        startActivity(openPage);
+                                        return true;
+
 
                             }
 
