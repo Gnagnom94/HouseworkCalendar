@@ -93,6 +93,8 @@
         android:paddingTop="16dp"
         android:text="Accedi"
         android:textSize="18sp"
+        android:background="@drawable/rounded_button"
+        android:foreground="@drawable/ripple_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
