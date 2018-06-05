@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

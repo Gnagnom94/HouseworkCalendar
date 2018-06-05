@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import static namenotfoundunica.houseworkcalendar.SettimanaTipo.getDataPage;
+import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.adapters.CustomAdapter;
+import namenotfoundunica.houseworkcalendar.other.Evento;
+
+import static namenotfoundunica.houseworkcalendar.activity.SettimanaTipo.getDataPage;
 
 public class ListViewFragment extends Fragment {
     public static final String ARG_PAGE = "arg_page";

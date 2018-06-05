@@ -1,4 +1,4 @@
-package Fragments;
+package namenotfoundunica.houseworkcalendar.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,13 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
-import java.time.Year;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import namenotfoundunica.houseworkcalendar.AggiuntaEvento;
+import namenotfoundunica.houseworkcalendar.activity.AggiuntaEvento;
 
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;

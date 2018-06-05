@@ -1,4 +1,4 @@
-package Fragments;
+package namenotfoundunica.houseworkcalendar.fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -9,7 +9,7 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import namenotfoundunica.houseworkcalendar.AggiuntaEvento;
+import namenotfoundunica.houseworkcalendar.activity.AggiuntaEvento;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener

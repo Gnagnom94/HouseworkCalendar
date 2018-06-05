@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".SchermataIniziale"
+            tools:context=".activity.SchermataIniziale"
             tools:showIn="@layout/activity_schermata_iniziale">
 
             <CalendarView

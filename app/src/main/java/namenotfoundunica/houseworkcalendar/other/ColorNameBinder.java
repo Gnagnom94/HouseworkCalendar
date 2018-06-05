@@ -1,4 +1,4 @@
-package namenotfoundunica.houseworkcalendar;
+package namenotfoundunica.houseworkcalendar.other;
 
 import android.graphics.Color;
 
