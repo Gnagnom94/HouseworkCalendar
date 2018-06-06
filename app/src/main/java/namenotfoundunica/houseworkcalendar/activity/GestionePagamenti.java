@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -108,16 +109,17 @@ public class GestionePagamenti extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
+        public View getView(final int position, View convertView, ViewGroup parent)
         {
             convertView = getLayoutInflater().inflate(R.layout.custom_pagamento_layout,null);
             TextView textView_name = (TextView) convertView.findViewById(R.id.nomePagamento);
             final ProgressBar progressBar = convertView.findViewById(R.id.progressBarPagamento);
+            final ImageView finishIcon = convertView.findViewById(R.id.finishPayment);
             progressBar.setMax(99);
             progressBar.setProgress(0);
 
-
-            final ImageButton button = convertView.findViewById(R.id.confermaPagamento);
+            boolean pagato;
+            final ImageView button = convertView.findViewById(R.id.confermaPagamento);
             TextView prezzo = convertView.findViewById(R.id.prezzoText);
 
             final Pagamento pagamento = pagamenti.get(position);
@@ -134,25 +136,47 @@ public class GestionePagamenti extends AppCompatActivity {
                 @Override
                 public void onClick(View v)
                 {
-                    int pro=progressBar.getProgress()+(100/pagamento.getNumeroPaganti());
-                    progressBar.setProgress(pro,true);
-                    int i=0;
+                    int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
+                    int i=0;//controllo los tato del pagaento in base all'utente
                     for(Utente utente:pagamento.utentiGruppo)
                     {
                         if(utente.equals(SchermataIniziale.utenteLoggato))
                         {
-                            pagamento.statoUtenti[i]=true;
+                            pUtente=i;
+                            if(pagamento.statoUtenti[i]!=true)
+                                pagamento.statoUtenti[i]=true;
+                            else
+                                pagamento.statoUtenti[i]=false;
                         }
                         i++;
                     }
-                    if(progressBar.getProgress()>=progressBar.getMax())//se la barra ha raggiunto il massimo
+                    int pro = progressBar.getProgress() + (100 / pagamento.getNumeroPaganti());
+                    if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
                     {
-                        button.setImageResource(R.drawable.ic_done_black_24dp);
-                        button.setVisibility(View.VISIBLE);
+                        pagamenti.remove(position);
+                        notifyDataSetChanged();
                     }
-                    else {
-                        button.setVisibility(View.INVISIBLE);
+                    if(pagamento.statoUtenti[pUtente]) {
+                        progressBar.setProgress(pro, true);
+
+
+                        if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
+                        {
+                            progressBar.setProgress(100, true);
+                            button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+                            finishIcon.setVisibility(View.VISIBLE);
+
+                        } else
+                            button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
                     }
+                    else
+                    {
+                        progressBar.setProgress(-pro, true);
+                        button.setImageResource(R.drawable.ic_monetization_on_black_24dp);
+                    }
+
+
+
                 }
             });
             return convertView;
@@ -223,12 +247,14 @@ public class GestionePagamenti extends AppCompatActivity {
         TextView tvMessage = new TextView(this);
         TextView pagati = new TextView(this);
         TextView nonPagati = new TextView(this);
+        TextView totale=new TextView(this);
 
 
         tvMessage.setText(pagamento.getNome());
         String tmpPagato,tmpNonPagato;
         tmpPagato="Pagato: ";
         tmpNonPagato="Mancano ancora: ";
+        totale.setText("Totale spesa: "+String.format("%.2f",pagamento.getTotale())+" €");
         int i=0;
         for(Utente utente:pagamento.utentiGruppo)
         {
@@ -245,6 +271,7 @@ public class GestionePagamenti extends AppCompatActivity {
         layout.addView(tvMessage);
         layout.addView(pagati);
         layout.addView(nonPagati);
+        layout.addView(totale);
         layout.setPadding(50, 50, 100, 0);
 
         builder.setView(layout);

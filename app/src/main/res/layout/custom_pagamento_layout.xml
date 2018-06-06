@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/confermaPagamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,5 +69,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.815" />
+
+    <ImageView
+        android:id="@+id/finishPayment"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/progressBarPagamento"
+        app:layout_constraintEnd_toStartOf="@+id/confermaPagamento"
+        app:layout_constraintStart_toEndOf="@+id/prezzoText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_check_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>
