@@ -68,7 +68,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
         buttonColorInt = giorno.get(position).getColorNameBinder().getColoreEventoToInt();
         buttonForegroundColorCompliment = ColorUtils.getContrastColor(buttonColorInt);
 
-        imageView.setBackground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.roundedbutton, buttonColorInt));
+        imageView.setBackground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.round_button, buttonColorInt));
 
         Calendar calendar = Calendar.getInstance();
 

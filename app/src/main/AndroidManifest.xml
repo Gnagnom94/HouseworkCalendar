@@ -43,8 +43,14 @@
         <activity
             android:name=".activity.SettimanaTipo"
             android:label="@string/title_activity_settimana_tipo" />
-        <activity android:name=".activity.AggiuntaSondaggio" />
-        <activity android:name=".activity.VisualizzaSondaggio" />
+        <activity
+            android:name=".activity.AggiuntaSondaggio"
+            android:label="@string/title_activity_crea_sondaggio"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".activity.VisualizzaSondaggio"
+            android:label="@string/title_activity_visualizza_sondaggio"/>
         <activity
             android:name=".activity.Login"
             android:label="@string/title_activity_login" />

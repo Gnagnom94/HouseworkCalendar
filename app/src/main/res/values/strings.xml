@@ -2,7 +2,7 @@
     <string name="app_name">Housework Calendar</string>
     <string name="action_settings">Settings</string>
     <string name="nav_calendario">Calendario</string>
-    <string name="nav_sondaggio">Sondaggio</string>
+    <string name="nav_sondaggio">Sondaggi</string>
     <string name="nav_pagamenti">Pagamenti</string>
     <string name="nav_gestione_gruppo">Gestione Gruppo</string>
     <string name="nav_login">Login</string>
@@ -82,7 +82,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_pagamenti">Pagamenti</string>
     <string name="title_activity_sondaggi">Sondaggi</string>
-    <string name="title_activity_aggiunta_evento">AggiuntaEvento</string>
+    <string name="title_activity_aggiunta_evento">Aggiunta Evento</string>
+    <string name="title_activity_crea_sondaggio">Crea Sondaggio</string>
+    <string name="title_activity_visualizza_sondaggio">Vota Sondaggio</string>
 
     <!--Elenco stringhe spinner delle attivià-->
 
