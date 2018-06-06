@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,15 +42,12 @@ public class AggiuntaSondaggio extends AppCompatActivity
         final TextView risposta1 = (TextView) findViewById(R.id.Q1);
         final TextView risposta2 = (TextView) findViewById(R.id.addQ2);
         Button send_survey = (Button) findViewById(R.id.send_survey);
+
         ListView lista_risposte = (ListView) findViewById(R.id.ListAnswer);
         final List<String> risposte = new ArrayList<String>();
-
+        //risposte.add("Prova");
         CustomAdapter custom = new CustomAdapter(AggiuntaSondaggio.this, R.layout.custom_addq_layout,risposte);
-
-
         lista_risposte.setAdapter(custom);
-
-
 
         send_survey.setOnClickListener(new View.OnClickListener()
         {
@@ -82,7 +80,6 @@ public class AggiuntaSondaggio extends AppCompatActivity
             super(mContext, resource, risposte);
             this.risposte = risposte;
             inflater = LayoutInflater.from(mContext);
-            risposte.add("Prova");
         }
 
         public int getCount()
@@ -105,15 +102,17 @@ public class AggiuntaSondaggio extends AppCompatActivity
                 convertView=inflater.inflate(R.layout.custom_addq_layout,parent,false);
             }
 
-            ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
-//            ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
-//            meno.setVisibility(View.GONE);
+            final ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
+            final ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
 
             piu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(AggiuntaSondaggio.this,"Prova",Toast.LENGTH_SHORT);
+                    risposte.add("prova");
+                    piu.setVisibility(View.GONE);
+                    meno.setVisibility(View.VISIBLE);
+                    notifyDataSetChanged();
                 }
             });
 

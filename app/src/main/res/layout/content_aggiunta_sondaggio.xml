@@ -47,20 +47,6 @@
             app:layout_constraintTop_toBottomOf="@+id/descrizione_sondaggio"
             app:srcCompat="@drawable/ic_add" />
 
-    <ListView
-        android:id="@+id/ListAnswer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/send_survey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addQ2" />
-
         <EditText
             android:id="@+id/Q1"
             android:layout_width="0dp"
@@ -89,7 +75,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titolo_sondaggio" />
 
-        <Button
+    <ListView
+        android:id="@+id/ListAnswer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/send_survey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addQ2" />
+
+    <Button
         android:id="@+id/send_survey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
