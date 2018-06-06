@@ -149,7 +149,7 @@ public class GestioneGruppo extends AppCompatActivity
         TextView tvMessage        = new TextView(this);
         final EditText etInput    = new EditText(this);
 
-        tvMessage.setText("Inserisci email da cercare:");
+        tvMessage.setText("Inserisci email dell'utente da aggiungere al gruppo:");
         etInput.setSingleLine();
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(tvMessage);
@@ -186,7 +186,7 @@ public class GestioneGruppo extends AppCompatActivity
 
             }
         };
-        builder.setPositiveButton("Cerca",onPositiveClickListener);
+        builder.setPositiveButton("Aggiungi",onPositiveClickListener);
         builder.setNegativeButton("Annulla",null);
         builder.create().show();
     }
