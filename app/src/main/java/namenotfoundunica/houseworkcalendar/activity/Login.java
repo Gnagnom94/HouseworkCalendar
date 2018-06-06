@@ -52,10 +52,9 @@ public class Login  extends AppCompatActivity
                         startActivity(openPageHome);
 
                     }
-                    if(!connesso)
-                        makeToast("Email o password errati ");
-
                 }
+                if(!connesso)
+                    makeToast("Email o password errati ");
             }
         });
 

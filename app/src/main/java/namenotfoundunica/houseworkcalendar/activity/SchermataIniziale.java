@@ -292,6 +292,20 @@ public class SchermataIniziale extends AppCompatActivity
                                         openPage = new Intent(SchermataIniziale.this, SettimanaTipo.class);
                                         startActivity(openPage);
                                         return true;
+                                    case R.id.nav_logout:
+                                        if(utenteLoggato!=null) {
+                                            utenteLoggato=null;
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Logout eseguito", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                            mDrawerLayout.closeDrawers();//chiudo la nav
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Prima di accedere a questo devi aver fatto il login", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
+                                        break;
 
 
                             }

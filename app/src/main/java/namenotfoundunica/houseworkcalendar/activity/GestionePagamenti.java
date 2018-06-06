@@ -52,6 +52,8 @@ public class GestionePagamenti extends AppCompatActivity {
         }
 
         ListView listView = (ListView) findViewById(R.id.listViewPagamenti);
+        GestionePagamenti.CustomAdapter customAdapter = new GestionePagamenti.CustomAdapter();
+        listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -59,8 +61,7 @@ public class GestionePagamenti extends AppCompatActivity {
                 showInfoPagamento(position);
             }
         });
-        GestionePagamenti.CustomAdapter customAdapter = new GestionePagamenti.CustomAdapter();
-        listView.setAdapter(customAdapter);
+
 
         final FloatingActionButton fab = findViewById(R.id.fab_Pagamento);
         fab.setOnClickListener(new View.OnClickListener()
@@ -149,8 +150,9 @@ public class GestionePagamenti extends AppCompatActivity {
                         button.setImageResource(R.drawable.ic_done_black_24dp);
                         button.setVisibility(View.VISIBLE);
                     }
-                    else
+                    else {
                         button.setVisibility(View.INVISIBLE);
+                    }
                 }
             });
             return convertView;
@@ -221,6 +223,7 @@ public class GestionePagamenti extends AppCompatActivity {
         TextView tvMessage = new TextView(this);
         TextView pagati = new TextView(this);
         TextView nonPagati = new TextView(this);
+
 
         tvMessage.setText(pagamento.getNome());
         String tmpPagato,tmpNonPagato;
