@@ -36,7 +36,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Random;
 
+import namenotfoundunica.houseworkcalendar.other.Calendario;
 import namenotfoundunica.houseworkcalendar.other.ColorNameBinder;
 import namenotfoundunica.houseworkcalendar.other.Evento;
 import namenotfoundunica.houseworkcalendar.R;
@@ -295,10 +298,12 @@ public class AggiuntaEvento extends AppCompatActivity
                         if(trovato!=true)
                             SchermataIniziale.colorNameBinder.add(colorNameScelto);
                     }
-
-                    Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.isChecked(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(),groupActivityFlag.isChecked());
-                    SchermataIniziale.calendario.add(nuovoEvento);
-
+                    if(!(ripetizione.isChecked() && groupActivityFlag.isChecked())) {
+                        Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.isChecked(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(), groupActivityFlag.isChecked());
+                        SchermataIniziale.calendario.add(nuovoEvento);
+                    }else{
+                        SchermataIniziale.calendario.addAll(generazioneSettimanaTipo());
+                    }
                     SchermataIniziale.calendario.sort();
 
                     makeToast("Attività creata");
@@ -389,6 +394,32 @@ public class AggiuntaEvento extends AppCompatActivity
                     utenteSpinner.setEnabled(false);
             }
         });
+    }
+
+    private Calendario generazioneSettimanaTipo(){
+        Random random = new Random();
+        Calendario settimana = new Calendario();
+
+
+            for (int j = 1; j < (Calendar.getInstance().getWeeksInWeekYear() - Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)); j++) {
+                int rUtenti = random.nextInt(((SchermataIniziale.UtentiGruppo.size() - 1) - 0) + 1);
+
+                settimana.add(new Evento(colorNameScelto,
+                        new GregorianCalendar(dataInizio.get(Calendar.YEAR), dataInizio.get(Calendar.MONTH), dataInizio.get(Calendar.DAY_OF_MONTH), dataInizio.get(Calendar.HOUR_OF_DAY) , dataInizio.get(Calendar.MINUTE)),
+                        new GregorianCalendar(dataFine.get(Calendar.YEAR), dataFine.get(Calendar.MONTH), dataFine.get(Calendar.DAY_OF_MONTH), dataFine.get(Calendar.HOUR_OF_DAY), dataFine.get(Calendar.MINUTE)),
+                        true,
+                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                );
+
+                dataInizio.roll(Calendar.WEEK_OF_YEAR, 1);
+                dataFine.roll(Calendar.WEEK_OF_YEAR, 1);
+            }
+
+
+
+        settimana.sort();
+
+        return settimana;
     }
 
     public void makeToast(String message)

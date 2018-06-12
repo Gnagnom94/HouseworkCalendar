@@ -45,10 +45,9 @@ public class TimePickerFragment extends DialogFragment
 
         if(c.flagTime)
         {
-            c.dataFine.set(Calendar.MINUTE,minute);
-            c.dataFine.set(Calendar.HOUR_OF_DAY,hourOfDay);
+            c.dataInizio.set(Calendar.MINUTE,minute);
+            c.dataInizio.set(Calendar.HOUR_OF_DAY,hourOfDay);
             c.timeInizioEvento.setText(ora+ ":" +min);
-            c.timeFineEvento.setText(ora+ ":" +min);
             if(c.dataFine.compareTo(c.dataInizio)<=0)
             {
                 c.dataFine.set(Calendar.MINUTE,minute);
@@ -60,13 +59,13 @@ public class TimePickerFragment extends DialogFragment
         {
             c.dataFine.set(Calendar.MINUTE, minute);
             c.dataFine.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            c.timeFineEvento.setText(ora+ ":" +min);
             if(c.dataFine.compareTo(c.dataInizio)<0)
             {
                 c.dataInizio.set(Calendar.MINUTE,minute);
                 c.dataInizio.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 c.timeInizioEvento.setText(ora+ ":" +min);
             }
-            c.timeFineEvento.setText(ora+ ":" +min);
         }
     }
 }
