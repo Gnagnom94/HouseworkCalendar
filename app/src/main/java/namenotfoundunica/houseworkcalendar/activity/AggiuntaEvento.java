@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,7 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -43,6 +47,7 @@ import namenotfoundunica.houseworkcalendar.other.Calendario;
 import namenotfoundunica.houseworkcalendar.other.ColorNameBinder;
 import namenotfoundunica.houseworkcalendar.other.Evento;
 import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Pagamento;
 import namenotfoundunica.houseworkcalendar.other.Utente;
 import namenotfoundunica.houseworkcalendar.fragments.DatePickerFragment;
 import namenotfoundunica.houseworkcalendar.fragments.TimePickerFragment;
@@ -112,11 +117,30 @@ public class AggiuntaEvento extends AppCompatActivity
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
 
+        if(getIntent().getIntExtra("Evento",-1)>=0)
+        {
+            Evento tmp = SchermataIniziale.calendario.get(getIntent().getIntExtra("Evento",-1));
+            colorNameScelto=tmp.getColorNameBinder();
+            dataInizio=tmp.getInizio();
+            dataFine=tmp.getFine();
+            utenteSceltoSpinner=tmp.getUtente();
+            groupActivityFlag.setChecked(tmp.isGroupFlag());
+
+            utenteSpinner.setEnabled(tmp.isGroupFlag());
+            ripetizione.setChecked(tmp.getFlagRipetizione());
+            nomeAttivita.setText(tmp.getNote());
+            sceltaSpinnerCategoria=tmp.getCategoria();
+            nomeAttivita.setText(tmp.getColorNameBinder().getNomeEvento());
+            colorPickerButton.setBackgroundColor(tmp.getColorNameBinder().getColoreEventoToInt());
+
+        }
+
         dataEventoText.setText(dfData.format(dataInizio.getTime()));
         //Log.d("datainizio", ""+ dataInizio.get(Calendar.HOUR_OF_DAY) + ":" + dataInizio.get(Calendar.MINUTE));
 
         timeInizioEvento.setText(dfTime.format(dataInizio.getTime()));
-        timeFineEvento.setText(dfTime.format(dataInizio.getTime()));
+        timeFineEvento.setText(dfTime.format(dataFine.getTime()));
+
         AggiuntaEventi();
         popolaSpinnerUtenti();
         popolaSpinnerCategoria();
@@ -124,6 +148,7 @@ public class AggiuntaEvento extends AppCompatActivity
 
 
     }
+
 
     private void setupActionBar()
     {
@@ -283,6 +308,9 @@ public class AggiuntaEvento extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                if(getIntent().getIntExtra("Evento",-1)>=0)//controllo se è un vecchio evento modifcato
+                    SchermataIniziale.calendario.remove(getIntent().getIntExtra("Evento", -1));//rimuovo il vecchio evento
+
                 //controllo che sia stato inserito un nome
                 if((nomeAttivita.getText().toString().compareTo("")!=0)&&(colorNameScelto.getColoreEvento().compareTo("")!=0))
                 {
@@ -298,12 +326,16 @@ public class AggiuntaEvento extends AppCompatActivity
                         if(trovato!=true)
                             SchermataIniziale.colorNameBinder.add(colorNameScelto);
                     }
+
                     if(!(ripetizione.isChecked() && groupActivityFlag.isChecked())) {
+
                         Evento nuovoEvento = new Evento(colorNameScelto, dataInizio, dataFine, ripetizione.isChecked(), utenteSceltoSpinner, sceltaSpinnerCategoria, noteAttivita.getText().toString(), groupActivityFlag.isChecked());
                         SchermataIniziale.calendario.add(nuovoEvento);
-                    }else{
-                        SchermataIniziale.calendario.addAll(generazioneSettimanaTipo());
+
                     }
+                    else
+                        SchermataIniziale.calendario.addAll(generazioneSettimanaTipo());
+
                     SchermataIniziale.calendario.sort();
 
                     makeToast("Attività creata");
@@ -430,6 +462,5 @@ public class AggiuntaEvento extends AppCompatActivity
         toast = Toast.makeText(context, message, duration);
         toast.show();
     }
-
 
 }

@@ -1,6 +1,7 @@
 package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,19 +11,29 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -33,6 +44,7 @@ import namenotfoundunica.houseworkcalendar.other.ColorNameBinder;
 import namenotfoundunica.houseworkcalendar.adapters.CustomAdapter;
 import namenotfoundunica.houseworkcalendar.other.Evento;
 import namenotfoundunica.houseworkcalendar.R;
+import namenotfoundunica.houseworkcalendar.other.Pagamento;
 import namenotfoundunica.houseworkcalendar.other.Utente;
 
 
@@ -106,7 +118,6 @@ public class SchermataIniziale extends AppCompatActivity
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar calendarSelected = new GregorianCalendar(year, month, dayOfMonth);
                 tmp.clear();
                 int i = 0;
                 for (Evento evento : calendario) {
@@ -218,6 +229,13 @@ public class SchermataIniziale extends AppCompatActivity
                     @Override
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                    }
+                });
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        showInfoEvento(customAdapter.getItem(position));
+                        customAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -444,4 +462,81 @@ public class SchermataIniziale extends AppCompatActivity
         return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    private void showInfoEvento(final Evento selected)
+    {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.customlayout_info_evento, null);
+        TextView tipo =alertLayout.findViewById(R.id.titoloAttivita);
+        TextView oraInizio =alertLayout.findViewById(R.id.oraInizio);
+        TextView oraFine =alertLayout.findViewById(R.id.oraFine);
+        TextView data =alertLayout.findViewById(R.id.Data);
+        TextView utente =alertLayout.findViewById(R.id.utente);
+        CheckBox ripetizione =alertLayout.findViewById(R.id.checkBoxRicorrenza);
+        CheckBox attivitaGruppo= alertLayout.findViewById(R.id.checkBoxGruppo);
+        TextView note =alertLayout.findViewById(R.id.noteEvento);
+
+
+
+        DateFormat dfTime = new SimpleDateFormat("HH:mm");
+        DateFormat dfData = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        tipo.setText(selected.getColorNameBinder().getNomeEvento());
+        oraInizio.setText(dfTime.format(selected.getInizio().getTime()));
+        oraFine.setText(dfTime.format(selected.getFine().getTime()));
+        data.setText(dfData.format(selected.getInizio().getTime()));
+        utente.setText(selected.getUtente().getNome().toString());
+        ripetizione.setClickable(false);
+        if(selected.getFlagRipetizione()==true)
+            ripetizione.setChecked(true);
+        else
+            ripetizione.setChecked(false);
+
+        attivitaGruppo.setClickable(false);
+        if(selected.isGroupFlag()==true)
+            attivitaGruppo.setChecked(true);
+        else
+            attivitaGruppo.setClickable(false);
+
+        note.setText(selected.getNote());
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Info evento");
+
+        alert.setPositiveButton("Ok",null);
+        if(selected.isCompletedFlag())
+        {
+            alert.setNegativeButton("Segna da fare", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
+                }
+            });
+        }
+        else {
+            alert.setNegativeButton("Segna fatto", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
+                }
+            });
+        }
+        alert.setNeutralButton("Modifica", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
+                openPage.putExtra("Chiamante", "SchermataIniziale");
+                openPage.putExtra("Evento",calendario.indexOf(selected));
+
+                startActivity(openPage);
+            }
+        });
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        AlertDialog dialog = alert.create();
+        dialog.show();
+
+    }
 }
