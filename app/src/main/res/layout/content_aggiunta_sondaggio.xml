@@ -7,40 +7,90 @@
     tools:context=".activity.AggiuntaSondaggio">
 
 
-    <ListView
-        android:id="@+id/ListAnswer"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </ListView>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editTextTitolo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="Inserisci Titolo"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextDescrizione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="Inserisci Descrizione"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextRisposta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="Inserisci Risposta 1"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextRsiposta2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="Inserisci Risposta 2"
+                android:inputType="textPersonName" />
+
+            <!--<include layout="@layout/custom_addq_layout"/>-->
+        </LinearLayout>
+    </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAddQ"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="Aggiungi RIsposta"
-        android:text="Aggiungi RIsposta"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Aggiungi Risposta"
+        android:text="Aggiungi Risposta"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSendSurvey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/buttonSendSurvey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Crea Sondaggio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.885" />
+        app:layout_constraintGuide_percent="0.8" />
 </android.support.constraint.ConstraintLayout>
