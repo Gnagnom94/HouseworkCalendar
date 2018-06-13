@@ -37,18 +37,18 @@ public class AggiuntaSondaggio extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
 
-        final TextView titolo_sondaggio = (TextView) findViewById(R.id.titolo_sondaggio);
+        /*final TextView titolo_sondaggio = (TextView) findViewById(R.id.titolo_sondaggio);
         final TextView descrizione_sondaggio = (TextView) findViewById(R.id.descrizione_sondaggio);
         final TextView risposta1 = (TextView) findViewById(R.id.Q1);
         final TextView risposta2 = (TextView) findViewById(R.id.addQ2);
-        Button send_survey = (Button) findViewById(R.id.send_survey);
+        Button send_survey = (Button) findViewById(R.id.send_survey);*/
 
         ListView lista_risposte = (ListView) findViewById(R.id.ListAnswer);
         final List<String> risposte = new ArrayList<String>();
         CustomAdapter custom = new CustomAdapter(AggiuntaSondaggio.this, R.layout.custom_addq_layout,risposte);
         lista_risposte.setAdapter(custom);
 
-        send_survey.setOnClickListener(new View.OnClickListener()
+        /*send_survey.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -64,27 +64,26 @@ public class AggiuntaSondaggio extends AppCompatActivity
                 startActivity(backToSurvey);
 
             }
-        });
+        });*/
 
 
     }
     public class CustomAdapter extends ArrayAdapter
     {
         private Context mContext;
-        private List<String> risposte;
+        private List<String> risposte = new ArrayList<String>();
         private LayoutInflater inflater;
         private int count = 0;
 
         public CustomAdapter(@NonNull Context mContext, int resource, List<String> risposte)
         {
             super(mContext, resource, risposte);
-            this.risposte = risposte;
             inflater = LayoutInflater.from(mContext);
         }
 
         public int getCount()
         {
-            return risposte.size()+1;
+            return risposte.size()+5;
         }
         public long getItemId(int position)
         {
@@ -93,53 +92,72 @@ public class AggiuntaSondaggio extends AppCompatActivity
         @Override
         public View getView(final int position, View convertView, ViewGroup parent)
         {
-            if(inflater==null)
+            if (inflater == null)
             {
-                inflater= (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            }
-            if(convertView==null)
-            {
-                convertView=inflater.inflate(R.layout.custom_addq_layout,parent,false);
+                inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
 
-            final ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
-            final ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
+            if(position <= 3) {
+                switch (position) {
+                    case 0:
+                        convertView = inflater.inflate(R.layout.custom_firsttw_layout, parent, false);
 
-            piu.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    risposte.add("prova");
-                    piu.setVisibility(View.GONE);
-                    meno.setVisibility(View.VISIBLE);
-                    notifyDataSetChanged();
+                        return convertView;
+                    case 1:
+                        convertView = inflater.inflate(R.layout.custom_firsttw_layout, parent, false);
+
+                        return convertView;
+
+                    case 2:
+                        convertView = inflater.inflate(R.layout.custom_secondtw_layout, parent, false);
+
+                        return convertView;
+
+                    case 3:
+                        convertView = inflater.inflate(R.layout.custom_secondtw_layout, parent, false);
+
+                        return convertView;
                 }
-            });
-            meno.setOnClickListener(new View.OnClickListener()
+            }
+            if(position > 3)
             {
-                @Override
-                public void onClick(View v)
+                if (convertView == null)
                 {
-                    risposte.remove(position);
-                    piu.setVisibility(View.VISIBLE);
-                    notifyDataSetChanged();
+                    convertView = inflater.inflate(R.layout.custom_addq_layout, parent, false);
                 }
-            });
+
+                final ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
+                final ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
+
+                piu.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v) {
+                        risposte.add("prova");
+                        piu.setVisibility(View.GONE);
+                        meno.setVisibility(View.VISIBLE);
+                        notifyDataSetChanged();
+                    }
+                });
+                meno.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v) {
+//                        risposte.remove(position);
+                        piu.setVisibility(View.VISIBLE);
+                        notifyDataSetChanged();
+                    }
+                });
 
 
-
-
-
-
-
-            return convertView;
+                return convertView;
+            }
+            return null;
         }
 
 
 
     }
-
 
     private void setupActionBar()
     {
