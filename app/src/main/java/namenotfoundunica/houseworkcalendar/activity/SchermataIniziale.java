@@ -56,6 +56,7 @@ public class SchermataIniziale extends AppCompatActivity
     public static ArrayList<Utente> UtentiGruppo;
     public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
+    public CustomAdapter customAdapter;
 
     public static ArrayList<Utente> utenti = new ArrayList<Utente>();
     public static Calendario calendario = new Calendario();
@@ -138,7 +139,7 @@ public class SchermataIniziale extends AppCompatActivity
                 }
                 final ListView listView = findViewById(R.id.listView);
 
-                final CustomAdapter customAdapter = new CustomAdapter(SchermataIniziale.this, R.layout.customlayout, tmp);
+                customAdapter = new CustomAdapter(SchermataIniziale.this, R.layout.customlayout, tmp);
                 listView.setAdapter(customAdapter);
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
                 // Capture ListView item click
@@ -506,19 +507,21 @@ public class SchermataIniziale extends AppCompatActivity
         alert.setPositiveButton("Ok",null);
         if(selected.isCompletedFlag())
         {
-            alert.setNegativeButton("Segna da fare", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton("Segna non Concluso", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which)
                 {
                     calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
+                    customAdapter.notifyDataSetChanged();
                 }
             });
         }
         else {
-            alert.setNegativeButton("Segna fatto", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton("Segna Concluso", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
+                    customAdapter.notifyDataSetChanged();
                 }
             });
         }
