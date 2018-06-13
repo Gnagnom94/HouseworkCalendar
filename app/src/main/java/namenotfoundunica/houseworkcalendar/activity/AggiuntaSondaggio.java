@@ -122,33 +122,9 @@ public class AggiuntaSondaggio extends AppCompatActivity
                         return convertView;
 
                     case 3:
-                        convertView = inflater.inflate(R.layout.custom_addq_layout, parent, false);
-
-                        EditText editTextRisposta2 = convertView.findViewById(R.id.AnswerAgg);
+                        convertView = inflater.inflate(R.layout.custom_secondtw_layout, parent, false);
+                        EditText editTextRisposta2 = convertView.findViewById(R.id.editText2);
                         editTextRisposta2.setHint("Inserisci Risposta 2");
-
-                        final ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
-                        final ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
-
-                        piu.setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v) {
-                                risposte.add("prova");
-                                piu.setVisibility(View.GONE);
-                                meno.setVisibility(View.VISIBLE);
-                                notifyDataSetChanged();
-                            }
-                        });
-                        meno.setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v) {
-                                risposte.remove(position);
-                                piu.setVisibility(View.VISIBLE);
-                                notifyDataSetChanged();
-                            }
-                        });
                         return convertView;
                 }
             }
