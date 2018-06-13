@@ -16,7 +16,7 @@
         android:background="@drawable/rounded_button"
         android:backgroundTint="#FFFF0000"
         android:src="@drawable/ic_remove_black_24dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="#FF00FF00"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
