@@ -45,7 +45,6 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
         ListView lista_risposte = (ListView) findViewById(R.id.ListAnswer);
         final List<String> risposte = new ArrayList<String>();
-        //risposte.add("Prova");
         CustomAdapter custom = new CustomAdapter(AggiuntaSondaggio.this, R.layout.custom_addq_layout,risposte);
         lista_risposte.setAdapter(custom);
 
@@ -74,6 +73,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
         private Context mContext;
         private List<String> risposte;
         private LayoutInflater inflater;
+        private int count = 0;
 
         public CustomAdapter(@NonNull Context mContext, int resource, List<String> risposte)
         {
@@ -84,7 +84,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
         public int getCount()
         {
-            return risposte.size();
+            return risposte.size()+1;
         }
         public long getItemId(int position)
         {
@@ -105,13 +105,24 @@ public class AggiuntaSondaggio extends AppCompatActivity
             final ImageButton piu = (ImageButton) convertView.findViewById(R.id.addQ);
             final ImageButton meno = (ImageButton) convertView.findViewById(R.id.removeQ);
 
-            piu.setOnClickListener(new View.OnClickListener() {
+            piu.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v)
                 {
                     risposte.add("prova");
                     piu.setVisibility(View.GONE);
                     meno.setVisibility(View.VISIBLE);
+                    notifyDataSetChanged();
+                }
+            });
+            meno.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    risposte.remove(position);
+                    piu.setVisibility(View.VISIBLE);
                     notifyDataSetChanged();
                 }
             });
