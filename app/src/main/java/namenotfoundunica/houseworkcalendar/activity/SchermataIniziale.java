@@ -51,6 +51,7 @@ import namenotfoundunica.houseworkcalendar.other.Utente;
 public class SchermataIniziale extends AppCompatActivity
 {
 
+    public static ArrayList<Pagamento> pagamenti;
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
     public static ArrayList<Utente> UtentiGruppo;

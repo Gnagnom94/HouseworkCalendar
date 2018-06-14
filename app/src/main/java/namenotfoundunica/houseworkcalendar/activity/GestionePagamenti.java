@@ -19,7 +19,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,8 +33,7 @@ import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class GestionePagamenti extends AppCompatActivity {
 
-    public static ArrayList<Pagamento> pagamenti;
-    private boolean flagCreazione=false;
+    private static boolean flagCreazione=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +43,10 @@ public class GestionePagamenti extends AppCompatActivity {
         setupActionBar();
         if(!flagCreazione)
         {
-            pagamenti=new ArrayList<>();
-            pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.UtentiGruppo));
-            pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.UtentiGruppo));
-            pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti=new ArrayList<>();
+            SchermataIniziale.pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.UtentiGruppo));
             flagCreazione=true;
         }
 
@@ -95,7 +93,7 @@ public class GestionePagamenti extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return pagamenti.size();
+            return SchermataIniziale.pagamenti.size();
         }
 
         @Override
@@ -122,7 +120,7 @@ public class GestionePagamenti extends AppCompatActivity {
             final ImageView button = convertView.findViewById(R.id.confermaPagamento);
             TextView prezzo = convertView.findViewById(R.id.prezzoText);
 
-            final Pagamento pagamento = pagamenti.get(position);
+            final Pagamento pagamento = SchermataIniziale.pagamenti.get(position);
             button.setId(pagamento.getId());
             float prezzoParziale =(pagamento.getTotale())/(pagamento.getNumeroPaganti());
             prezzo.setText(String.format("%.2f",prezzoParziale)+" €");
@@ -153,7 +151,7 @@ public class GestionePagamenti extends AppCompatActivity {
                     int pro = progressBar.getProgress() + (100 / pagamento.getNumeroPaganti());
                     if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
                     {
-                        pagamenti.remove(position);
+                        SchermataIniziale.pagamenti.remove(position);
                         notifyDataSetChanged();
                     }
                     if(pagamento.statoUtenti[pUtente]) {
@@ -231,7 +229,7 @@ public class GestionePagamenti extends AppCompatActivity {
             {
                  String tmpTipo= etInput.getText().toString();
                  float tmpPrezzo=Float.valueOf(prInput.getText().toString());
-                pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo,pagamenti.size(),SchermataIniziale.UtentiGruppo));
+                SchermataIniziale.pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo, SchermataIniziale.pagamenti.size(),SchermataIniziale.UtentiGruppo));
             }
         };
         builder.setPositiveButton("Aggiungi",onPositiveClickListener);
@@ -241,7 +239,7 @@ public class GestionePagamenti extends AppCompatActivity {
     private void showInfoPagamento(int posizione)
     {
 
-        Pagamento pagamento=pagamenti.get(posizione);
+        Pagamento pagamento= SchermataIniziale.pagamenti.get(posizione);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LinearLayout layout = new LinearLayout(this);
         TextView tvMessage = new TextView(this);
