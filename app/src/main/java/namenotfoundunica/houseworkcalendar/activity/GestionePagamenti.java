@@ -50,6 +50,7 @@ public class GestionePagamenti extends AppCompatActivity {
             flagCreazione=true;
         }
 
+
         ListView listView = (ListView) findViewById(R.id.listViewPagamenti);
         GestionePagamenti.CustomAdapter customAdapter = new GestionePagamenti.CustomAdapter();
         listView.setAdapter(customAdapter);
@@ -125,6 +126,12 @@ public class GestionePagamenti extends AppCompatActivity {
             float prezzoParziale =(pagamento.getTotale())/(pagamento.getNumeroPaganti());
             prezzo.setText(String.format("%.2f",prezzoParziale)+" €");
             textView_name.setText(pagamento.getNome());
+            for(int i=0;i<pagamento.getNumeroPaganti();i++)
+            {
+                if(pagamento.statoUtenti[i]==true)
+                    progressBar.setProgress(progressBar.getProgress() + (100 / pagamento.getNumeroPaganti()), true);
+
+            }
 
 
             button.setOnClickListener(new View.OnClickListener()
@@ -142,9 +149,9 @@ public class GestionePagamenti extends AppCompatActivity {
                         {
                             pUtente=i;
                             if(pagamento.statoUtenti[i]!=true)
-                                pagamento.statoUtenti[i]=true;
+                                SchermataIniziale.pagamenti.get(position).statoUtenti[i]=true;
                             else
-                                pagamento.statoUtenti[i]=false;
+                                SchermataIniziale.pagamenti.get(position).statoUtenti[i]=false;
                         }
                         i++;
                     }
@@ -170,7 +177,7 @@ public class GestionePagamenti extends AppCompatActivity {
                     else
                     {
                         progressBar.setProgress(-pro, true);
-                        button.setImageResource(R.drawable.ic_monetization_on_black_24dp);
+                        button.setImageResource(R.drawable.ic_add_circle_black_24dp);
                     }
 
 
