@@ -74,13 +74,15 @@ public class SchermataIniziale extends AppCompatActivity
         setContentView(R.layout.activity_schermata_iniziale);
 
         if (!flagCreation) {
-            Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
+            /*Utente matteo = new Utente("Matteo", "Atzeni", "matteo.atzeni@outlook.com", "atzeni");
             Utente alessandro = new Utente("Alessandro", "Caddeo", "alessandro.caddeo@outlook.com", "caddeo");
             Utente pitta = new Utente("Marco", "Pittau", "marco.pittau@outlook.com", "pittau");
             utenti.add(matteo);
             utenti.add(alessandro);
-            utenti.add(pitta);
+            utenti.add(pitta);*/
             utenti.add(new Utente("a", "a", "a", "a"));
+            utenti.add(new Utente("b", "b", "b", "b"));
+            utenti.add(new Utente("c", "c", "c", "c"));
 
             UtentiGruppo = new ArrayList<>(utenti);
 

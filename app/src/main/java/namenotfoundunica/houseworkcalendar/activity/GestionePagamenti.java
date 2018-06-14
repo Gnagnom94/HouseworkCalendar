@@ -114,26 +114,39 @@ public class GestionePagamenti extends AppCompatActivity {
             TextView textView_name = (TextView) convertView.findViewById(R.id.nomePagamento);
             final ProgressBar progressBar = convertView.findViewById(R.id.progressBarPagamento);
             final ImageView finishIcon = convertView.findViewById(R.id.finishPayment);
-            progressBar.setMax(99);
+            progressBar.setMax(95);
             progressBar.setProgress(0);
-
-            boolean pagato;
+            final Pagamento pagamento = SchermataIniziale.pagamenti.get(position);
+            int i=0;
+            int indiceUtenteLog=0;
+            //cerco l'indice del gruppo dell'utente loggato
+            for(Utente utente:pagamento.utentiGruppo) {
+                if (utente.equals(SchermataIniziale.utenteLoggato))
+                {
+                    indiceUtenteLog=i;
+                }
+                i++;
+            }
             final ImageView button = convertView.findViewById(R.id.confermaPagamento);
             TextView prezzo = convertView.findViewById(R.id.prezzoText);
 
-            final Pagamento pagamento = SchermataIniziale.pagamenti.get(position);
+
             button.setId(pagamento.getId());
             float prezzoParziale =(pagamento.getTotale())/(pagamento.getNumeroPaganti());
             prezzo.setText(String.format("%.2f",prezzoParziale)+" €");
             textView_name.setText(pagamento.getNome());
-            for(int i=0;i<pagamento.getNumeroPaganti();i++)
+            for(i=0;i<pagamento.getNumeroPaganti();i++)
             {
                 if(pagamento.statoUtenti[i]==true)
-                    progressBar.setProgress(progressBar.getProgress() + (100 / pagamento.getNumeroPaganti()), true);
-
+                {
+                    if(i==indiceUtenteLog)
+                        button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                    progressBar.setProgress(progressBar.getProgress()+(100 / pagamento.getNumeroPaganti()), false);
+                }
             }
 
 
+            final int finalIndiceUtenteLog = indiceUtenteLog;
             button.setOnClickListener(new View.OnClickListener()
             {
                 @TargetApi(Build.VERSION_CODES.N)
@@ -141,47 +154,35 @@ public class GestionePagamenti extends AppCompatActivity {
                 @Override
                 public void onClick(View v)
                 {
-                    int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
-                    int i=0;//controllo los tato del pagaento in base all'utente
-                    for(Utente utente:pagamento.utentiGruppo)
-                    {
-                        if(utente.equals(SchermataIniziale.utenteLoggato))
-                        {
-                            pUtente=i;
-                            if(pagamento.statoUtenti[i]!=true)
-                                SchermataIniziale.pagamenti.get(position).statoUtenti[i]=true;
-                            else
-                                SchermataIniziale.pagamenti.get(position).statoUtenti[i]=false;
-                        }
-                        i++;
-                    }
+                    if(pagamento.statoUtenti[finalIndiceUtenteLog]!=true)
+                        SchermataIniziale.pagamenti.get(position).statoUtenti[finalIndiceUtenteLog]=true;
+                    else
+                        SchermataIniziale.pagamenti.get(position).statoUtenti[finalIndiceUtenteLog]=false;
+
                     int pro = progressBar.getProgress() + (100 / pagamento.getNumeroPaganti());
                     if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
-                    {
                         SchermataIniziale.pagamenti.remove(position);
-                        notifyDataSetChanged();
-                    }
-                    if(pagamento.statoUtenti[pUtente]) {
+
+
+                    if(pagamento.statoUtenti[finalIndiceUtenteLog])
+                    {
                         progressBar.setProgress(pro, true);
-
-
                         if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
                         {
                             progressBar.setProgress(100, true);
                             button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
                             finishIcon.setVisibility(View.VISIBLE);
 
-                        } else
+                        }
+                        else
                             button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
                     }
                     else
                     {
-                        progressBar.setProgress(-pro, true);
+                        progressBar.setProgress(progressBar.getProgress()+(100 / pagamento.getNumeroPaganti()), true);
                         button.setImageResource(R.drawable.ic_add_circle_black_24dp);
                     }
-
-
-
+                    notifyDataSetChanged();
                 }
             });
             return convertView;
