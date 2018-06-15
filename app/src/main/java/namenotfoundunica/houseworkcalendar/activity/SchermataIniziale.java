@@ -1,5 +1,6 @@
 package namenotfoundunica.houseworkcalendar.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -478,7 +480,9 @@ public class SchermataIniziale extends AppCompatActivity
         CheckBox ripetizione =alertLayout.findViewById(R.id.checkBoxRicorrenza);
         CheckBox attivitaGruppo= alertLayout.findViewById(R.id.checkBoxGruppo);
         TextView note =alertLayout.findViewById(R.id.noteEvento);
-
+        Button buttonFatto = alertLayout.findViewById(R.id.buttonFatto);
+        Button buttonModifica = alertLayout.findViewById(R.id.buttonModifica);
+        Button buttonChiudi = alertLayout.findViewById(R.id.buttonChiudi);
 
 
         DateFormat dfTime = new SimpleDateFormat("HH:mm");
@@ -504,31 +508,69 @@ public class SchermataIniziale extends AppCompatActivity
 
         note.setText(selected.getNote());
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Info evento");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Info evento");
+        builder.setView(alertLayout);
 
-        alert.setPositiveButton("Ok",null);
+        final AlertDialog dialog = builder.create();
+
+        //alert.setPositiveButton("Ok",null);
+        buttonChiudi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         if(selected.isCompletedFlag())
         {
-            alert.setNegativeButton("Segna non Concluso", new DialogInterface.OnClickListener() {
+            buttonFatto.setText("Segna come non Concluso");
+            buttonFatto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
+                    customAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+            /*alert.setNegativeButton("Segna non Concluso", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which)
                 {
                     calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
                     customAdapter.notifyDataSetChanged();
                 }
-            });
+            });*/
         }
-        else {
-            alert.setNegativeButton("Segna Concluso", new DialogInterface.OnClickListener() {
+        else
+        {
+            buttonFatto.setText("Segna come Concluso");
+            buttonFatto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
+                    customAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+            /*alert.setNegativeButton("Segna Concluso", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
                     customAdapter.notifyDataSetChanged();
                 }
-            });
+            });*/
         }
-        alert.setNeutralButton("Modifica", new DialogInterface.OnClickListener() {
+        buttonModifica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
+                openPage.putExtra("Chiamante", "SchermataIniziale");
+                openPage.putExtra("Evento",calendario.indexOf(selected));
+
+                startActivity(openPage);
+            }
+        });
+        /*alert.setNeutralButton("Modifica", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -538,10 +580,8 @@ public class SchermataIniziale extends AppCompatActivity
 
                 startActivity(openPage);
             }
-        });
-        // this is set the view from XML inside AlertDialog
-        alert.setView(alertLayout);
-        AlertDialog dialog = alert.create();
+        });*/
+
         dialog.show();
 
     }

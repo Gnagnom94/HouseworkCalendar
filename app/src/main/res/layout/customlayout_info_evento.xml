@@ -12,7 +12,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="Tipo attività:"
+        android:text="Nome Evento:"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +26,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +39,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Data:"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
@@ -49,6 +52,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
@@ -61,6 +65,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginTop="8dp"
         android:text="Ora inizio:"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
@@ -73,6 +78,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
@@ -85,6 +91,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="OraFine:"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline13" />
@@ -97,6 +104,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline13" />
@@ -130,13 +138,17 @@
         android:id="@+id/noteEvento"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFatto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16" />
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/Label5"
@@ -146,6 +158,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Utente"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline14" />
@@ -157,8 +170,23 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline14" />
+
+    <Button
+        android:id="@+id/buttonFatto"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
+        android:foreground="@drawable/ripple_circle"
+        android:text="Segna Come Concluso"
+        app:layout_constraintBottom_toTopOf="@+id/buttonModifica"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline10"
@@ -208,5 +236,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.38" />
+
+    <Button
+        android:id="@+id/buttonModifica"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
+        android:foreground="@drawable/ripple_circle"
+        android:text="Modifica"
+        app:layout_constraintBottom_toTopOf="@+id/buttonChiudi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonChiudi"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
+        android:foreground="@drawable/ripple_circle"
+        android:text="Chiudi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
