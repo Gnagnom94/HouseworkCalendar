@@ -72,11 +72,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
 
         Calendar calendar = Calendar.getInstance();
 
-        if(giorno.get(position).getFine().get(Calendar.YEAR) <=  calendar.get(Calendar.YEAR) &&
-                giorno.get(position).getFine().get(Calendar.MONTH) <= calendar.get(Calendar.MONTH) &&
-                giorno.get(position).getFine().get(Calendar.DAY_OF_YEAR) <= calendar.get(Calendar.DAY_OF_YEAR) &&
-                giorno.get(position).getFine().get(Calendar.HOUR_OF_DAY) <= calendar.get(Calendar.HOUR_OF_DAY) &&
-                giorno.get(position).getFine().get(Calendar.MINUTE) <= calendar.get(Calendar.MINUTE))
+        if(giorno.get(position).getFine().getTimeInMillis() <=  calendar.getTimeInMillis())
         {
             imageView.setColorFilter(buttonForegroundColorCompliment);
 //            imageView.setForeground(CustomDrawable.getTintedDrawable(imageView.getContext(), R.drawable.ic_done_black_24dp, buttonForegroundColorCompliment));
