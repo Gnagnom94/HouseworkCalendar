@@ -60,11 +60,11 @@ public class AggiuntaSondaggio extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
+                final View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
                 child.setId(selectedIndex);
 
                 EditText editText = child.findViewById(R.id.AnswerAgg);
-                editText.setHint("Inserisci Risposta " + selectedIndex);
+                editText.setHint("Inserisci Risposta ");
 
                 final ImageButton meno = child.findViewById(R.id.removeQ);
                 meno.setId(selectedIndex);
@@ -76,7 +76,8 @@ public class AggiuntaSondaggio extends AppCompatActivity
                     @Override
                     public void onClick(View v)
                     {
-                        Toast.makeText(AggiuntaSondaggio.this,""+meno.getId(),Toast.LENGTH_SHORT);
+                        linearLayout.removeView(child);
+                        selectedIndex--;
                     }
                 });
                 linearLayout.addView(child);
