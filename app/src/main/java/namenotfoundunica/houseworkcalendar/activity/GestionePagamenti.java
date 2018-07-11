@@ -19,7 +19,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,8 +33,7 @@ import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class GestionePagamenti extends AppCompatActivity {
 
-    public static ArrayList<Pagamento> pagamenti;
-    private boolean flagCreazione=false;
+    private static boolean flagCreazione=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +43,13 @@ public class GestionePagamenti extends AppCompatActivity {
         setupActionBar();
         if(!flagCreazione)
         {
-            pagamenti=new ArrayList<>();
-            pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.UtentiGruppo));
-            pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.UtentiGruppo));
-            pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti=new ArrayList<>();
+            SchermataIniziale.pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.UtentiGruppo));
             flagCreazione=true;
         }
+
 
         ListView listView = (ListView) findViewById(R.id.listViewPagamenti);
         GestionePagamenti.CustomAdapter customAdapter = new GestionePagamenti.CustomAdapter();
@@ -95,7 +94,7 @@ public class GestionePagamenti extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return pagamenti.size();
+            return SchermataIniziale.pagamenti.size();
         }
 
         @Override
@@ -115,20 +114,39 @@ public class GestionePagamenti extends AppCompatActivity {
             TextView textView_name = (TextView) convertView.findViewById(R.id.nomePagamento);
             final ProgressBar progressBar = convertView.findViewById(R.id.progressBarPagamento);
             final ImageView finishIcon = convertView.findViewById(R.id.finishPayment);
-            progressBar.setMax(99);
+            progressBar.setMax(95);
             progressBar.setProgress(0);
-
-            boolean pagato;
+            final Pagamento pagamento = SchermataIniziale.pagamenti.get(position);
+            int i=0;
+            int indiceUtenteLog=0;
+            //cerco l'indice del gruppo dell'utente loggato
+            for(Utente utente:pagamento.utentiGruppo) {
+                if (utente.equals(SchermataIniziale.utenteLoggato))
+                {
+                    indiceUtenteLog=i;
+                }
+                i++;
+            }
             final ImageView button = convertView.findViewById(R.id.confermaPagamento);
             TextView prezzo = convertView.findViewById(R.id.prezzoText);
 
-            final Pagamento pagamento = pagamenti.get(position);
+
             button.setId(pagamento.getId());
             float prezzoParziale =(pagamento.getTotale())/(pagamento.getNumeroPaganti());
             prezzo.setText(String.format("%.2f",prezzoParziale)+" €");
             textView_name.setText(pagamento.getNome());
+            for(i=0;i<pagamento.getNumeroPaganti();i++)
+            {
+                if(pagamento.statoUtenti[i]==true)
+                {
+                    if(i==indiceUtenteLog)
+                        button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                    progressBar.setProgress(progressBar.getProgress()+(100 / pagamento.getNumeroPaganti()), false);
+                }
+            }
 
 
+            final int finalIndiceUtenteLog = indiceUtenteLog;
             button.setOnClickListener(new View.OnClickListener()
             {
                 @TargetApi(Build.VERSION_CODES.N)
@@ -136,47 +154,35 @@ public class GestionePagamenti extends AppCompatActivity {
                 @Override
                 public void onClick(View v)
                 {
-                    int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
-                    int i=0;//controllo los tato del pagaento in base all'utente
-                    for(Utente utente:pagamento.utentiGruppo)
-                    {
-                        if(utente.equals(SchermataIniziale.utenteLoggato))
-                        {
-                            pUtente=i;
-                            if(pagamento.statoUtenti[i]!=true)
-                                pagamento.statoUtenti[i]=true;
-                            else
-                                pagamento.statoUtenti[i]=false;
-                        }
-                        i++;
-                    }
+                    if(pagamento.statoUtenti[finalIndiceUtenteLog]!=true)
+                        SchermataIniziale.pagamenti.get(position).statoUtenti[finalIndiceUtenteLog]=true;
+                    else
+                        SchermataIniziale.pagamenti.get(position).statoUtenti[finalIndiceUtenteLog]=false;
+
                     int pro = progressBar.getProgress() + (100 / pagamento.getNumeroPaganti());
                     if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
+                        SchermataIniziale.pagamenti.remove(position);
+
+
+                    if(pagamento.statoUtenti[finalIndiceUtenteLog])
                     {
-                        pagamenti.remove(position);
-                        notifyDataSetChanged();
-                    }
-                    if(pagamento.statoUtenti[pUtente]) {
                         progressBar.setProgress(pro, true);
-
-
                         if (progressBar.getProgress() >= progressBar.getMax())//se la barra ha raggiunto il massimo
                         {
                             progressBar.setProgress(100, true);
                             button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
                             finishIcon.setVisibility(View.VISIBLE);
 
-                        } else
+                        }
+                        else
                             button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
                     }
                     else
                     {
-                        progressBar.setProgress(-pro, true);
-                        button.setImageResource(R.drawable.ic_monetization_on_black_24dp);
+                        progressBar.setProgress(progressBar.getProgress()+(100 / pagamento.getNumeroPaganti()), true);
+                        button.setImageResource(R.drawable.ic_add_circle_black_24dp);
                     }
-
-
-
+                    notifyDataSetChanged();
                 }
             });
             return convertView;
@@ -231,7 +237,7 @@ public class GestionePagamenti extends AppCompatActivity {
             {
                  String tmpTipo= etInput.getText().toString();
                  float tmpPrezzo=Float.valueOf(prInput.getText().toString());
-                pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo,pagamenti.size(),SchermataIniziale.UtentiGruppo));
+                SchermataIniziale.pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo, SchermataIniziale.pagamenti.size(),SchermataIniziale.UtentiGruppo));
             }
         };
         builder.setPositiveButton("Aggiungi",onPositiveClickListener);
@@ -241,7 +247,7 @@ public class GestionePagamenti extends AppCompatActivity {
     private void showInfoPagamento(int posizione)
     {
 
-        Pagamento pagamento=pagamenti.get(posizione);
+        Pagamento pagamento= SchermataIniziale.pagamenti.get(posizione);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LinearLayout layout = new LinearLayout(this);
         TextView tvMessage = new TextView(this);
