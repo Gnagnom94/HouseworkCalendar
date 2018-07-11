@@ -2,12 +2,14 @@ package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,40 +32,60 @@ import java.util.List;
 import namenotfoundunica.houseworkcalendar.R;
 import namenotfoundunica.houseworkcalendar.other.Sondaggio;
 
+import static java.lang.StrictMath.abs;
+
 public class AggiuntaSondaggio extends AppCompatActivity
 {
-    final List<String> risposte = new ArrayList<String>();
-
-    public int selectedIndex = 3;
+    private List<String> risposte = new ArrayList<String>();
+    private LinearLayout linearLayout;
+    private int selectedIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_aggiunta_sondaggio);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
 
-
-        final LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
+        linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
 
         Button buttonAddQ = findViewById(R.id.buttonAddQ);
-        buttonAddQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+        selectedIndex = 3;
+        buttonAddQ.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
                 View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
-                EditText editText = child.findViewById(R.id.AnswerAgg);
-                editText.setHint("Inserisci Risposta "+ selectedIndex);
                 child.setId(selectedIndex);
-                linearLayout.addView(child);
+
+                EditText editText = child.findViewById(R.id.AnswerAgg);
+                editText.setHint("Inserisci Risposta " + selectedIndex);
+
+                final ImageButton meno = child.findViewById(R.id.removeQ);
+                meno.setId(selectedIndex);
+
                 selectedIndex++;
+
+                meno.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Toast.makeText(AggiuntaSondaggio.this,""+meno.getId(),Toast.LENGTH_SHORT);
+                    }
+                });
+                linearLayout.addView(child);
             }
         });
 
         Button buttonSendSurvey = findViewById(R.id.buttonSendSurvey);
-        buttonSendSurvey.setOnClickListener(new View.OnClickListener() {
+        buttonSendSurvey.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
 
@@ -83,13 +105,12 @@ public class AggiuntaSondaggio extends AppCompatActivity
                 EditText editTextDescrizione = (EditText) linearLayout.getChildAt(1);
 
 
+
                 GestioneSondaggi.lstSondaggio.add(new Sondaggio(editTextTitolo.getText().toString(),
                         editTextDescrizione.getText().toString(),
                         "wait",
                         GestioneSondaggi.lstSondaggio.size(),
                         risposte));
-
-                int i = 1;
 
             }
         });
