@@ -61,7 +61,7 @@ public class CustomAdapter extends ArrayAdapter<Evento> {
 
 
         textNomeUtente.setText(giorno.get(position).getUtente().getNome());
-        textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento() + " * " + giorno.get(position).getInizio().get(Calendar.DAY_OF_MONTH));
+        textNomeEvento.setText(giorno.get(position).getColorNameBinder().getNomeEvento() /*+ " * " + giorno.get(position).getInizio().get(Calendar.DAY_OF_MONTH)*/);
         textOraInizio.setText(dfTime.format(giorno.get(position).getInizio().getTime()));
         textOraFine.setText(dfTime.format(giorno.get(position).getFine().getTime()));
 

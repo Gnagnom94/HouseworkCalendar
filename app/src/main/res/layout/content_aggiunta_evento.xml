@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:hint="Inserisci tipo attività:"
+            android:hint="Inserisci nome attività:"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ColorPicker"
             app:layout_constraintStart_toStartOf="parent"
