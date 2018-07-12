@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text=""
+            android:text="Matteo"
             android:textAlignment="textStart"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
@@ -44,7 +44,7 @@
             android:id="@+id/mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text="matteo.atzeni@outlook.com" />
 
     </LinearLayout>
 </RelativeLayout>

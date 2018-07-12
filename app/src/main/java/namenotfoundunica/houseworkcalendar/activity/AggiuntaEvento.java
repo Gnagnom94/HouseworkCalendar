@@ -117,6 +117,14 @@ public class AggiuntaEvento extends AppCompatActivity
         nomeAttivita=findViewById(R.id.textNomeInput);
         categoriaSpinner=findViewById(R.id.spinnerCategoria);
 
+        if(getIntent().getStringExtra("Chiamante").equals("SettimanaTipo")){
+            ripetizione.setChecked(true);
+            ripetizione.setClickable(false);
+            groupActivityFlag.setChecked(true);
+            groupActivityFlag.setClickable(false);
+
+        }
+
         if(getIntent().getIntExtra("Evento",-1)>=0)
         {
             Evento tmp = SchermataIniziale.calendario.get(getIntent().getIntExtra("Evento",-1));
@@ -225,10 +233,15 @@ public class AggiuntaEvento extends AppCompatActivity
 
     public void AggiuntaEventi()
     {
+        nomeAttivita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nomeAttivita.showDropDown();
+            }
+        });
         nomeAttivita.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
