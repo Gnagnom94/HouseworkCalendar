@@ -115,4 +115,6 @@
         completions."
     </string>
     <string name="title_activity_aggiunta_pagamento">AggiuntaPagamento</string>
+    <string name="title_activity_registation">Registation</string>
+    <string name="title_activity_registrazione">Registrazione</string>
 </resources>

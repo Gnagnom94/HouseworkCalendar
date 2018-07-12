@@ -11,17 +11,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.List;
 
 import namenotfoundunica.houseworkcalendar.R;
 import namenotfoundunica.houseworkcalendar.other.Sondaggio;
+import namenotfoundunica.houseworkcalendar.other.Utente;
+
 
 public class VisualizzaSondaggio extends AppCompatActivity
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,85 +39,65 @@ public class VisualizzaSondaggio extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
 
         int value = extras.getInt("indice",-1);
-        Sondaggio visualizza = GestioneSondaggi.lstSondaggio.get(value-1);
+        final Sondaggio visualizza = GestioneSondaggi.lstSondaggio.get(value);
         TextView titolo_sondaggio = (TextView) findViewById(R.id.survey_q);
         TextView descrizione_sondaggio = (TextView) findViewById(R.id.survey_d);
-
-        ListView elenco_risposte = (ListView) findViewById(R.id.listViewSurvey);
-
-        CustomAdapter customAdapter = new CustomAdapter();
-        customAdapter.setRisposte(visualizza.risposte);
-        elenco_risposte.setAdapter(customAdapter);
-
+        final RadioGroup radioGrp = (RadioGroup) findViewById(R.id.radioGroup);
+        Button conferma= findViewById(R.id.survey_confirm);
 
         titolo_sondaggio.setText(visualizza.getTitolo());
         descrizione_sondaggio.setText(visualizza.getDescrizione());
+        int i=0;
+        for(String s:visualizza.getRisposte())
+        {
+
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(s);
+            radioButton.setId(i);
+            radioGrp.addView(radioButton);
+            if(i==0)
+                radioButton.setChecked(true);
+            i++;
+        }
 
 
+        conferma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
+                int i=0;//controllo los tato del pagaento in base all'utente
+                for(Utente utente:visualizza.utentiGruppo)
+                {
+                    if(utente.equals(SchermataIniziale.utenteLoggato))
+                    {
+                        pUtente=i;
+                        visualizza.statoUtenti[i]=radioGrp.getCheckedRadioButtonId();
+                    }
+                    i++;
+                }
+                Toast toast = Toast.makeText(getApplicationContext(), "Votazione effettuata", Toast.LENGTH_SHORT);
+                toast.show();
+                Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
+                startActivity(openPage);
+
+            }
+        });
     }
-
     private void setupActionBar()
     {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)
+        {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        Intent openPageHome = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent openPageHome = new Intent(this, GestioneSondaggi.class);
         startActivity(openPageHome);
         return super.onOptionsItemSelected(item);
-    }
-
-    class CustomAdapter extends BaseAdapter
-    {
-        private List<String>risposte;
-
-        public List<String> getRisposte()
-        {
-            return risposte;
-        }
-
-        public void setRisposte(List<String> risposte) {
-            this.risposte = risposte;
-        }
-
-        @Override
-        public int getCount()
-        {
-            return risposte.size();
-        }
-
-        @Override
-        public Object getItem(int position)
-        {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position)
-        {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            convertView = getLayoutInflater().inflate(R.layout.custom_answer_layout,null);
-
-            Button risposta = (Button) convertView.findViewById(R.id.answer_button);
-
-            risposta.setText(risposte.get(position));
-
-
-
-
-
-            return convertView;
-        }
     }
 }

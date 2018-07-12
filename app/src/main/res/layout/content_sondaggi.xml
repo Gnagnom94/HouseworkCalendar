@@ -10,7 +10,7 @@
     android:visibility="visible">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listViewSondaggi"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"

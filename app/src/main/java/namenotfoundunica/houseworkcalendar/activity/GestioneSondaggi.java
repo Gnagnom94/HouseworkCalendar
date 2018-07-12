@@ -4,27 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import namenotfoundunica.houseworkcalendar.R;
 import namenotfoundunica.houseworkcalendar.other.Sondaggio;
+import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class GestioneSondaggi extends AppCompatActivity
 {
 
-    public static List<Sondaggio> lstSondaggio;
+    public static ArrayList<Sondaggio> lstSondaggio;
     private static boolean flagCreation = false;
 
     @Override
@@ -48,9 +55,17 @@ public class GestioneSondaggi extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listViewSondaggi);
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                showInfoSondaggio(position);
+            }
+        });
 
         final FloatingActionButton fab = findViewById(R.id.fab_sondaggi);
         fab.setOnClickListener(new View.OnClickListener()
@@ -101,26 +116,42 @@ public class GestioneSondaggi extends AppCompatActivity
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
+        public View getView(final int position, View convertView, ViewGroup parent)
         {
             convertView = getLayoutInflater().inflate(R.layout.custom_survey_layout,null);
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
-            final Button button = (Button) convertView.findViewById(R.id.vota_sondaggio);
-            Sondaggio sondaggio = lstSondaggio.get(position);
+            final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
+            final Sondaggio sondaggio = lstSondaggio.get(position);
             button.setId(sondaggio.getId());
             textView_name.setText(sondaggio.getTitolo());
+            boolean flagVotoCompleto=true;
 
+            for(int i=0;i<sondaggio.utentiGruppo.size();i++)
+                if(sondaggio.statoUtenti[i]==-1)
+                    flagVotoCompleto=false;
 
-            button.setOnClickListener(new View.OnClickListener()
+            if(flagVotoCompleto==true)
             {
-                @Override
-                public void onClick(View v)
-                {
-                    Intent intent = new Intent(GestioneSondaggi.this, VisualizzaSondaggio.class);
-                    intent.putExtra("indice",button.getId());
-                    startActivity(intent);
-                }
-            });
+                button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lstSondaggio.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+
+            else {
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(GestioneSondaggi.this, VisualizzaSondaggio.class);
+                        intent.putExtra("indice", button.getId());
+                        startActivity(intent);
+                    }
+                });
+            }
             return convertView;
         }
     }
@@ -147,4 +178,46 @@ public class GestioneSondaggi extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void showInfoSondaggio(int posizione)
+    {
+
+        Sondaggio sondaggio=lstSondaggio.get(posizione);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LinearLayout layout = new LinearLayout(this);
+        TextView tvMessage = new TextView(this);
+        TextView tvMessage2 = new TextView(this);
+        TextView contenuto=new TextView(this);
+        int i=0;
+        String tmp="";
+        for(String r:sondaggio.getRisposte())
+        {
+            int j=0;
+            int contatore=0;
+            tmp=tmp+r+": ";
+            for(Utente utente:sondaggio.utentiGruppo)
+            {
+                if(sondaggio.statoUtenti[j]==i)
+                    contatore++;
+                j++;
+            }
+            i++;
+            tmp=tmp+Integer.toString((contatore*100)/sondaggio.utentiGruppo.size())+"% \n";
+        }
+
+
+        tvMessage.setText(sondaggio.getTitolo());
+        tvMessage2.setText(sondaggio.getDescrizione());
+        contenuto.setText(tmp);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(tvMessage);
+        layout.addView(tvMessage2);
+        layout.addView(contenuto);
+        layout.setPadding(50, 50, 100, 0);
+
+        builder.setView(layout);
+
+
+        builder.setNegativeButton("Ok",null);
+        builder.create().show();
+    }
 }

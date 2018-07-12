@@ -325,7 +325,11 @@ public class SchermataIniziale extends AppCompatActivity
                                             toast.show();
                                         }
                                         break;
-
+                                    case R.id.nav_registrazione:
+                                    {
+                                        openPage = new Intent(SchermataIniziale.this, Registrazione.class);
+                                        startActivity(openPage);
+                                    }
 
                             }
 
