@@ -42,8 +42,19 @@ public class Login  extends AppCompatActivity
                 String email=emailTextView.getText().toString();
                 String psw=pswTextView.getText().toString();
                 boolean connesso=false;
+                boolean visualizza_toast = true;
                 for(Utente utente:SchermataIniziale.utenti)
                 {
+                    if(email.compareTo("") == 0)
+                    {
+                        emailTextView.setError("Inserisci l'email!");
+                        visualizza_toast = false;
+                    }
+                    if(psw.compareTo("") == 0)
+                    {
+                        pswTextView.setError("Inserisci la password!");
+                        visualizza_toast = false;
+                    }
                     if((email.compareToIgnoreCase(utente.getEmail())==0)&&(psw.compareTo(utente.getPassword())==0))
                     {
                         SchermataIniziale.utenteLoggato=utente;
@@ -55,7 +66,7 @@ public class Login  extends AppCompatActivity
 
                     }
                 }
-                if(!connesso)
+                if(!connesso && visualizza_toast == true)
                     makeToast("Email o password errati ");
             }
         });

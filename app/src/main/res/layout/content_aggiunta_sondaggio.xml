@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:ems="10"
-                android:hint="Inserisci Risposta 1"
+                android:hint="Inserisci Risposta"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:ems="10"
-                android:hint="Inserisci Risposta 2"
+                android:hint="Inserisci Risposta"
                 android:inputType="textPersonName" />
 
             <!--<include layout="@layout/custom_addq_layout"/>-->
