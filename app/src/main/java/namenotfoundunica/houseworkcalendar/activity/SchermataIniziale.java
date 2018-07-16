@@ -163,21 +163,48 @@ public class SchermataIniziale extends AppCompatActivity
                     }
 
                     @Override
-                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
                         // Calls getSelectedIds method from customAdapter Class
-                        SparseBooleanArray selected = customAdapter.getSelectedIds();
+                        final SparseBooleanArray selected = customAdapter.getSelectedIds();
                         switch (item.getItemId()) {
                             case R.id.delete:
-                                // Captures all selected ids with a loop
-                                for (int i = (selected.size() - 1); i >= 0; i--) {
-                                    if (selected.valueAt(i)) {
-                                        Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
-                                        // Remove selected items following the ids
-                                        customAdapter.remove(selecteditem);
+                                if(selected.size() > 1){
+//                                    showAlertDialogDeletingMultipleEvents();
+                                    LayoutInflater inflater = getLayoutInflater();
+
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(SchermataIniziale.this);
+                                    builder.setTitle("Conferma Eliminazione");
+                                    builder.setNegativeButton("Annulla", null);
+                                    builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Captures all selected ids with a loop
+                                            for (int i = (selected.size() - 1); i >= 0; i--) {
+                                                if (selected.valueAt(i)) {
+                                                    Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
+                                                    // Remove selected items following the ids
+                                                    customAdapter.remove(selecteditem);
+                                                }
+                                            }
+                                            // Close CAB
+                                            mode.finish();
+                                        }
+                                    });
+                                    final AlertDialog dialog = builder.create();
+
+                                    dialog.show();
+                                }else{
+                                    // Captures all selected ids with a loop
+                                    for (int i = (selected.size() - 1); i >= 0; i--) {
+                                        if (selected.valueAt(i)) {
+                                            Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
+                                            // Remove selected items following the ids
+                                            customAdapter.remove(selecteditem);
+                                        }
                                     }
+                                    // Close CAB
+                                    mode.finish();
                                 }
-                                // Close CAB
-                                mode.finish();
                                 return true;
                             case R.id.selectAll:
 
@@ -473,8 +500,7 @@ public class SchermataIniziale extends AppCompatActivity
         return (int) (dpi * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private void showInfoEvento(final Evento selected)
-    {
+    private void showInfoEvento(final Evento selected) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.customlayout_info_evento, null);
         TextView tipo = alertLayout.findViewById(R.id.titoloAttivita);
@@ -549,14 +575,14 @@ public class SchermataIniziale extends AppCompatActivity
                         dialog.dismiss();
                     }
                 });
-                /*alert.setNegativeButton("Segna non Concluso", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
-                        customAdapter.notifyDataSetChanged();
-                    }
-                });*/
+                    /*alert.setNegativeButton("Segna non Concluso", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            calendario.get(calendario.indexOf(selected)).setCompletedFlag(false);
+                            customAdapter.notifyDataSetChanged();
+                        }
+                    });*/
             }
             else
             {
@@ -569,13 +595,13 @@ public class SchermataIniziale extends AppCompatActivity
                         dialog.dismiss();
                     }
                 });
-                /*alert.setNegativeButton("Segna Concluso", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
-                        customAdapter.notifyDataSetChanged();
-                    }
-                });*/
+                    /*alert.setNegativeButton("Segna Concluso", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            calendario.get(calendario.indexOf(selected)).setCompletedFlag(true);
+                            customAdapter.notifyDataSetChanged();
+                        }
+                    });*/
             }
         }
         else
@@ -592,19 +618,44 @@ public class SchermataIniziale extends AppCompatActivity
                 startActivity(openPage);
             }
         });
-        /*alert.setNeutralButton("Modifica", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
-                openPage.putExtra("Chiamante", "SchermataIniziale");
-                openPage.putExtra("Evento",calendario.indexOf(selected));
+            /*alert.setNeutralButton("Modifica", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    Intent openPage = new Intent(SchermataIniziale.this, AggiuntaEvento.class);
+                    openPage.putExtra("Chiamante", "SchermataIniziale");
+                    openPage.putExtra("Evento",calendario.indexOf(selected));
 
-                startActivity(openPage);
-            }
-        });*/
+                    startActivity(openPage);
+                }
+            });*/
 
         dialog.show();
-
     }
+
+    /*private void showAlertDialogDeletingMultipleEvents() {
+        LayoutInflater inflater = getLayoutInflater();
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Conferma Eliminazione");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Captures all selected ids with a loop
+                for (int i = (selected.size() - 1); i >= 0; i--) {
+                    if (selected.valueAt(i)) {
+                        Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
+                        // Remove selected items following the ids
+                        customAdapter.remove(selecteditem);
+                    }
+                }
+                // Close CAB
+                mode.finish();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }*/
 }
