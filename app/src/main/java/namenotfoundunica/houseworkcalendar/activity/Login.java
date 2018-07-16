@@ -20,6 +20,7 @@ public class Login  extends AppCompatActivity
     private TextView emailTextView ;
     private TextView pswTextView ;
     private Button confermaButton;
+    private Button registratiButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class Login  extends AppCompatActivity
         emailTextView=findViewById(R.id.emailtext);
         pswTextView=findViewById(R.id.pswText);
         confermaButton=findViewById(R.id.loginButton);
+        registratiButton=findViewById(R.id.registratiButton);
 
         confermaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +57,14 @@ public class Login  extends AppCompatActivity
                 }
                 if(!connesso)
                     makeToast("Email o password errati ");
+            }
+        });
+
+        registratiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openPageHome = new Intent(Login.this, Registrazione.class);
+                startActivity(openPageHome);
             }
         });
 

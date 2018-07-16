@@ -83,9 +83,9 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(matteo);
             utenti.add(alessandro);
             utenti.add(pitta);
-            /*utenti.add(new Utente("a", "a", "a", "a"));
+            utenti.add(new Utente("a", "a", "a", "a"));
             utenti.add(new Utente("b", "b", "b", "b"));
-            utenti.add(new Utente("c", "c", "c", "c"));*/
+            utenti.add(new Utente("c", "c", "c", "c"));
 
             UtentiGruppo = new ArrayList<>(utenti);
 

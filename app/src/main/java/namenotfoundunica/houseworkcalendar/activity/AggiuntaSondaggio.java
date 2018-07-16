@@ -81,6 +81,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
                     }
                 });
                 linearLayout.addView(child);
+
             }
         });
 
@@ -112,6 +113,9 @@ public class AggiuntaSondaggio extends AppCompatActivity
                         "wait",
                         GestioneSondaggi.lstSondaggio.size(),
                         risposte));
+
+                Intent openPageHome = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
+                startActivity(openPageHome);
 
             }
         });

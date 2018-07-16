@@ -94,6 +94,7 @@ public class Registrazione extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void makeToast(String message)
     {
         Context context = getApplicationContext();

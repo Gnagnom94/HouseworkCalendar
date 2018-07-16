@@ -147,7 +147,7 @@ public class GestioneSondaggi extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(GestioneSondaggi.this, VisualizzaSondaggio.class);
-                        intent.putExtra("indice", button.getId());
+                        intent.putExtra("indice", position);
                         startActivity(intent);
                     }
                 });
