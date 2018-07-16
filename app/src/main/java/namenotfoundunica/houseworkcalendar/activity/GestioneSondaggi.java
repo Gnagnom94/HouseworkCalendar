@@ -42,12 +42,12 @@ public class GestioneSondaggi extends AppCompatActivity
         if (!flagCreation)
         {
             lstSondaggio = new ArrayList<>();
-            List<String> risposte = new ArrayList<String>();
-            risposte.add("si");
-            risposte.add("no");
-            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "wait", 0, risposte));
-            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
-            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
+//            List<String> risposte = new ArrayList<String>();
+//            risposte.add("si");
+//            risposte.add("no");
+//            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "wait", 0, risposte));
+//            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
+//            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
             flagCreation = true;
         }
 

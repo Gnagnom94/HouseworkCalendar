@@ -120,8 +120,10 @@ public class AggiuntaEvento extends AppCompatActivity
         if(getIntent().getStringExtra("Chiamante").equals("SettimanaTipo")){
             ripetizione.setChecked(true);
             ripetizione.setClickable(false);
+            ripetizione.setEnabled(false);
             groupActivityFlag.setChecked(true);
             groupActivityFlag.setClickable(false);
+            groupActivityFlag.setEnabled(false);
 
         }
 
