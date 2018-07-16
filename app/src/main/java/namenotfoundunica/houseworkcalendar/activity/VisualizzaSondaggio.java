@@ -39,16 +39,16 @@ public class VisualizzaSondaggio extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
 
         int value = extras.getInt("indice",-1);
-        final Sondaggio visualizza = GestioneSondaggi.lstSondaggio.get(value);
+        final Sondaggio sondaggio = GestioneSondaggi.lstSondaggio.get(value);
         TextView titolo_sondaggio = (TextView) findViewById(R.id.survey_q);
         TextView descrizione_sondaggio = (TextView) findViewById(R.id.survey_d);
         final RadioGroup radioGrp = (RadioGroup) findViewById(R.id.radioGroup);
         Button conferma= findViewById(R.id.survey_confirm);
 
-        titolo_sondaggio.setText(visualizza.getTitolo());
-        descrizione_sondaggio.setText(visualizza.getDescrizione());
+        titolo_sondaggio.setText(sondaggio.getTitolo());
+        descrizione_sondaggio.setText(sondaggio.getDescrizione());
         int i=0;
-        for(String s:visualizza.getRisposte())
+        for(String s:sondaggio.getRisposte())
         {
 
             RadioButton radioButton = new RadioButton(this);
@@ -66,12 +66,12 @@ public class VisualizzaSondaggio extends AppCompatActivity
             public void onClick(View v) {
                 int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
                 int i=0;//controllo los tato del pagaento in base all'utente
-                for(Utente utente:visualizza.utentiGruppo)
+                for(Utente utente:sondaggio.utentiGruppo)
                 {
                     if(utente.equals(SchermataIniziale.utenteLoggato))
                     {
                         pUtente=i;
-                        visualizza.statoUtenti[i]=radioGrp.getCheckedRadioButtonId();
+                        sondaggio.statoUtenti[i]=radioGrp.getCheckedRadioButtonId();
                     }
                     i++;
                 }
