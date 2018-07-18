@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<namenotfoundunica.houseworkcalendar.customView.customlayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:visibility="visible">
+    android:visibility="visible"
+    android:background="@drawable/custom_layout_state">
 
     <TextView
         android:id="@+id/domanda_sondaggio"
@@ -33,4 +34,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_gavel_black_24dp" />
-</android.support.constraint.ConstraintLayout>
+</namenotfoundunica.houseworkcalendar.customView.customlayout>

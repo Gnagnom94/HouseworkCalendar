@@ -169,9 +169,6 @@ public class SchermataIniziale extends AppCompatActivity
                         switch (item.getItemId()) {
                             case R.id.delete:
                                 if(selected.size() > 1){
-//                                    showAlertDialogDeletingMultipleEvents();
-                                    LayoutInflater inflater = getLayoutInflater();
-
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(SchermataIniziale.this);
                                     builder.setTitle("Conferma Eliminazione");
                                     builder.setNegativeButton("Annulla", null);
@@ -632,30 +629,4 @@ public class SchermataIniziale extends AppCompatActivity
 
         dialog.show();
     }
-
-    /*private void showAlertDialogDeletingMultipleEvents() {
-        LayoutInflater inflater = getLayoutInflater();
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Conferma Eliminazione");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Captures all selected ids with a loop
-                for (int i = (selected.size() - 1); i >= 0; i--) {
-                    if (selected.valueAt(i)) {
-                        Evento selecteditem = customAdapter.getItem(selected.keyAt(i));
-                        // Remove selected items following the ids
-                        customAdapter.remove(selecteditem);
-                    }
-                }
-                // Close CAB
-                mode.finish();
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-
-        dialog.show();
-    }*/
 }
