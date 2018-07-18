@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:visibility="visible"
+    android:descendantFocusability="blocksDescendants"
     android:background="@drawable/custom_layout_state">
 
     <TextView
