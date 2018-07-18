@@ -18,7 +18,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/editTextTitolo"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:ems="10"
-                android:hint="Inserisci Descrizione"
+                android:hint="Inserisci Descrizione (Opzionale)"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -93,4 +93,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
 </android.support.constraint.ConstraintLayout>

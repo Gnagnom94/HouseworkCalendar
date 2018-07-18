@@ -42,10 +42,10 @@ public class GestioneSondaggi extends AppCompatActivity
         if (!flagCreation)
         {
             lstSondaggio = new ArrayList<>();
-//            List<String> risposte = new ArrayList<String>();
-//            risposte.add("si");
-//            risposte.add("no");
-//            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "wait", 0, risposte));
+            List<String> risposte = new ArrayList<String>();
+            risposte.add("si");
+            risposte.add("no");
+            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "done", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
             flagCreation = true;
@@ -120,7 +120,18 @@ public class GestioneSondaggi extends AppCompatActivity
         {
             convertView = getLayoutInflater().inflate(R.layout.custom_survey_layout,null);
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
-            final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
+            //final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
+            final ImageView statoImmagineSondaggio = convertView.findViewById(R.id.immagineStato);
+            if(lstSondaggio.get(position).getStato().compareTo("wait")==0)
+            {
+                statoImmagineSondaggio.setImageResource(R.drawable.icon_pending_survey);
+            }
+            else if(lstSondaggio.get(position).getStato().compareTo("done")==0)
+            {
+                statoImmagineSondaggio.setImageResource(R.drawable.icon_done_survey);
+            }
+
+            final Button button = convertView.findViewById(R.id.vota_sondaggio);
             final Sondaggio sondaggio = lstSondaggio.get(position);
             button.setId(sondaggio.getId());
             textView_name.setText(sondaggio.getTitolo());
@@ -132,7 +143,7 @@ public class GestioneSondaggi extends AppCompatActivity
 
             if(flagVotoCompleto==true)
             {
-                button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+                //button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

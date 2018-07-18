@@ -326,6 +326,8 @@ public class AggiuntaEvento extends AppCompatActivity
                 if(getIntent().getIntExtra("Evento",-1)>=0)//controllo se è un vecchio evento modifcato
                     SchermataIniziale.calendario.remove(getIntent().getIntExtra("Evento", -1));//rimuovo il vecchio evento
 
+
+
                 //controllo che sia stato inserito un nome
                 if((nomeAttivita.getText().toString().compareTo("")!=0)&&(colorNameScelto.getColoreEvento().compareTo("")!=0))
                 {
@@ -373,8 +375,15 @@ public class AggiuntaEvento extends AppCompatActivity
                 }
                 else
                 {
-                    makeToast("Inserisci un tipo di attività e scegli un colore");
-                    nomeAttivita.setHintTextColor(Color.RED);
+                    if(nomeAttivita.getText().toString().compareTo("")==0)
+                    {
+                        nomeAttivita.setError("Inserisci il nome dell'attività!");
+                    }
+                    else
+                    {
+                        makeToast("Scegli un colore per l'attività!");
+                    }
+
                 }
 
             }

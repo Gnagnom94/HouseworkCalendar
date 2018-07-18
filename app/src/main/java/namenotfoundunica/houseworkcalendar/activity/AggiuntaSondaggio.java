@@ -89,33 +89,50 @@ public class AggiuntaSondaggio extends AppCompatActivity
         buttonSendSurvey.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                boolean continua = true;
 
 
                 for (int i = 2; i < 4; i++) {
                     EditText editText = (EditText) linearLayout.getChildAt(i);
                     risposte.add(editText.getText().toString());
+                    if (editText.getText().toString().compareTo("") == 0) {
+                        editText.setError("Inserisci la risposta!");
+                        continua = false;
+                    }
                 }
 
                 for (int i = 4; i <= selectedIndex; i++) {
                     ConstraintLayout constraintLayout = (ConstraintLayout) linearLayout.getChildAt(i);
                     EditText editText = constraintLayout.findViewById(R.id.AnswerAgg);
                     risposte.add(editText.getText().toString());
+                    if (editText.getText().toString().compareTo("") == 0) {
+                        editText.setError("Inserisci la risposta!");
+                        continua = false;
+                    }
                 }
 
                 EditText editTextTitolo = (EditText) linearLayout.getChildAt(0);
                 EditText editTextDescrizione = (EditText) linearLayout.getChildAt(1);
+                if (editTextTitolo.getText().toString().compareTo("") == 0) {
+                    editTextTitolo.setError("Inserisci il titolo del sondaggio!");
+                    continua = false;
+                }
 
 
 
-                GestioneSondaggi.lstSondaggio.add(new Sondaggio(editTextTitolo.getText().toString(),
-                        editTextDescrizione.getText().toString(),
-                        "wait",
-                        GestioneSondaggi.lstSondaggio.size(),
-                        risposte));
+                if (continua)
+                {
+                    GestioneSondaggi.lstSondaggio.add(new Sondaggio(editTextTitolo.getText().toString(),
+                            editTextDescrizione.getText().toString(),
+                            "wait",
+                            GestioneSondaggi.lstSondaggio.size(),
+                            risposte));
+                    Intent openPageHome = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
+                    startActivity(openPageHome);
+                }
 
-                Intent openPageHome = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
-                startActivity(openPageHome);
 
             }
         });

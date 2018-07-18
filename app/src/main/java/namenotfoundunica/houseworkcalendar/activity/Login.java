@@ -71,9 +71,11 @@ public class Login  extends AppCompatActivity
             }
         });
 
-        registratiButton.setOnClickListener(new View.OnClickListener() {
+        registratiButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent openPageHome = new Intent(Login.this, Registrazione.class);
                 startActivity(openPageHome);
             }
