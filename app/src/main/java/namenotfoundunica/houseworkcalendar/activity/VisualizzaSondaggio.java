@@ -1,6 +1,7 @@
 package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import namenotfoundunica.houseworkcalendar.other.Utente;
 
 public class VisualizzaSondaggio extends AppCompatActivity
 {
+    private Sondaggio sondaggio;
+    RadioGroup radioGrp;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,11 +42,11 @@ public class VisualizzaSondaggio extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
 
         int value = extras.getInt("indice",-1);
-        final Sondaggio sondaggio = GestioneSondaggi.lstSondaggio.get(value);
+        sondaggio = GestioneSondaggi.lstSondaggio.get(value);
         TextView titolo_sondaggio = (TextView) findViewById(R.id.survey_q);
         TextView descrizione_sondaggio = (TextView) findViewById(R.id.survey_d);
-        final RadioGroup radioGrp = (RadioGroup) findViewById(R.id.radioGroup);
-        Button conferma= findViewById(R.id.survey_confirm);
+        radioGrp = (RadioGroup) findViewById(R.id.radioGroup);
+        final Button conferma= findViewById(R.id.survey_confirm);
 
         titolo_sondaggio.setText(sondaggio.getTitolo());
         if(sondaggio.getDescrizione().compareTo("")!=0)
@@ -56,41 +59,56 @@ public class VisualizzaSondaggio extends AppCompatActivity
         }
 
         int i=0;
-//        if(sondaggio.statoUtenti[]!=-1)
+        for(String s:sondaggio.getRisposte())
+        {
+
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(s);
+            radioButton.setId(i);
+            radioGrp.addView(radioButton);
+            if(i==0)
+                radioButton.setChecked(true);
+            i++;
+        }
         if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]== -1)
         {
-            for(String s:sondaggio.getRisposte())
-            {
-
-                RadioButton radioButton = new RadioButton(this);
-                radioButton.setText(s);
-                radioButton.setId(i);
-                radioGrp.addView(radioButton);
-                if(i==0)
-                    radioButton.setChecked(true);
-                i++;
-            }
+            conferma.setOnClickListener(new Conferma());
         }
         else
         {
-            Toast.makeText(this, "Hai votato la risposta: "+ sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()], Toast.LENGTH_SHORT).show();
+            for(i = 0; i < sondaggio.risposte.size(); i++)
+            {
+                if(i == sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()])
+                {
+                    RadioButton radiob = (RadioButton) radioGrp.getChildAt(i);
+                    radiob.setChecked(true);
+
+
+                }
+                radioGrp.getChildAt(i).setEnabled(false);
+            }
+            conferma.setText("Modifica risposta");
+            conferma.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                  for(int j = 0; j < sondaggio.risposte.size(); j++)
+                  {
+                      radioGrp.getChildAt(j).setEnabled(true);
+                  }
+                  conferma.setText("Conferma");
+                  conferma.setOnClickListener(new Conferma());
+
+                }
+            });
+            //Toast.makeText(this, "Hai votato la risposta: "+ sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()], Toast.LENGTH_SHORT).show();
 
         }
 
 
 
-        conferma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
-                Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
-                startActivity(openPage);
 
-
-
-            }
-        });
     }
     private void setupActionBar()
     {
@@ -108,5 +126,15 @@ public class VisualizzaSondaggio extends AppCompatActivity
         Intent openPageHome = new Intent(this, GestioneSondaggi.class);
         startActivity(openPageHome);
         return super.onOptionsItemSelected(item);
+    }
+    private class Conferma implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v)
+        {
+            sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
+            Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
+            startActivity(openPage);
+        }
     }
 }
