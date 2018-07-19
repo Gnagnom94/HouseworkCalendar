@@ -53,7 +53,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
         {
             descrizione_sondaggio.setText(sondaggio.getDescrizione());
         }
-       else
+        else
         {
             descrizione_sondaggio.setText("Nessuna descrizione specificata");
         }
@@ -77,16 +77,16 @@ public class VisualizzaSondaggio extends AppCompatActivity
         else
         {
             for(i = 0; i < sondaggio.risposte.size(); i++)
+        {
+            if(i == sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()])
             {
-                if(i == sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()])
-                {
-                    RadioButton radiob = (RadioButton) radioGrp.getChildAt(i);
-                    radiob.setChecked(true);
+                RadioButton radiob = (RadioButton) radioGrp.getChildAt(i);
+                radiob.setChecked(true);
 
 
-                }
-                radioGrp.getChildAt(i).setEnabled(false);
             }
+            radioGrp.getChildAt(i).setEnabled(false);
+        }
             conferma.setText("Modifica risposta");
             conferma.setOnClickListener(new View.OnClickListener()
             {
@@ -102,7 +102,6 @@ public class VisualizzaSondaggio extends AppCompatActivity
 
                 }
             });
-            //Toast.makeText(this, "Hai votato la risposta: "+ sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()], Toast.LENGTH_SHORT).show();
 
         }
 
@@ -132,6 +131,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
+            Toast.makeText(VisualizzaSondaggio.this, "Voto acquisito", Toast.LENGTH_SHORT).show();
             sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
             Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
             startActivity(openPage);
