@@ -28,7 +28,8 @@ import namenotfoundunica.houseworkcalendar.other.Utente;
 public class VisualizzaSondaggio extends AppCompatActivity
 {
     private Sondaggio sondaggio;
-    RadioGroup radioGrp;
+    private RadioGroup radioGrp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,19 +44,19 @@ public class VisualizzaSondaggio extends AppCompatActivity
 
         int value = extras.getInt("indice",-1);
         sondaggio = GestioneSondaggi.lstSondaggio.get(value);
-        TextView titolo_sondaggio = (TextView) findViewById(R.id.survey_q);
-        TextView descrizione_sondaggio = (TextView) findViewById(R.id.survey_d);
+        TextView titoloSondaggio = (TextView) findViewById(R.id.survey_q);
+        TextView descrizioneSondaggio = (TextView) findViewById(R.id.survey_d);
         radioGrp = (RadioGroup) findViewById(R.id.radioGroup);
         final Button conferma= findViewById(R.id.survey_confirm);
 
-        titolo_sondaggio.setText(sondaggio.getTitolo());
+        titoloSondaggio.setText(sondaggio.getTitolo());
         if(sondaggio.getDescrizione().compareTo("")!=0)
         {
-            descrizione_sondaggio.setText(sondaggio.getDescrizione());
+            descrizioneSondaggio.setText(sondaggio.getDescrizione());
         }
         else
         {
-            descrizione_sondaggio.setText("Nessuna descrizione specificata");
+            descrizioneSondaggio.setText("Nessuna descrizione specificata");
         }
 
         int i=0;

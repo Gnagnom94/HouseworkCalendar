@@ -125,18 +125,14 @@ public class SchermataIniziale extends AppCompatActivity
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendarStart = new GregorianCalendar(year, month, dayOfMonth, 00, 00, 00);
+                Calendar calendarEnd = new GregorianCalendar(year, month, dayOfMonth, 23, 59, 59);
                 tmp.clear();
                 int i = 0;
                 for (Evento evento : calendario) {
                     i++;
-                    if (
-                            (evento.getInizio().get(Calendar.YEAR) >= year &&
-                                    evento.getInizio().get(Calendar.MONTH) >= month &&
-                                    evento.getInizio().get(Calendar.DAY_OF_MONTH) >= dayOfMonth)
-                                    &&
-                                    (evento.getInizio().get(Calendar.YEAR) <= year &&
-                                            evento.getInizio().get(Calendar.MONTH) <= month &&
-                                            evento.getInizio().get(Calendar.DAY_OF_MONTH) <= dayOfMonth)
+                    if ((evento.getInizio().getTimeInMillis() >= calendarStart.getTimeInMillis())
+                    && (evento.getInizio().getTimeInMillis() <= calendarEnd.getTimeInMillis())
                             ) {
                         //Inizializzazione NUOVO layout
 
@@ -237,13 +233,11 @@ public class SchermataIniziale extends AppCompatActivity
 
                     @Override
                     public void onDestroyActionMode(ActionMode mode) {
-                        // TODO Auto-generated method stub
                         customAdapter.removeSelection();
                     }
 
                     @Override
                     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                        // TODO Auto-generated method stub
                         return false;
                     }
                 });
