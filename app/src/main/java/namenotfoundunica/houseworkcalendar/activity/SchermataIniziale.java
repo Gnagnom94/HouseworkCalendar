@@ -72,7 +72,8 @@ public class SchermataIniziale extends AppCompatActivity
     Random random = new Random();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_iniziale);
 
@@ -90,7 +91,6 @@ public class SchermataIniziale extends AppCompatActivity
             UtentiGruppo = new ArrayList<>(utenti);
 
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
-            /*colorNameBinder.add(new ColorNameBinder("Bucato", "#0025FF"));*/
             colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
             colorNameBinder.add(new ColorNameBinder("Bagno", "#0FFF00"));
             colorNameBinder.add(new ColorNameBinder("Stoviglie", "#00FFF8"));

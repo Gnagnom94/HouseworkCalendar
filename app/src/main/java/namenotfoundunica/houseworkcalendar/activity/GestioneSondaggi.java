@@ -49,9 +49,12 @@ public class GestioneSondaggi extends AppCompatActivity
         {
             lstSondaggio = new ArrayList<>();
             List<String> risposte = new ArrayList<String>();
-            risposte.add("si");
-            risposte.add("no");
-            lstSondaggio.add(new Sondaggio("titolo1", "descrizione1", "done", 0, risposte));
+            String titolo = "Cosa mangiamo per cena?";
+            String descrizione = "Sto andando a fare la spesa, scegliamo cosa mangiare così compro il necessario per cucinarlo";
+            risposte.add("Fettine");
+            risposte.add("Pasta al sugo");
+            risposte.add("Pizza con il pane");
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "done", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
             flagCreation = true;

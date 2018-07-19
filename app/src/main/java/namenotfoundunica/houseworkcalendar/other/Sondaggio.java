@@ -11,7 +11,7 @@ public class Sondaggio
 
     private String titolo;                  //Domanda principale del sondaggio
     private String descrizione;             //Breve descrizione del sondaggio
-    private String stato;                   //Stati possibili del sondaggio (in attesa dei voti, completato con successo, completato senza successo)
+    private String stato;                   //Stati possibili del sondaggio (in attesa dei voti, completato con successo)
     private int id;                         //Id relativo al sondaggio
     public List<String> risposte;           //Array delle risposte disponibili per il sondaggio
     public  ArrayList<Utente> utentiGruppo;

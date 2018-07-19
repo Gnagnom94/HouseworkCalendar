@@ -46,39 +46,48 @@ public class VisualizzaSondaggio extends AppCompatActivity
         Button conferma= findViewById(R.id.survey_confirm);
 
         titolo_sondaggio.setText(sondaggio.getTitolo());
-        descrizione_sondaggio.setText(sondaggio.getDescrizione());
-        int i=0;
-        for(String s:sondaggio.getRisposte())
+        if(sondaggio.getDescrizione().compareTo("")!=0)
         {
-
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(s);
-            radioButton.setId(i);
-            radioGrp.addView(radioButton);
-            if(i==0)
-                radioButton.setChecked(true);
-            i++;
+            descrizione_sondaggio.setText(sondaggio.getDescrizione());
         }
+       else
+        {
+            descrizione_sondaggio.setText("Nessuna descrizione specificata");
+        }
+
+        int i=0;
+//        if(sondaggio.statoUtenti[]!=-1)
+        if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]== -1)
+        {
+            for(String s:sondaggio.getRisposte())
+            {
+
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(s);
+                radioButton.setId(i);
+                radioGrp.addView(radioButton);
+                if(i==0)
+                    radioButton.setChecked(true);
+                i++;
+            }
+        }
+        else
+        {
+            Toast.makeText(this, "Hai votato la risposta: "+ sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()], Toast.LENGTH_SHORT).show();
+
+        }
+
 
 
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                int pUtente=0;//mi salvo la posizione dell'utente corrente nell'array
-                int i=0;//controllo los tato del pagaento in base all'utente
-                for(Utente utente:sondaggio.utentiGruppo)
-                {
-                    if(utente.equals(SchermataIniziale.utenteLoggato))
-                    {
-                        pUtente=i;
-                        sondaggio.statoUtenti[i]=radioGrp.getCheckedRadioButtonId();
-                    }
-                    i++;
-                }
-                Toast toast = Toast.makeText(getApplicationContext(), "Votazione effettuata", Toast.LENGTH_SHORT);
-                toast.show();
+            public void onClick(View v)
+            {
+                sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
                 Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
                 startActivity(openPage);
+
+
 
             }
         });

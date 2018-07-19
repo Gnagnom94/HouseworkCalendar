@@ -27,7 +27,8 @@
                 android:layout_margin="8dp"
                 android:ems="10"
                 android:hint="Inserisci Titolo"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:maxLength="50" />
 
             <EditText
                 android:id="@+id/editTextDescrizione"

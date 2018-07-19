@@ -1,16 +1,21 @@
 package namenotfoundunica.houseworkcalendar.other;
 
 public class Utente {
+    private static int count = 0;
     private String nome;
     private String cognome;
     private String email;
     private String password;
+    private int  id;
 
     public Utente(String nome, String cognome, String email, String password) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
+        this.id = count++;
+
+
     }
 
     public String getNome() {
@@ -44,4 +49,6 @@ public class Utente {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getId() { return id; };
 }
