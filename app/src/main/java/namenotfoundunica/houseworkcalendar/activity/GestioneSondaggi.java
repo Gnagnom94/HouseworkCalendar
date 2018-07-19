@@ -61,8 +61,8 @@ public class GestioneSondaggi extends AppCompatActivity
             String descrizione = "Sto andando a fare la spesa, scegliamo cosa mangiare così compro il necessario per cucinarlo";
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
-            risposte.add("Pizza con il pane");
-            lstSondaggio.add(new Sondaggio(titolo, descrizione, "done", 0, risposte));
+            risposte.add("Toast");
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "d", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
             flagCreation = true;
@@ -265,6 +265,14 @@ public class GestioneSondaggi extends AppCompatActivity
             final Button button = convertView.findViewById(R.id.vota_sondaggio);
             final Sondaggio sondaggio = lstSondaggio.get(position);
             button.setId(sondaggio.getId());
+            if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] == -1)
+            {
+                button.setText("VOTA");
+            }
+            else
+            {
+                button.setText("VISIONA");
+            }
             textView_name.setText(sondaggio.getTitolo());
             boolean flagVotoCompleto=true;
 
