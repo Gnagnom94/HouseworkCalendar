@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +21,19 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import namenotfoundunica.houseworkcalendar.R;
@@ -173,7 +181,8 @@ public class GestioneSondaggi extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                showInfoSondaggio(position);
+//                showInfoSondaggio(position);
+                showInfoSondaggio2(position);
             }
         });
 
@@ -348,19 +357,18 @@ public class GestioneSondaggi extends AppCompatActivity
 
     private void showInfoSondaggio(int posizione)
     {
-
-        Sondaggio sondaggio=lstSondaggio.get(posizione);
+        Sondaggio sondaggio = lstSondaggio.get(posizione);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LinearLayout layout = new LinearLayout(this);
         TextView tvMessage = new TextView(this);
         TextView tvMessage2 = new TextView(this);
-        TextView contenuto=new TextView(this);
+        TextView contenuto = new TextView(this);
         int i=0;
         String tmp="";
         for(String r:sondaggio.getRisposte())
         {
             int j=0;
-            int contatore=0;
+            int contatore = 0;
             tmp=tmp+r+": ";
             for(Utente utente:sondaggio.utentiGruppo)
             {
@@ -384,8 +392,58 @@ public class GestioneSondaggi extends AppCompatActivity
 
         builder.setView(layout);
 
-
         builder.setNegativeButton("Ok",null);
         builder.create().show();
+    }
+
+    private void showInfoSondaggio2(int posizione) {
+        Sondaggio sondaggio = lstSondaggio.get(posizione);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.customlayout_info_sondaggio, null);
+        LinearLayout linearLayout = alertLayout.findViewById(R.id.linearLayout);
+
+        TextView textViewTitolo = alertLayout.findViewById(R.id.textViewTitolo);
+        TextView textViewDescrizione = alertLayout.findViewById(R.id.textViewDescrizione);
+
+        textViewTitolo.setText(lstSondaggio.get(posizione).getTitolo());
+        textViewDescrizione.setText(lstSondaggio.get(posizione).getDescrizione());
+
+        int i = 0;
+        for(String risposta:sondaggio.getRisposte()){
+            final View child = getLayoutInflater().inflate(R.layout.custom_answer_layout, null);
+
+            TextView textViewRisposta = child.findViewById(R.id.textViewRisposta);
+            TextView textViewCounter = child.findViewById(R.id.textViewCounter);
+
+            textViewRisposta.setText(risposta);
+
+
+            ProgressBar progressBar = child.findViewById(R.id.progressBar);
+
+            int j = 0;
+            int contatore = 0;
+            for(Utente utente:sondaggio.utentiGruppo)
+            {
+                if(sondaggio.statoUtenti[j]==i)
+                    contatore++;
+                j++;
+            }
+            progressBar.setProgress((contatore*100)/sondaggio.utentiGruppo.size());
+
+            textViewCounter.setText("" + contatore + " Voti");
+
+            linearLayout.addView(child);
+            i++;
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("OK", null);
+        builder.setView(alertLayout);
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 }
