@@ -9,8 +9,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,38 +55,14 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
         linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
 
-        Button buttonAddQ = findViewById(R.id.buttonAddQ);
+//        EditText risposta1 = (EditText) findViewById(R.id.editTextRisposta1);
+        EditText risposta2 = (EditText) findViewById(R.id.editTextRisposta2);
+
+        risposta2.addTextChangedListener(new aggiungiRisposta());
+
 
         selectedIndex = 3;
-        buttonAddQ.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                final View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
-                child.setId(selectedIndex);
 
-                EditText editText = child.findViewById(R.id.AnswerAgg);
-                editText.setHint("Inserisci Risposta ");
-
-                final ImageButton meno = child.findViewById(R.id.removeQ);
-                meno.setId(selectedIndex);
-
-                selectedIndex++;
-
-                meno.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        linearLayout.removeView(child);
-                        selectedIndex--;
-                    }
-                });
-                linearLayout.addView(child);
-
-            }
-        });
 
         Button buttonSendSurvey = findViewById(R.id.buttonSendSurvey);
         buttonSendSurvey.setOnClickListener(new View.OnClickListener()
@@ -159,5 +138,53 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class aggiungiRisposta implements TextWatcher
+    {
+        private boolean ignoraCambiamenti = false;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
+            if(!ignoraCambiamenti)
+            {
+                EditText controllaTesto;
+                Boolean aggiungi = true;
+                for(int i = 2; i < selectedIndex-1; i++)
+                {
+                    controllaTesto = (EditText) linearLayout.getChildAt(i);
+                    if(controllaTesto.getText().toString().compareTo("")==0)
+                    {
+                        aggiungi = false;
+                    }
+                }
+                if(aggiungi)
+                {
+                    View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
+                    EditText editText = child.findViewById(R.id.AnswerAgg);
+                    editText.setHint("Inserisci Risposta ");
+                    editText.addTextChangedListener(new aggiungiRisposta());
+                    linearLayout.addView(child);
+                    selectedIndex++;
+                }
+            }
+            ignoraCambiamenti = true;
+
+        }
     }
 }

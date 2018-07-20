@@ -62,7 +62,7 @@ public class GestioneSondaggi extends AppCompatActivity
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
             risposte.add("Toast");
-            lstSondaggio.add(new Sondaggio(titolo, descrizione, "d", 0, risposte));
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
             flagCreation = true;
@@ -86,7 +86,7 @@ public class GestioneSondaggi extends AppCompatActivity
                 // Capture total checked items
                 final int checkedCount = listView.getCheckedItemCount();
                 // Set the CAB title according to total checked items
-                mode.setTitle(checkedCount + " Selezionato");
+                mode.setTitle(checkedCount + " selezionato");
                 // Calls toggleSelection method from customAdapter Class
                 customAdapter.toggleSelection(position);
             }
@@ -253,11 +253,15 @@ public class GestioneSondaggi extends AppCompatActivity
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
             //final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
             final ImageView statoImmagineSondaggio = convertView.findViewById(R.id.immagineStato);
-            if(lstSondaggio.get(position).getStato().compareTo("wait")==0)
+            if(lstSondaggio.get(position).getStato().compareTo("answer") == 0)
+            {
+                //Inserire sondaggio con icona rossa
+            }
+            if(lstSondaggio.get(position).getStato().compareTo("wait") == 0)
             {
                 statoImmagineSondaggio.setImageResource(R.drawable.icon_pending_survey);
             }
-            else if(lstSondaggio.get(position).getStato().compareTo("done")==0)
+            else if(lstSondaggio.get(position).getStato().compareTo("done") == 0)
             {
                 statoImmagineSondaggio.setImageResource(R.drawable.icon_done_survey);
             }
