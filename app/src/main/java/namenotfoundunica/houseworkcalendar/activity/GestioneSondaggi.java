@@ -76,6 +76,25 @@ public class GestioneSondaggi extends AppCompatActivity
         final CustomAdapter customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
         listView.setAdapter(customAdapter);
 
+        Boolean completato;
+        /*Controllo icona*/
+        for(Sondaggio s:lstSondaggio)
+        {
+            completato = true;
+            for(int i=0; i < s.statoUtenti.length; i++)
+            {
+                if(s.statoUtenti[i] == -1)
+                {
+                    completato = false;
+                }
+            }
+            if(completato)
+            {
+                s.setStato("done");
+            }
+        }
+
+
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         // Capture ListView item click
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -255,7 +274,7 @@ public class GestioneSondaggi extends AppCompatActivity
             final ImageView statoImmagineSondaggio = convertView.findViewById(R.id.immagineStato);
             if(lstSondaggio.get(position).getStato().compareTo("answer") == 0)
             {
-                //Inserire sondaggio con icona rossa
+                statoImmagineSondaggio.setImageResource(R.drawable.icon_answer_sent);
             }
             if(lstSondaggio.get(position).getStato().compareTo("wait") == 0)
             {
@@ -280,23 +299,23 @@ public class GestioneSondaggi extends AppCompatActivity
             textView_name.setText(sondaggio.getTitolo());
             boolean flagVotoCompleto=true;
 
-            for(int i=0;i<sondaggio.utentiGruppo.size();i++)
-                if(sondaggio.statoUtenti[i]==-1)
-                    flagVotoCompleto=false;
+//            for(int i=0;i<sondaggio.utentiGruppo.size();i++)
+//                if(sondaggio.statoUtenti[i]==-1)
+//                    flagVotoCompleto=false;
 
-            if(flagVotoCompleto==true)
-            {
-                //button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lstSondaggio.remove(position);
-                        notifyDataSetChanged();
-                    }
-                });
-            }
+//            if(flagVotoCompleto==true)
+//            {
+//                //button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+//                button.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        lstSondaggio.remove(position);
+//                        notifyDataSetChanged();
+//                    }
+//                });
+//            }
 
-            else {
+//            else {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -305,7 +324,7 @@ public class GestioneSondaggi extends AppCompatActivity
                         startActivity(intent);
                     }
                 });
-            }
+//            }
             return convertView;
         }
 

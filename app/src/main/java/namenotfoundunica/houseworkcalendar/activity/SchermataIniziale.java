@@ -97,7 +97,7 @@ public class SchermataIniziale extends AppCompatActivity
 
             generazioneAnno();
 
-            //generazioneSettimanaTipo();
+            generazioneSettimanaTipo();
 
             fusioneCalendarioSettimanaTipo();
 
