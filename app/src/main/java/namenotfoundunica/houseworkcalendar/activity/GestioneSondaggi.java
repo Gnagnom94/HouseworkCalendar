@@ -232,7 +232,7 @@ public class GestioneSondaggi extends AppCompatActivity
             }
         });
         Bundle extras = getIntent().getExtras();
-        int value=extras.getInt("indice",-1);
+        int value =extras.getInt("indice",-1);
         if(value!=-1)
             showInfoSondaggio2(value);
 
@@ -301,7 +301,7 @@ public class GestioneSondaggi extends AppCompatActivity
             }
             textView_name.setText(sondaggio.getTitolo());
             boolean flagVotoCompleto=true;
-            
+
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

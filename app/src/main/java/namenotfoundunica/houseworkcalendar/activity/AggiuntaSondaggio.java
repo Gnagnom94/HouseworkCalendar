@@ -82,13 +82,12 @@ public class AggiuntaSondaggio extends AppCompatActivity
                     }
                 }
 
-                for (int i = 4; i <= selectedIndex; i++) {
+                for (int i = 4; i <= selectedIndex-1; i++) {
                     ConstraintLayout constraintLayout = (ConstraintLayout) linearLayout.getChildAt(i);
                     EditText editText = constraintLayout.findViewById(R.id.AnswerAgg);
-                    risposte.add(editText.getText().toString());
-                    if (editText.getText().toString().compareTo("") == 0) {
-                        editText.setError("Inserisci la risposta!");
-                        continua = false;
+                    if(editText.getText().toString().compareTo("") != 0)
+                    {
+                        risposte.add(editText.getText().toString());
                     }
                 }
 
@@ -163,17 +162,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
         {
             if(!ignoraCambiamenti)
             {
-                EditText controllaTesto;
-                Boolean aggiungi = true;
-                for(int i = 2; i < selectedIndex-1; i++)
-                {
-                    controllaTesto = (EditText) linearLayout.getChildAt(i);
-                    if(controllaTesto.getText().toString().compareTo("")==0)
-                    {
-                        aggiungi = false;
-                    }
-                }
-                if(aggiungi)
+                if(true)
                 {
                     View child = getLayoutInflater().inflate(R.layout.custom_addq_layout, null);
                     EditText editText = child.findViewById(R.id.AnswerAgg);
