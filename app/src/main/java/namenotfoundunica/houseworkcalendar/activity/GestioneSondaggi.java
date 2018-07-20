@@ -298,24 +298,7 @@ public class GestioneSondaggi extends AppCompatActivity
             }
             textView_name.setText(sondaggio.getTitolo());
             boolean flagVotoCompleto=true;
-
-//            for(int i=0;i<sondaggio.utentiGruppo.size();i++)
-//                if(sondaggio.statoUtenti[i]==-1)
-//                    flagVotoCompleto=false;
-
-//            if(flagVotoCompleto==true)
-//            {
-//                //button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
-//                button.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        lstSondaggio.remove(position);
-//                        notifyDataSetChanged();
-//                    }
-//                });
-//            }
-
-//            else {
+            
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
