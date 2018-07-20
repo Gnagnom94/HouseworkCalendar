@@ -231,7 +231,10 @@ public class GestioneSondaggi extends AppCompatActivity
 
             }
         });
-
+        Bundle extras = getIntent().getExtras();
+        int value=extras.getInt("indice",-1);
+        if(value!=-1)
+            showInfoSondaggio2(value);
 
     }
 

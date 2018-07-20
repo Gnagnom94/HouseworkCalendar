@@ -321,6 +321,7 @@ public class SchermataIniziale extends AppCompatActivity
                                     case R.id.nav_sondaggio:
                                         if(utenteLoggato!=null) {
                                             openPage = new Intent(SchermataIniziale.this, GestioneSondaggi.class);
+                                            openPage.putExtra("indice",-1);
                                             // passo all'attivazione dell'activity Pagina.java
                                             startActivity(openPage);
                                             return true;

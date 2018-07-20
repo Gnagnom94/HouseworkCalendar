@@ -29,6 +29,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
 {
     private Sondaggio sondaggio;
     private RadioGroup radioGrp;
+    private static int value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +43,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
 
         Bundle extras = getIntent().getExtras();
 
-        int value = extras.getInt("indice",-1);
+        value = extras.getInt("indice",-1);
         sondaggio = GestioneSondaggi.lstSondaggio.get(value);
         TextView titoloSondaggio = (TextView) findViewById(R.id.survey_q);
         TextView descrizioneSondaggio = (TextView) findViewById(R.id.survey_d);
@@ -124,6 +125,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Intent openPageHome = new Intent(this, GestioneSondaggi.class);
+        openPageHome.putExtra("indice",-1);
         startActivity(openPageHome);
         return super.onOptionsItemSelected(item);
     }
@@ -135,6 +137,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
             Toast.makeText(VisualizzaSondaggio.this, "Voto acquisito", Toast.LENGTH_SHORT).show();
             sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
             Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
+            openPage.putExtra("indice",value);
             startActivity(openPage);
         }
     }
