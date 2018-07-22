@@ -270,7 +270,16 @@ public class SchermataIniziale extends AppCompatActivity
         //descrizione navigation Drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
         if (navigationView != null) {
+            final TextView textViewNomeUtente = headerView.findViewById(R.id.name);
+            final TextView textViewEmailUtente = headerView.findViewById(R.id.mail);
+
+            if( textViewNomeUtente != null && textViewEmailUtente != null && utenteLoggato != null) {
+                textViewNomeUtente.setText(utenteLoggato.getNome());
+                textViewEmailUtente.setText(utenteLoggato.getEmail());
+            }
+
             navigationView.setNavigationItemSelectedListener(
                     new NavigationView.OnNavigationItemSelectedListener() {
                         @Override
@@ -339,6 +348,8 @@ public class SchermataIniziale extends AppCompatActivity
                                     case R.id.nav_logout:
                                         if(utenteLoggato!=null) {
                                             utenteLoggato=null;
+                                            textViewNomeUtente.setText("Non sei Loggato");
+                                            textViewEmailUtente.setText("");
                                             Toast toast = Toast.makeText(getApplicationContext(), "Logout eseguito", Toast.LENGTH_SHORT);
                                             toast.show();
                                             mDrawerLayout.closeDrawers();//chiudo la nav

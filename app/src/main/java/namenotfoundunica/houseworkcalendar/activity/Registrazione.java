@@ -24,6 +24,8 @@ public class Registrazione extends AppCompatActivity {
     private TextView confermaPswTextView ;
     private Button conferma;
 
+    private Boolean flagCompletamento = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,28 +47,49 @@ public class Registrazione extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if(pswTextView.getText().toString().compareTo(confermaPswTextView.getText().toString())==0)
-                {
-                    String newEmail=emailTextView.getText().toString();
-                    boolean flagEmail=false;
-                    for(Utente i:SchermataIniziale.utenti)
-                    {
-                        if(i.getEmail().compareTo(newEmail)==0)
-                            flagEmail=true;
-                    }
-
-                    if(flagEmail==false)
-                    {
-                        SchermataIniziale.utenti.add(new Utente(nomeTextView.getText().toString(),cognomeTextView.getText().toString(),newEmail,pswTextView.getText().toString()));
-                        makeToast("Registrazione effettuata, effetuare il login");
-                        Intent openPage = new Intent(Registrazione.this, SchermataIniziale.class);
-                        startActivity(openPage);
-                    }
-                    else
-                        makeToast("Utente gia presente nel database");
+                if(nomeTextView.getText().toString().isEmpty()){
+                    nomeTextView.setError("Inserisci Nome");
+                    flagCompletamento = false;
                 }
-                else
-                    makeToast("Le due password non sono uguali");
+                if(cognomeTextView.getText().toString().isEmpty()){
+                    cognomeTextView.setError("Inserisci Cognome");
+                    flagCompletamento = false;
+                }
+                if(emailTextView.getText().toString().isEmpty()){
+                    emailTextView.setError("Inserisci email");
+                    flagCompletamento = false;
+                }
+                if(pswTextView.getText().toString().isEmpty()){
+                    pswTextView.setError("Inserisci Password");
+                    flagCompletamento = false;
+                }
+                if(confermaPswTextView.getText().toString().isEmpty()){
+                    confermaPswTextView.setError("Conferma Password");
+                    flagCompletamento = false;
+                }
+
+                if(flagCompletamento) {
+                    if (pswTextView.getText().toString().compareTo(confermaPswTextView.getText().toString()) == 0) {
+                        String newEmail = emailTextView.getText().toString();
+                        boolean flagEmail = false;
+                        for (Utente i : SchermataIniziale.utenti) {
+                            if (i.getEmail().compareTo(newEmail) == 0)
+                                flagEmail = true;
+                        }
+
+                        if (flagEmail == false) {
+                            SchermataIniziale.utenti.add(new Utente(nomeTextView.getText().toString(), cognomeTextView.getText().toString(), newEmail, pswTextView.getText().toString()));
+                            makeToast("Registrazione effettuata, effetuare il login");
+                            Intent openPage = new Intent(Registrazione.this, SchermataIniziale.class);
+                            startActivity(openPage);
+                        } else {
+                            makeToast("Utente gia presente nel database");
+                        }
+                    } else {
+                        makeToast("Le due password non sono uguali");
+                    }
+                }
+                flagCompletamento = true;
             }
         });
 

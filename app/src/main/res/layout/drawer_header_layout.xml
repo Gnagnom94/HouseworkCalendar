@@ -36,15 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Matteo"
+            android:text="Non sei Loggato"
             android:textAlignment="textStart"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
             android:id="@+id/mail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="matteo.atzeni@outlook.com" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </RelativeLayout>
