@@ -63,9 +63,9 @@ public class GestioneSondaggi extends AppCompatActivity
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
             risposte.add("Toast");
-            lstSondaggio.add(new Sondaggio(titolo, descrizione, "answer", 0, risposte));
-            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
-            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "done", 2, risposte));
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
+//            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
+//            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "done", 2, risposte));
             flagCreation = true;
         }
 
@@ -436,9 +436,13 @@ public class GestioneSondaggi extends AppCompatActivity
 
         TextView textViewTitolo = alertLayout.findViewById(R.id.textViewTitolo);
         TextView textViewDescrizione = alertLayout.findViewById(R.id.textViewDescrizione);
+        TextView textViewRispostaScelta = alertLayout.findViewById(R.id.textViewRispostaScelta);
 
         textViewTitolo.setText(lstSondaggio.get(posizione).getTitolo());
         textViewDescrizione.setText(lstSondaggio.get(posizione).getDescrizione());
+        if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] != -1) {
+            textViewRispostaScelta.setText("La tua Risposta: " + lstSondaggio.get(posizione).getRisposte().get(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]));
+        }
 
         int i = 0;
         for(String risposta:sondaggio.getRisposte()){
@@ -462,7 +466,7 @@ public class GestioneSondaggi extends AppCompatActivity
             }
             progressBar.setProgress((contatore*100)/sondaggio.utentiGruppo.size());
 
-            textViewCounter.setText("" + contatore + " Voti");
+            textViewCounter.setText("" + contatore + (contatore > 1 || contatore == 0 ? " Voti" : " Voto"));
 
             linearLayout.addView(child);
             i++;
