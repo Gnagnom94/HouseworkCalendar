@@ -3,11 +3,12 @@ package namenotfoundunica.houseworkcalendar.other;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import namenotfoundunica.houseworkcalendar.activity.SchermataIniziale;
+
 public class Pagamento {
     private String nome;
     private float totale;
     private int id;
-    public ArrayList<Utente> utentiGruppo;
     public boolean statoUtenti[]; //array parallelo a pagantio che contiene lo stato di ogni singolo utente in modo che si sappia chi ha pagato e chi no
 
     public Pagamento(String nome, float totale,int id,ArrayList<Utente> utentiGruppo)
@@ -15,7 +16,6 @@ public class Pagamento {
         this.setNome(nome);
         this.setTotale(totale);
         this.setId(id);
-        this.utentiGruppo =new ArrayList<>(utentiGruppo);
         this.statoUtenti=new boolean[utentiGruppo.size()];
         Arrays.fill(statoUtenti,false);
 
@@ -46,15 +46,15 @@ public class Pagamento {
     }
 
     public ArrayList<Utente> getUtentiGruppo() {
-        return utentiGruppo;
+        return SchermataIniziale.utenti;
     }
 
     public void setUtentiGruppo(ArrayList<Utente> utentiGruppo) {
-        this.utentiGruppo = this.utentiGruppo;
+        SchermataIniziale.utenti = utentiGruppo;
     }
     public int getNumeroPaganti()
     {
-        return utentiGruppo.size();
+        return SchermataIniziale.utenti.size();
     }
 
     public void setStatoUtenti(int posizione)

@@ -57,7 +57,7 @@ public class SchermataIniziale extends AppCompatActivity
     public static ArrayList<Pagamento> pagamenti;
     private DrawerLayout mDrawerLayout;
     public ArrayList<Evento> tmp = new ArrayList<>();
-    public static ArrayList<Utente> UtentiGruppo;
+
     public static ArrayList<ColorNameBinder> colorNameBinder = new ArrayList<>();
 
     public CustomAdapter customAdapter;
@@ -87,8 +87,6 @@ public class SchermataIniziale extends AppCompatActivity
             utenti.add(new Utente("a", "a", "a", "a"));
             utenti.add(new Utente("b", "b", "b", "b"));
             utenti.add(new Utente("c", "c", "c", "c"));
-
-            UtentiGruppo = new ArrayList<>(utenti);
 
             colorNameBinder.add(new ColorNameBinder("Lavatrice", "#FF0000"));
             colorNameBinder.add(new ColorNameBinder("Pavimento", "#FFE500"));
@@ -427,14 +425,14 @@ public class SchermataIniziale extends AppCompatActivity
 
         for (int k = 1; k <= 7; k++) {
             for (int j = 0; j < 10; j++) {
-                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                         new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j, calendar.get(Calendar.MINUTE)),
                         new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j + 1, calendar.get(Calendar.MINUTE)),
                         true,
-                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                        SchermataIniziale.utenti.get(rUtenti), "", "", true)
                 );
 
             }
@@ -443,14 +441,14 @@ public class SchermataIniziale extends AppCompatActivity
         }
         for (int k = 1; k <= 7; k++) {
             for (int j = 0; j < 10; j++) {
-                int rUtenti = random.nextInt(((UtentiGruppo.size() - 1) - 0) + 1);
+                int rUtenti = random.nextInt(((utenti.size() - 1) - 0) + 1);
                 int rNomeColoreEvento = random.nextInt(((colorNameBinder.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameBinder.get(rNomeColoreEvento),
                         new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j, calendar.get(Calendar.MINUTE)),
                         new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY) + j + 1, calendar.get(Calendar.MINUTE)),
                         true,
-                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                        SchermataIniziale.utenti.get(rUtenti), "", "", true)
                 );
 
             }

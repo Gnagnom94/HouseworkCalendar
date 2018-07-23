@@ -436,13 +436,13 @@ public class GestioneSondaggi extends AppCompatActivity
 
             int j = 0;
             int contatore = 0;
-            for(Utente utente:sondaggio.utentiGruppo)
+            for(Utente utente:sondaggio.getUtentiGruppo())
             {
                 if(sondaggio.statoUtenti[j]==i)
                     contatore++;
                 j++;
             }
-            progressBar.setProgress((contatore*100)/sondaggio.utentiGruppo.size());
+            progressBar.setProgress((contatore*100)/sondaggio.getUtentiGruppo().size());
 
             textViewCounter.setText("" + contatore + (contatore > 1 || contatore == 0 ? " Voti" : " Voto"));
 

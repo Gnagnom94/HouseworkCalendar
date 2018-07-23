@@ -44,9 +44,9 @@ public class GestionePagamenti extends AppCompatActivity {
         if(!flagCreazione)
         {
             SchermataIniziale.pagamenti=new ArrayList<>();
-            SchermataIniziale.pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.UtentiGruppo));
-            SchermataIniziale.pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.UtentiGruppo));
-            SchermataIniziale.pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.UtentiGruppo));
+            SchermataIniziale.pagamenti.add(new Pagamento("Netflix",14.00f,0,SchermataIniziale.utenti));
+            SchermataIniziale.pagamenti.add(new Pagamento("Luce enel",122.21f,1,SchermataIniziale.utenti));
+            SchermataIniziale.pagamenti.add(new Pagamento("Gas",60f,2,SchermataIniziale.utenti));
             flagCreazione=true;
         }
 
@@ -120,7 +120,7 @@ public class GestionePagamenti extends AppCompatActivity {
             int i=0;
             int indiceUtenteLog=0;
             //cerco l'indice del gruppo dell'utente loggato
-            for(Utente utente:pagamento.utentiGruppo) {
+            for(Utente utente:pagamento.getUtentiGruppo()) {
                 if (utente.equals(SchermataIniziale.utenteLoggato))
                 {
                     indiceUtenteLog=i;
@@ -237,7 +237,7 @@ public class GestionePagamenti extends AppCompatActivity {
             {
                  String tmpTipo= etInput.getText().toString();
                  float tmpPrezzo=Float.valueOf(prInput.getText().toString());
-                SchermataIniziale.pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo, SchermataIniziale.pagamenti.size(),SchermataIniziale.UtentiGruppo));
+                SchermataIniziale.pagamenti.add(new Pagamento(tmpTipo,tmpPrezzo, SchermataIniziale.pagamenti.size(),SchermataIniziale.utenti));
             }
         };
         builder.setPositiveButton("Aggiungi",onPositiveClickListener);
@@ -262,7 +262,7 @@ public class GestionePagamenti extends AppCompatActivity {
         tmpNonPagato="Mancano ancora: ";
         totale.setText("Totale spesa: "+String.format("%.2f",pagamento.getTotale())+" €");
         int i=0;
-        for(Utente utente:pagamento.utentiGruppo)
+        for(Utente utente:pagamento.getUtentiGruppo())
         {
             if(pagamento.statoUtenti[i]==true)
                 tmpPagato=tmpPagato+utente.getNome()+", ";

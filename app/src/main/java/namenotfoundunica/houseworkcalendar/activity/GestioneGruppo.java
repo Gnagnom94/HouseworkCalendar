@@ -70,7 +70,7 @@ public class GestioneGruppo extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return SchermataIniziale.UtentiGruppo.size();
+            return SchermataIniziale.utenti.size();
         }
 
         @Override
@@ -87,7 +87,7 @@ public class GestioneGruppo extends AppCompatActivity
         public View getView(final int position, View convertView, ViewGroup parent)
         {
             convertView = getLayoutInflater().inflate(R.layout.custom_utentelist, null);
-            final Utente utenteThis = SchermataIniziale.UtentiGruppo.get(position);
+            final Utente utenteThis = SchermataIniziale.utenti.get(position);
 
             TextView textView_name = (TextView) convertView.findViewById(R.id.nomeUtente);
             final Button button = (Button) convertView.findViewById(R.id.cancellaUtente);
@@ -105,7 +105,7 @@ public class GestioneGruppo extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which)
                         {
                             Toast toast = Toast.makeText(getApplicationContext(), utenteThis.getNome()+" eliminato dal gruppo", Toast.LENGTH_SHORT);
-                            SchermataIniziale.UtentiGruppo.remove(position);
+                            SchermataIniziale.utenti.remove(position);
                             toast.show();
                             notifyDataSetChanged();
                         }
@@ -170,7 +170,7 @@ public class GestioneGruppo extends AppCompatActivity
                 {
                     if (i.getEmail().compareTo(tmp)==0)
                     {
-                        SchermataIniziale.UtentiGruppo.add(i);
+                        SchermataIniziale.utenti.add(i);
                         Toast toast = Toast.makeText(getApplicationContext(), i.getNome() + " aggiunto al gruppo", Toast.LENGTH_SHORT);
                         toast.show();
                         flagtrovato=true;

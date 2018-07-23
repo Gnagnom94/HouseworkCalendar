@@ -458,13 +458,13 @@ public class AggiuntaEvento extends AppCompatActivity
 
 
             for (int j = 1; j < (Calendar.getInstance().getWeeksInWeekYear() - Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)); j++) {
-                int rUtenti = random.nextInt(((SchermataIniziale.UtentiGruppo.size() - 1) - 0) + 1);
+                int rUtenti = random.nextInt(((SchermataIniziale.utenti.size() - 1) - 0) + 1);
 
                 settimana.add(new Evento(colorNameScelto,
                         new GregorianCalendar(dataInizio.get(Calendar.YEAR), dataInizio.get(Calendar.MONTH), dataInizio.get(Calendar.DAY_OF_MONTH), dataInizio.get(Calendar.HOUR_OF_DAY) , dataInizio.get(Calendar.MINUTE)),
                         new GregorianCalendar(dataFine.get(Calendar.YEAR), dataFine.get(Calendar.MONTH), dataFine.get(Calendar.DAY_OF_MONTH), dataFine.get(Calendar.HOUR_OF_DAY), dataFine.get(Calendar.MINUTE)),
                         true,
-                        SchermataIniziale.UtentiGruppo.get(rUtenti), "", "", true)
+                        SchermataIniziale.utenti.get(rUtenti), "", "", true)
                 );
 
                 dataInizio.roll(Calendar.WEEK_OF_YEAR, 1);
