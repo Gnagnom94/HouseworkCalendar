@@ -83,7 +83,7 @@ public class Sondaggio implements Comparable
         {
             return -1;
         }
-        if(stato.compareTo("answer")==0)
+        if(statoUtenti[SchermataIniziale.utenteLoggato.getId()]!=-1)
         {
             if(other.stato.compareTo("wait")==0)
             {

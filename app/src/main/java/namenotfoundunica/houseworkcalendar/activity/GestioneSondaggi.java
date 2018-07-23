@@ -285,7 +285,7 @@ public class GestioneSondaggi extends AppCompatActivity
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
             //final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
             final ImageView statoImmagineSondaggio = convertView.findViewById(R.id.immagineStato);
-            if(lstSondaggio.get(position).getStato().compareTo("answer") == 0)
+            if(lstSondaggio.get(position).statoUtenti[SchermataIniziale.utenteLoggato.getId()]!=-1)
             {
                 statoImmagineSondaggio.setImageResource(R.drawable.icon_answer_sent);
             }
