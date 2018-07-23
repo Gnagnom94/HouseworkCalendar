@@ -139,8 +139,19 @@ public class GestionePagamenti extends AppCompatActivity {
             {
                 if(pagamento.statoUtenti[i]==true)
                 {
-                    if(i==indiceUtenteLog)
-                        button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                    boolean StatoPagato=true;
+                    if(i==indiceUtenteLog) {
+                        for (int j = 0; j < pagamento.statoUtenti.length; j++)
+                            if (pagamento.statoUtenti[j] == false)
+                                StatoPagato = false;
+                        if (StatoPagato == true)//se la barra ha raggiunto il massimo
+                        {
+                            progressBar.setProgress(100, false);
+                            button.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+                            finishIcon.setVisibility(View.VISIBLE);
+                        } else
+                            button.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                    }
                     progressBar.setProgress(progressBar.getProgress()+(100 / pagamento.getNumeroPaganti()), false);
                 }
             }
