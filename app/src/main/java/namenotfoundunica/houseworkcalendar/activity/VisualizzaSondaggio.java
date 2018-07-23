@@ -134,6 +134,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
         startActivity(openPageHome);
         return super.onOptionsItemSelected(item);
     }
+
     private class Conferma implements View.OnClickListener
     {
         @Override
@@ -143,8 +144,9 @@ public class VisualizzaSondaggio extends AppCompatActivity
             sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
             sondaggio.setStato("answer");
             Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
-            openPage.putExtra("indice",value);
+            openPage.putExtra("Sondaggio",sondaggio);
             startActivity(openPage);
         }
+
     }
 }

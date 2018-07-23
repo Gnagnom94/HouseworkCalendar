@@ -48,6 +48,7 @@ public class GestioneSondaggi extends AppCompatActivity
     public static ArrayList<Sondaggio> lstSondaggio;
     private static boolean flagCreation = false;
     public boolean flagSelectUnselectAll = false;
+    public CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class GestioneSondaggi extends AppCompatActivity
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
             risposte.add("Toast");
-            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
+//            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "done", 2, risposte));
             flagCreation = true;
@@ -73,7 +74,8 @@ public class GestioneSondaggi extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
 
-        lstSondaggio.sort(new Comparator<Sondaggio>() {
+        lstSondaggio.sort(new Comparator<Sondaggio>()
+        {
             @Override
             public int compare(Sondaggio o1, Sondaggio o2)
             {
@@ -82,7 +84,7 @@ public class GestioneSondaggi extends AppCompatActivity
         });
 
         final ListView listView = (ListView) findViewById(R.id.listViewSondaggi);
-        final CustomAdapter customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
+        customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
         listView.setAdapter(customAdapter);
 
         Boolean completato;
@@ -210,7 +212,7 @@ public class GestioneSondaggi extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
 //                showInfoSondaggio(position);
-                showInfoSondaggio2(position);
+                showInfoSondaggio2(lstSondaggio.get(position));
             }
         });
 
@@ -241,10 +243,13 @@ public class GestioneSondaggi extends AppCompatActivity
 
             }
         });
-        Bundle extras = getIntent().getExtras();
-        int value = extras.getInt("indice",-1);
-        if(value!=-1)
-            showInfoSondaggio2(value);
+        Intent i = getIntent();
+        Sondaggio sondaggio = (Sondaggio) i.getSerializableExtra("Sondaggio");
+        if(sondaggio != null)
+        {
+            showInfoSondaggio2(sondaggio);
+        }
+
 
     }
 
@@ -264,12 +269,14 @@ public class GestioneSondaggi extends AppCompatActivity
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return lstSondaggio.size();
         }
 
         @Override
-        public Sondaggio getItem(int position) {
+        public Sondaggio getItem(int position)
+        {
             return sondaggio.get(position);
         }
 
@@ -285,6 +292,7 @@ public class GestioneSondaggi extends AppCompatActivity
             TextView textView_name = (TextView) convertView.findViewById(R.id.domanda_sondaggio);
             //final ImageView button = convertView.findViewById(R.id.vota_sondaggio);
             final ImageView statoImmagineSondaggio = convertView.findViewById(R.id.immagineStato);
+
             if(lstSondaggio.get(position).statoUtenti[SchermataIniziale.utenteLoggato.getId()]!=-1)
             {
                 statoImmagineSondaggio.setImageResource(R.drawable.icon_answer_sent);
@@ -386,49 +394,11 @@ public class GestioneSondaggi extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void showInfoSondaggio(int posizione)
+
+
+    private void showInfoSondaggio2(Sondaggio sondaggio)
     {
-        Sondaggio sondaggio = lstSondaggio.get(posizione);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LinearLayout layout = new LinearLayout(this);
-        TextView tvMessage = new TextView(this);
-        TextView tvMessage2 = new TextView(this);
-        TextView contenuto = new TextView(this);
-        int i=0;
-        String tmp="";
-        for(String r:sondaggio.getRisposte())
-        {
-            int j=0;
-            int contatore = 0;
-            tmp=tmp+r+": ";
-            for(Utente utente:sondaggio.utentiGruppo)
-            {
-                if(sondaggio.statoUtenti[j]==i)
-                    contatore++;
-                j++;
-            }
-            i++;
-            tmp=tmp+Integer.toString((contatore*100)/sondaggio.utentiGruppo.size())+"% \n";
-        }
 
-
-        tvMessage.setText(sondaggio.getTitolo());
-        tvMessage2.setText(sondaggio.getDescrizione());
-        contenuto.setText(tmp);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(tvMessage);
-        layout.addView(tvMessage2);
-        layout.addView(contenuto);
-        layout.setPadding(50, 50, 100, 0);
-
-        builder.setView(layout);
-
-        builder.setNegativeButton("Ok",null);
-        builder.create().show();
-    }
-
-    private void showInfoSondaggio2(int posizione) {
-        Sondaggio sondaggio = lstSondaggio.get(posizione);
 
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.customlayout_info_sondaggio, null);
@@ -438,10 +408,10 @@ public class GestioneSondaggi extends AppCompatActivity
         TextView textViewDescrizione = alertLayout.findViewById(R.id.textViewDescrizione);
         TextView textViewRispostaScelta = alertLayout.findViewById(R.id.textViewRispostaScelta);
 
-        textViewTitolo.setText(lstSondaggio.get(posizione).getTitolo());
-        textViewDescrizione.setText(lstSondaggio.get(posizione).getDescrizione());
+        textViewTitolo.setText(sondaggio.getTitolo());
+        textViewDescrizione.setText(sondaggio.getDescrizione());
         if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] != -1) {
-            textViewRispostaScelta.setText("La tua Risposta: " + lstSondaggio.get(posizione).getRisposte().get(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]));
+            textViewRispostaScelta.setText("La tua Risposta: " + sondaggio.getRisposte().get(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]));
         }
 
         int i = 0;

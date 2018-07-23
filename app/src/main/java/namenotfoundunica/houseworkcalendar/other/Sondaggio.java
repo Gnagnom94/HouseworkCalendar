@@ -2,13 +2,16 @@ package namenotfoundunica.houseworkcalendar.other;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.validation.Schema;
+
 import namenotfoundunica.houseworkcalendar.activity.SchermataIniziale;
 
-public class Sondaggio implements Comparable
+public class Sondaggio implements Comparable,Serializable
 {
 
     private String titolo;                  //Domanda principale del sondaggio

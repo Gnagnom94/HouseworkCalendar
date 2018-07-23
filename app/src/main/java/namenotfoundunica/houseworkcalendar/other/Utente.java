@@ -1,6 +1,9 @@
 package namenotfoundunica.houseworkcalendar.other;
 
-public class Utente {
+import java.io.Serializable;
+
+public class Utente implements Serializable
+{
     private static int count = 0;
     private String nome;
     private String cognome;
