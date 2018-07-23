@@ -74,20 +74,7 @@ public class GestioneSondaggi extends AppCompatActivity
         setSupportActionBar(toolbar);
         setupActionBar();
 
-        lstSondaggio.sort(new Comparator<Sondaggio>()
-        {
-            @Override
-            public int compare(Sondaggio o1, Sondaggio o2)
-            {
-                return o1.compareTo(o2);
-            }
-        });
-
-        final ListView listView = (ListView) findViewById(R.id.listViewSondaggi);
-        customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
-        listView.setAdapter(customAdapter);
-
-        Boolean completato;
+        Boolean completato = true;
         /*Controllo icona*/
         for(Sondaggio s:lstSondaggio)
         {
@@ -104,6 +91,27 @@ public class GestioneSondaggi extends AppCompatActivity
                 s.setStato("done");
             }
         }
+        for(Sondaggio s:lstSondaggio)
+        {
+            if(s.statoUtenti[SchermataIniziale.utenteLoggato.getId()]==-1)
+            {
+                s.setStato("wait");
+            }
+        }
+
+
+        lstSondaggio.sort(new Comparator<Sondaggio>()
+        {
+            @Override
+            public int compare(Sondaggio o1, Sondaggio o2)
+            {
+                return o1.compareTo(o2);
+            }
+        });
+
+        final ListView listView = (ListView) findViewById(R.id.listViewSondaggi);
+        customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
+        listView.setAdapter(customAdapter);
 
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
