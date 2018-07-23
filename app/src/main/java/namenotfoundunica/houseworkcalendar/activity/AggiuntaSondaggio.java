@@ -134,6 +134,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
 
             Intent openPageHome = new Intent(AggiuntaSondaggio.this, GestioneSondaggi.class);
+            openPageHome.putExtra("indice",-1);
             startActivity(openPageHome);
 
 
