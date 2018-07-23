@@ -34,6 +34,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 import namenotfoundunica.houseworkcalendar.R;
@@ -62,15 +63,23 @@ public class GestioneSondaggi extends AppCompatActivity
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
             risposte.add("Toast");
-            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
-//            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
-//            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "wait", 2, risposte));
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "answer", 0, risposte));
+            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
+            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "done", 2, risposte));
             flagCreation = true;
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+
+        lstSondaggio.sort(new Comparator<Sondaggio>() {
+            @Override
+            public int compare(Sondaggio o1, Sondaggio o2)
+            {
+                return o1.compareTo(o2);
+            }
+        });
 
         final ListView listView = (ListView) findViewById(R.id.listViewSondaggi);
         final CustomAdapter customAdapter = new CustomAdapter(GestioneSondaggi.this, R.layout.custom_survey_layout, lstSondaggio);
@@ -219,7 +228,8 @@ public class GestioneSondaggi extends AppCompatActivity
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {
+                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING)
+                {
                     fab.hide();
                 }else {
                     fab.show();
@@ -232,7 +242,7 @@ public class GestioneSondaggi extends AppCompatActivity
             }
         });
         Bundle extras = getIntent().getExtras();
-        int value =extras.getInt("indice",-1);
+        int value = extras.getInt("indice",-1);
         if(value!=-1)
             showInfoSondaggio2(value);
 
@@ -296,6 +306,10 @@ public class GestioneSondaggi extends AppCompatActivity
                 button.setText("VOTA");
             }
             else
+            {
+                button.setText("VISIONA");
+            }
+            if(sondaggio.getStato().compareTo("done")==0)
             {
                 button.setText("VISIONA");
             }

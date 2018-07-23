@@ -2,6 +2,7 @@ package namenotfoundunica.houseworkcalendar.activity;
 
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -68,9 +69,13 @@ public class VisualizzaSondaggio extends AppCompatActivity
             radioButton.setText(s);
             radioButton.setId(i);
             radioGrp.addView(radioButton);
-            if(i==0)
+            if(i == 0)
                 radioButton.setChecked(true);
             i++;
+        }
+        if(sondaggio.getStato().compareTo("done")==0)
+        {
+            conferma.setVisibility(View.GONE);
         }
         if(sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()]== -1)
         {
@@ -136,6 +141,7 @@ public class VisualizzaSondaggio extends AppCompatActivity
         {
             Toast.makeText(VisualizzaSondaggio.this, "Voto acquisito", Toast.LENGTH_SHORT).show();
             sondaggio.statoUtenti[SchermataIniziale.utenteLoggato.getId()] = radioGrp.getCheckedRadioButtonId();
+            sondaggio.setStato("answer");
             Intent openPage = new Intent(VisualizzaSondaggio.this, GestioneSondaggi.class);
             openPage.putExtra("indice",value);
             startActivity(openPage);

@@ -55,7 +55,7 @@ public class AggiuntaSondaggio extends AppCompatActivity
 
         linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
 
-//        EditText risposta1 = (EditText) findViewById(R.id.editTextRisposta1);
+
         EditText risposta2 = (EditText) findViewById(R.id.editTextRisposta2);
 
         risposta2.addTextChangedListener(new aggiungiRisposta());

@@ -1,12 +1,14 @@
 package namenotfoundunica.houseworkcalendar.other;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import namenotfoundunica.houseworkcalendar.activity.SchermataIniziale;
 
-public class Sondaggio
+public class Sondaggio implements Comparable
 {
 
     private String titolo;                  //Domanda principale del sondaggio
@@ -70,5 +72,32 @@ public class Sondaggio
     public void setRisposte(List<String> risposte)
     {
         this.risposte = risposte;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object sondaggio)
+    {
+        Sondaggio other = (Sondaggio) sondaggio;
+
+        if(stato.compareTo("wait")==0 && other.stato.compareTo("wait")!=0)
+        {
+            return -1;
+        }
+        if(stato.compareTo("answer")==0)
+        {
+            if(other.stato.compareTo("wait")==0)
+            {
+                return 1;
+            }
+            if(other.stato.compareTo("done")==0)
+            {
+                return -1;
+            }
+        }
+        if(stato.compareTo("done")==0 && other.stato.compareTo("done")!=0)
+        {
+            return 1;
+        }
+        return 0;
     }
 }
