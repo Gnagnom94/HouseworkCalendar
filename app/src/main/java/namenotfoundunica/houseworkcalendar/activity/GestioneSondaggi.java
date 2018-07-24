@@ -64,7 +64,7 @@ public class GestioneSondaggi extends AppCompatActivity
             risposte.add("Fettine");
             risposte.add("Pasta al sugo");
             risposte.add("Toast");
-//            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
+            lstSondaggio.add(new Sondaggio(titolo, descrizione, "wait", 0, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo2", "descrizione2", "wait", 1, risposte));
 //            lstSondaggio.add(new Sondaggio("titolo3", "descrizione3", "done", 2, risposte));
             flagCreation = true;
